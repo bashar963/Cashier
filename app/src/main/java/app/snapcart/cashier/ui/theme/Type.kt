@@ -19,6 +19,11 @@ val Roboto = FontFamily(
 // Set of Material typography styles to start with
 val Typography = Typography(
 
+        labelSmall = TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.Normal,
+                fontSize = 12.sp,
+        ),
         /* Other default text styles to override
     bodyLarge = TextStyle(
                 fontFamily = Roboto,
