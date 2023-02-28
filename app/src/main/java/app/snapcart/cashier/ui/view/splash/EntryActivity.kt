@@ -27,7 +27,7 @@ class EntryActivity : ComponentActivity() {
                 startActivity(Intent(this,OnboardActivity::class.java))
                 finish()
             }
-            CashierTheme(isStatusBarVisible = false) {
+            CashierTheme {
                 SplashContent()
             }
         }

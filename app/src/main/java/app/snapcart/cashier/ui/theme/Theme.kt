@@ -10,8 +10,6 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-import com.google.accompanist.systemuicontroller.SystemUiController
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 // TODO(add dart color theme)
 private val DarkColorScheme = darkColorScheme(
@@ -28,21 +26,21 @@ private val DarkColorScheme = darkColorScheme(
 private val LightColorScheme = lightColorScheme(
         primary = PrimaryColor,
         secondary = SecondaryColor,
+        tertiary = DisabledColor,
         background = BackgroundColor,
         surface = SurfaceColor,
         onPrimary = OnPrimaryColor,
         onSecondary = OnSecondaryColor,
         onBackground = OnBackgroundColor,
         onSurface = OnSurfaceColor,
+        onTertiary = OnDisabledColor,
 )
 
 @Composable
 fun CashierTheme(
         darkTheme: Boolean = isSystemInDarkTheme(),
-        isStatusBarVisible: Boolean = false,
         content: @Composable () -> Unit
 ) {
-    val systemUiController: SystemUiController = rememberSystemUiController()
     val colorScheme = when {
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
@@ -52,12 +50,7 @@ fun CashierTheme(
         val currentWindow = (view.context as? Activity)?.window
             ?: throw Exception("Not in an activity - unable to get Window reference")
         SideEffect {
-            systemUiController.isStatusBarVisible = isStatusBarVisible
-
-            if(!isStatusBarVisible){
-                currentWindow.statusBarColor =  colorScheme.primary.toArgb()
-            }
-
+            currentWindow.statusBarColor =  colorScheme.primary.toArgb()
             WindowCompat.getInsetsController(currentWindow, view).isAppearanceLightStatusBars = darkTheme
         }
     }

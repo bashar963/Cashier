@@ -19,6 +19,21 @@ val Roboto = FontFamily(
 // Set of Material typography styles to start with
 val Typography = Typography(
 
+        titleMedium = TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.Bold,
+                fontSize = 28.sp,
+        ),
+        bodyMedium = TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.Normal,
+                fontSize = 14.sp,
+        ),
+        bodySmall = TextStyle(
+                fontFamily = Roboto,
+                fontWeight = FontWeight.Normal,
+                fontSize = 12.sp,
+        ),
         labelSmall = TextStyle(
                 fontFamily = Roboto,
                 fontWeight = FontWeight.Normal,

@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name" translatable="false">Cashier</string>
-    <string name="title_activity_splash">SplashActivity</string>
-    <string name="title_activity_entry">EntryActivity</string>
+    <string name="title_activity_splash" translatable="false">SplashActivity</string>
+    <string name="title_activity_entry" translatable="false">EntryActivity</string>
+    <string name="onboard_title">Integrated System</string>
+    <string name="get_started">GET STARTED</string>
+    <string name="onboard_sub_title">Cashier helps you to sort products and will automatically help in your daily routine</string>
 </resources>
