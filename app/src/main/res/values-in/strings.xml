@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="get_started">MEMULAI</string>
+    <string name="onboard_title">Sistem Terintegrasi</string>
+    <string name="onboard_sub_title">Cashier membantu Anda untuk meng-sortir produk dan akan otomatis membantu dalam rutinitas sehari-hari</string>
+</resources>

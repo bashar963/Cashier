@@ -26,12 +26,14 @@ private val DarkColorScheme = darkColorScheme(
 private val LightColorScheme = lightColorScheme(
         primary = PrimaryColor,
         secondary = SecondaryColor,
+        tertiary = DisabledColor,
         background = BackgroundColor,
         surface = SurfaceColor,
         onPrimary = OnPrimaryColor,
         onSecondary = OnSecondaryColor,
         onBackground = OnBackgroundColor,
         onSurface = OnSurfaceColor,
+        onTertiary = OnDisabledColor,
 )
 
 @Composable
@@ -48,10 +50,11 @@ fun CashierTheme(
         val currentWindow = (view.context as? Activity)?.window
             ?: throw Exception("Not in an activity - unable to get Window reference")
         SideEffect {
-            currentWindow.statusBarColor = colorScheme.primary.toArgb()
+            currentWindow.statusBarColor =  colorScheme.primary.toArgb()
             WindowCompat.getInsetsController(currentWindow, view).isAppearanceLightStatusBars = darkTheme
         }
     }
+
 
     MaterialTheme(
             colorScheme = colorScheme,
