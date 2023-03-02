@@ -13,8 +13,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import app.snapcart.cashier.ui.theme.CashierTheme
 import app.snapcart.cashier.ui.view.onboard.OnboardActivity
 import app.snapcart.cashier.ui.view.splash.widgets.SplashContent
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class EntryActivity : ComponentActivity() {
 
     private val viewModel: SplashViewModel by viewModels()

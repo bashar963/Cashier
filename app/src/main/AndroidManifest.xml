@@ -18,6 +18,9 @@
             android:name=".ui.view.onboard.OnboardActivity"
             android:exported="false"/>
         <activity
+            android:name=".ui.view.auth.AuthActivity"
+            android:exported="false"/>
+        <activity
             android:name=".ui.view.splash.EntryActivity"
             android:theme="@style/Theme.Cashier.Splash"
             android:exported="true">
