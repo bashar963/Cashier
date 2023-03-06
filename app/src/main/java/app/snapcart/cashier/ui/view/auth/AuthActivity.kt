@@ -1,5 +1,6 @@
 package app.snapcart.cashier.ui.view.auth
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import app.snapcart.cashier.ui.theme.CashierTheme
 import app.snapcart.cashier.ui.view.auth.fragments.MainFragment
 import app.snapcart.cashier.ui.view.auth.fragments.OTPFragment
+import app.snapcart.cashier.ui.view.register.RegisterActivity
 
 import app.snapcart.cashier.utils.AuthScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,8 +44,11 @@ class AuthActivity : ComponentActivity() {
                         OTPFragment(
                             this@AuthActivity,
                             onPhoneEdit = { navController.popBackStack() },
-                            onResend = {},
-                            onSubmit = {},
+                            onResend = { viewModel.onResend()},
+                            onSubmit = { code ->
+                                viewModel.onSubmit(code)
+                                startActivity(Intent(this@AuthActivity,RegisterActivity::class.java))
+                                       },
                             )
                     }
                 }

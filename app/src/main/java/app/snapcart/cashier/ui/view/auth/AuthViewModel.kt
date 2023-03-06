@@ -43,8 +43,6 @@ class AuthViewModel @Inject constructor(): ViewModel()  {
                 .asSequence()
                 .asFlow()
                 .onEach { delay(1_000) }
-
-
             timer.collect {
                 timerFinished = it == 0
                 val formatted = "${(it / 60).toString().padStart(2, '0')}:${(it % 60).toString().padStart(2, '0')}"
@@ -56,9 +54,6 @@ class AuthViewModel @Inject constructor(): ViewModel()  {
 
     fun setNumber(newPhoneNumber :String){
         phoneNumber = newPhoneNumber
-
-
-
         isValidPhoneNumber = try {
             val phone: PhoneNumber = phoneNumberUtil.parse(
                 "+62${newPhoneNumber}",
@@ -68,10 +63,18 @@ class AuthViewModel @Inject constructor(): ViewModel()  {
         } catch (_:Exception){
             false
         }
-
     }
+
     fun setTAndC(accepted:Boolean){
         tAndCAccepted= accepted
+    }
+
+    fun onResend() {
+
+    }
+
+    fun onSubmit(code: String) {
+
     }
 
 }

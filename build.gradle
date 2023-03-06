@@ -9,6 +9,8 @@ buildscript {
         nav_version = "2.5.3"
         retrofit_version = "2.9.0"
         okhttp_version = "4.10.0"
+        libphonenumber_version = "8.13.4"
+        coil_compose_version = "2.2.2"
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {

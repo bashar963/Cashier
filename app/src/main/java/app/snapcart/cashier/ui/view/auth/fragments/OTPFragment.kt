@@ -41,7 +41,7 @@ fun OTPFragment(
     owner: ViewModelStoreOwner,
     onPhoneEdit: ()-> Unit,
     onResend: ()-> Unit,
-    onSubmit: ()-> Unit,
+    onSubmit: (code:String)-> Unit,
 ) {
     val viewModel: AuthViewModel = ViewModelProvider(owner)[AuthViewModel::class.java]
     val timer = viewModel.countdownTime.collectAsState()
@@ -119,7 +119,9 @@ fun OTPFragment(
         }
         Spacer(modifier = Modifier.weight(1.0f))
         CashierButton(
-            onClick = onSubmit,
+            onClick = {
+                onSubmit.invoke(otpValue.value)
+            },
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.background,

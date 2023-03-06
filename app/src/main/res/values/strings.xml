@@ -7,6 +7,7 @@
     <string name="onboard_sub_title">Cashier helps you to sort products and will automatically help in your daily routine</string>
     <string name="login">Login</string>
     <string name="or">&#160;or&#160;</string>
+    <string name="login_or_register">Login or Register</string>
     <string name="register">Register</string>
     <string name="simply_by_using_your_phone_number">&#160;simply by using your phone number</string>
     <string name="by_registering_agreed_to">By registering, I’ve agreed to&#160;</string>
@@ -26,4 +27,18 @@
     <string name="has_been_sent_to_your_registered">&#160;has been sent to your registered&#160;</string>
     <string name="phone_number">phone number</string>
     <string name="invalid_phone_number">Invalid phone number</string>
+    <string name="registration_successful">Registration Successful</string>
+    <string name="registration_successful_subtitle">Your profile has been registered.\nJust complete one more step!</string>
+    <string name="fill_in_store_profile">FILL IN STORE PROFILE</string>
+    <string name="store_profile">Store Profile</string>
+    <string name="finish">FINISH</string>
+    <string name="full_name">Full Name</string>
+    <string name="store_name">Store Name</string>
+    <string name="store_address">Store Address</string>
+    <string name="add_note_to_courier">Add note to the courier</string>
+    <string name="province">Province</string>
+    <string name="city">City</string>
+    <string name="store_take_image_note">Taking pictures of your store would help us identify it better.</string>
+    <string name="outside">Outside</string>
+    <string name="inside">Inside</string>
 </resources>

@@ -30,8 +30,7 @@ fun SplashContent(){
             modifier = Modifier.padding(horizontal = 64.dp),
             contentDescription = "Cashier logo",
             contentScale = ContentScale.FillWidth,
-
-            )
+        )
         Spacer(modifier = Modifier.weight(1.0f))
         Text(
             text = "v1.0",

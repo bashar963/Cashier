@@ -103,7 +103,10 @@ dependencies {
     implementation "androidx.navigation:navigation-compose:$nav_version"
 
     // lib phone number
-    implementation 'com.googlecode.libphonenumber:libphonenumber:8.13.4'
+    implementation "com.googlecode.libphonenumber:libphonenumber:$libphonenumber_version"
+
+    // compose image loader
+    implementation "io.coil-kt:coil-compose:$coil_compose_version"
 
 }
 
