@@ -19,8 +19,7 @@ class SplashViewModel @Inject constructor() : ViewModel() {
         initApp()
     }
 
-    private fun initApp(){
-
+    private fun initApp() {
         // doing init for the app here check for cache etc..
         viewModelScope.launch {
             delay(3000)

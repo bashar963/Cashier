@@ -1,0 +1,40 @@
+build:
+  maxIssues: 1
+
+complexity:
+  TooManyFunctions:
+    thresholdInClasses: 15
+  LongParameterList:
+    active: false
+
+style:
+  MagicNumber:
+    # even though the magic numbers are a bad practice, still disabling this rule since
+    # it makes a lof of false positive.
+    active: false
+  SerialVersionUIDInSerializableClass:
+    active: false
+
+naming:
+  ConstructorParameterNaming:
+    # since we use GsonValue library sometimes constructor parameter might contain '_' symbol.
+    # default is '[a-z][A-Za-z0-9]*'
+    parameterPattern: '[a-z][A-Za-z0-9_]*'
+  FunctionNaming:
+    ignoreAnnotated: 'Composable'
+  PackageNaming:
+    # packagePattern (default: '[a-z]+(\.[a-z][A-Za-z0-9]*)*')
+    packagePattern: '[a-z]+(\.[a-z][A-Za-z0-9_]*)*'
+
+exceptions:
+  TooGenericExceptionCaught:
+    # even though catching of generic exceptions might be a bad practice,
+    # we still sometimes utilize this thing
+    active: false
+  TooGenericExceptionThrown:
+    # since sometimes we throw a generic RuntimeException
+    active: false
+
+coroutines:
+  InjectDispatcher:
+    active: false

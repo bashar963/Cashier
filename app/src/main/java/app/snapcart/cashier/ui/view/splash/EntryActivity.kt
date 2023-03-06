@@ -24,8 +24,8 @@ class EntryActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            if(!viewModel.isLoading.collectAsState().value){
-                startActivity(Intent(this,OnboardActivity::class.java))
+            if (!viewModel.isLoading.collectAsState().value) {
+                startActivity(Intent(this, OnboardActivity::class.java))
                 finish()
             }
             CashierTheme {
@@ -35,10 +35,9 @@ class EntryActivity : ComponentActivity() {
     }
 }
 
-
 @Preview(
     showBackground = true,
-    device = Devices.NEXUS_5,
+    device = Devices.NEXUS_5
 )
 @Composable
 fun DefaultPreview() {

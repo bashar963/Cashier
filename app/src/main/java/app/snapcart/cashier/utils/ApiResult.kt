@@ -1,6 +1,5 @@
 package app.snapcart.cashier.utils
 
-
 sealed interface ApiResult<T : Any>
 
 class ApiSuccess<T : Any>(val data: T) : ApiResult<T>

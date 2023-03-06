@@ -6,6 +6,6 @@ import androidx.room.PrimaryKey
 // mock class
 @Entity(tableName = "users")
 data class User(
-    @PrimaryKey val id:Int,
-    val name:String
-    )
+    @PrimaryKey val id: Int,
+    val name: String
+)

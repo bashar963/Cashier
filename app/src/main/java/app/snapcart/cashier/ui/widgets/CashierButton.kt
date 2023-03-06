@@ -5,7 +5,11 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ButtonElevation
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -21,15 +25,14 @@ fun CashierButton(
         containerColor = MaterialTheme.colorScheme.secondary,
         contentColor = MaterialTheme.colorScheme.onSecondary,
         disabledContainerColor = MaterialTheme.colorScheme.tertiary,
-        disabledContentColor = MaterialTheme.colorScheme.onTertiary,
+        disabledContentColor = MaterialTheme.colorScheme.onTertiary
     ),
     elevation: ButtonElevation? = ButtonDefaults.buttonElevation(),
     border: BorderStroke? = null,
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: @Composable RowScope.() -> Unit
-
-){
+) {
     Button(
         onClick = onClick,
         modifier = modifier,
@@ -40,6 +43,6 @@ fun CashierButton(
         border = border,
         contentPadding = contentPadding,
         interactionSource = interactionSource,
-        content = content,
-        )
+        content = content
+    )
 }
