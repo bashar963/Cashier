@@ -14,7 +14,6 @@ import app.snapcart.cashier.ui.theme.CashierTheme
 import app.snapcart.cashier.ui.view.onboard.OnboardActivity
 import app.snapcart.cashier.ui.view.splash.widgets.SplashContent
 
-
 class EntryActivity : ComponentActivity() {
 
     private val viewModel: SplashViewModel by viewModels()
@@ -23,8 +22,8 @@ class EntryActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            if(!viewModel.isLoading.collectAsState().value){
-                startActivity(Intent(this,OnboardActivity::class.java))
+            if (!viewModel.isLoading.collectAsState().value) {
+                startActivity(Intent(this, OnboardActivity::class.java))
                 finish()
             }
             CashierTheme {
@@ -34,10 +33,9 @@ class EntryActivity : ComponentActivity() {
     }
 }
 
-
 @Preview(
     showBackground = true,
-    device = Devices.NEXUS_5,
+    device = Devices.NEXUS_5
 )
 @Composable
 fun DefaultPreview() {

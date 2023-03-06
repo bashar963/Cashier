@@ -1,0 +1,24 @@
+android.signingConfigs {
+    debug {
+        storeFile = file("$rootDir/signingDebug/debug.keystore")
+        storePassword = "android"
+        keyAlias = "AndroidDebugKey"
+        keyPassword = "android"
+    }
+    def releaseProps = loadProperties("$projectDir/release.properties")
+    if (releaseProps != null &&
+            releaseProps.containsKey('STORE_PASSWORD') &&
+            releaseProps.containsKey('KEY_ALIAS') &&
+            releaseProps.containsKey('KEY_PASSWORD')) {
+
+        release {
+            storeFile = file("$projectDir/android.keystore")
+            storePassword = releaseProps['STORE_PASSWORD']
+            keyAlias = releaseProps['KEY_ALIAS']
+            keyPassword = releaseProps['KEY_PASSWORD']
+        }
+    } else {
+        println("No release.properties found, or it is not configured correctly")
+        release { initWith debug }
+    }
+}

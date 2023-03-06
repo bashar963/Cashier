@@ -7,6 +7,6 @@ import app.snapcart.cashier.data.models.User
 @Dao
 interface UserDao {
 
-     @Query("SELECT * FROM users where id = :id")
-     suspend fun getUser(id:String): User?
+    @Query("SELECT * FROM users where id = :id")
+    suspend fun getUser(id: String): User?
 }

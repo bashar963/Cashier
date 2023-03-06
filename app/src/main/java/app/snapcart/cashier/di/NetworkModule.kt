@@ -29,7 +29,8 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor
+    fun provideOkHttpClient(
+        loggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
@@ -42,7 +43,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(gson: Gson,okHttpClient: OkHttpClient) : Retrofit = Retrofit.Builder()
+    fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .baseUrl("https://google.com")// TODO need base URL
         .addConverterFactory(GsonConverterFactory.create(gson))
         .client(okHttpClient)
@@ -50,15 +51,18 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideAuthService(retrofit : Retrofit): AuthService  = retrofit.create(AuthService::class.java)
+    fun provideAuthService(retrofit: Retrofit): AuthService =
+        retrofit.create(AuthService::class.java)
 
 
     @Singleton
     @Provides
-    fun provideAuthRemoteDataSource(authService : AuthService): AuthRemoteDataSource = AuthRemoteDataSource(authService)
+    fun provideAuthRemoteDataSource(authService: AuthService): AuthRemoteDataSource =
+        AuthRemoteDataSource(authService)
 
     @Singleton
     @Provides
-    fun provideAuthRepository(authRemoteDataSource : AuthRemoteDataSource): AuthRepository = AuthRepository(authRemoteDataSource)
+    fun provideAuthRepository(authRemoteDataSource: AuthRemoteDataSource): AuthRepository =
+        AuthRepository(authRemoteDataSource)
 
 }
