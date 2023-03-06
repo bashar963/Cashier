@@ -22,11 +22,9 @@ class AuthRepository @Inject constructor(
             // in case of error
             if (result is ApiError) {
                 result.message
-
             }
             if (result is ApiException) {
                 result.e
-
             }
 
             emit(result)

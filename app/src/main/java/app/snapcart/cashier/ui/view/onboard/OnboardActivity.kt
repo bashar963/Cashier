@@ -17,7 +17,7 @@ class OnboardActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent{
+        setContent {
             CashierTheme {
                 OnboardContent()
             }
@@ -25,10 +25,9 @@ class OnboardActivity : ComponentActivity() {
     }
 }
 
-
 @Preview(
     showBackground = true,
-    device = Devices.NEXUS_5,
+    device = Devices.NEXUS_5
 )
 @Composable
 fun DefaultPreview() {

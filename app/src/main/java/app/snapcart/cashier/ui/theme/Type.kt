@@ -21,23 +21,23 @@ val Typography = Typography(
     titleMedium = TextStyle(
         fontFamily = Roboto,
         fontWeight = FontWeight.Bold,
-        fontSize = 28.sp,
+        fontSize = 28.sp
     ),
     bodyMedium = TextStyle(
         fontFamily = Roboto,
         fontWeight = FontWeight.Normal,
-        fontSize = 14.sp,
+        fontSize = 14.sp
     ),
     bodySmall = TextStyle(
         fontFamily = Roboto,
         fontWeight = FontWeight.Normal,
-        fontSize = 12.sp,
+        fontSize = 12.sp
     ),
     labelSmall = TextStyle(
         fontFamily = Roboto,
         fontWeight = FontWeight.Normal,
-        fontSize = 12.sp,
-    ),
+        fontSize = 12.sp
+    )
     /* Other default text styles to override
 bodyLarge = TextStyle(
             fontFamily = Roboto,

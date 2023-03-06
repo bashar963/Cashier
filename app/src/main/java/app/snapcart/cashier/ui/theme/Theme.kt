@@ -20,7 +20,7 @@ private val DarkColorScheme = darkColorScheme(
     onPrimary = OnPrimaryColor,
     onSecondary = OnSecondaryColor,
     onBackground = OnBackgroundColor,
-    onSurface = OnSurfaceColor,
+    onSurface = OnSurfaceColor
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -33,7 +33,7 @@ private val LightColorScheme = lightColorScheme(
     onSecondary = OnSecondaryColor,
     onBackground = OnBackgroundColor,
     onSurface = OnSurfaceColor,
-    onTertiary = OnDisabledColor,
+    onTertiary = OnDisabledColor
 )
 
 @Composable
@@ -55,7 +55,6 @@ fun CashierTheme(
                 darkTheme
         }
     }
-
 
     MaterialTheme(
         colorScheme = colorScheme,

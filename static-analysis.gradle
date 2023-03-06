@@ -12,7 +12,7 @@ android {
 ktlint {
     enableExperimentalRules = true
     // See https://github.com/pinterest/ktlint/issues/527
-    disabledRules = ["import-ordering"]
+    disabledRules = ["import-ordering", "package-name"]
 }
 
 detekt {

@@ -7,6 +7,11 @@ plugins {
 apply from: "../signing.gradle"
 apply from: "../static-analysis.gradle"
 
+def hasApiName = project.hasProperty("apiName")
+def apiLabel = hasApiName ? apiName : "unknown"
+
+def gitBranch = "git rev-parse --abbrev-ref HEAD".execute([], project.rootDir).text.trim().replace("/", "_")
+
 def versionCodeValue = 1
 
 def versionMajor = 1
@@ -38,9 +43,24 @@ android {
     }
 
     buildTypes {
+        debug {
+            debuggable true
+            applicationIdSuffix ".debug"
+            buildConfigField "boolean", "HTTP_LOGGING_ENABLED", "true"
+            signingConfig = signingConfigs.debug
+        }
         release {
-            minifyEnabled false
+            buildConfigField "boolean", "HTTP_LOGGING_ENABLED", project.hasProperty("http_logging").toString()
+            minifyEnabled true
+            shrinkResources true
+            signingConfig = signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        staging {
+            initWith release
+            applicationIdSuffix ".staging"
+            buildConfigField "boolean", "HTTP_LOGGING_ENABLED", "true"
+            signingConfig = signingConfigs.debug
         }
     }
     compileOptions {
@@ -59,6 +79,13 @@ android {
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def version = variant.versionName
+            def buildTypeName = variant.buildType.name
+            outputFileName = "cashier-v${version}-${apiLabel}_api-${gitBranch}_branch-${buildTypeName}_build.apk"
         }
     }
 }
