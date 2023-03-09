@@ -4,15 +4,37 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalMinimumTouchTargetEnforcement
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,15 +65,14 @@ import app.snapcart.cashier.utils.PhoneNumberVisualTransformation
 @Composable
 fun LoginFragment(
     owner: ViewModelStoreOwner,
-    onBackClicked : ()-> Unit,
-    onSubmit : ()-> Unit
+    onBackClicked: () -> Unit,
+    onSubmit: () -> Unit
 ) {
     val focusManager = LocalFocusManager.current
     val interactionSource = remember { MutableInteractionSource() }
     Scaffold(
         topBar = { MainAppBar(onBackClicked = onBackClicked) }
-    )
-    { innerPadding ->
+    ) { innerPadding ->
         Surface(
             modifier = Modifier
                 .fillMaxSize()
@@ -62,9 +83,8 @@ fun LoginFragment(
                 ) {
                     focusManager.clearFocus(force = true)
                 }
-        )
-        {
-            MainContent(owner=owner,onSubmit = onSubmit)
+        ) {
+            MainContent(owner = owner, onSubmit = onSubmit)
         }
     }
 }
@@ -72,7 +92,7 @@ fun LoginFragment(
 @Composable
 fun MainContent(
     owner: ViewModelStoreOwner,
-    onSubmit : ()-> Unit
+    onSubmit: () -> Unit
 ) {
     val viewModel: AuthViewModel = ViewModelProvider(owner)[AuthViewModel::class.java]
     Column(
@@ -80,7 +100,7 @@ fun MainContent(
             .padding(horizontal = 16.dp)
             .fillMaxSize(),
         verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.Start,
+        horizontalAlignment = Alignment.Start
     ) {
         Spacer(modifier = Modifier.height(24.dp))
         MainSubTitle()
@@ -92,8 +112,8 @@ fun MainContent(
         CashierButton(
             modifier = Modifier.fillMaxWidth(),
             onClick = onSubmit,
-            enabled = viewModel.tAndCAccepted && viewModel.isValidPhoneNumber == true,
-            ) {
+            enabled = viewModel.tAndCAccepted && viewModel.isValidPhoneNumber == true
+        ) {
             Text(text = stringResource(id = R.string.continue_text))
         }
         Spacer(modifier = Modifier.height(24.dp))
@@ -102,32 +122,32 @@ fun MainContent(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PhoneNumberField( viewModel: AuthViewModel) {
-
+fun PhoneNumberField(viewModel: AuthViewModel) {
     val focusManager = LocalFocusManager.current
-    val clearButton: @Composable (()->Unit)? =
-        if(viewModel.phoneNumber.isNotEmpty())
-        { {
-            IconButton(
-                onClick = { viewModel.setNumber("")  }
-            )
+    val clearButton: @Composable (() -> Unit)? =
+        if (viewModel.phoneNumber.isNotEmpty()) {
             {
-                Icon(imageVector = Icons.Default.Clear, contentDescription = "clear")
+                IconButton(
+                    onClick = { viewModel.setNumber("") }
+                ) {
+                    Icon(imageVector = Icons.Default.Clear, contentDescription = "clear")
+                }
             }
+        } else {
+            null
         }
-        } else null
 
     Row(
-        modifier  =
+        modifier =
         Modifier
             .clip(RoundedCornerShape(12.dp))
             .background(TextFieldBackgroundColor),
         horizontalArrangement = Arrangement.Start,
-        verticalAlignment = Alignment.CenterVertically,
-    ){
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         Spacer(modifier = Modifier.width(8.dp))
         Image(
-            painterResource (R.drawable.indonesia_flag_icon),
+            painterResource(R.drawable.indonesia_flag_icon),
             modifier =
             Modifier
                 .size(24.dp)
@@ -138,7 +158,7 @@ fun PhoneNumberField( viewModel: AuthViewModel) {
         Spacer(modifier = Modifier.width(8.dp))
         Text(
             text = "+62",
-            color = TextFieldPlaceHolderColor,
+            color = TextFieldPlaceHolderColor
         )
 
         TextField(
@@ -146,7 +166,7 @@ fun PhoneNumberField( viewModel: AuthViewModel) {
             placeholder = {
                 Text(
                     text = "0XXX-XXXX-XXXX",
-                    color = TextFieldPlaceHolderColor,
+                    color = TextFieldPlaceHolderColor
                 )
             },
             visualTransformation = PhoneNumberVisualTransformation(),
@@ -154,7 +174,7 @@ fun PhoneNumberField( viewModel: AuthViewModel) {
             isError = viewModel.isValidPhoneNumber == false,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Phone,
-                imeAction = ImeAction.Done,
+                imeAction = ImeAction.Done
             ),
             keyboardActions = KeyboardActions(
                 onDone = {
@@ -165,14 +185,14 @@ fun PhoneNumberField( viewModel: AuthViewModel) {
             onValueChange = {
                 viewModel.setNumber(it)
             },
-            trailingIcon = clearButton ,
+            trailingIcon = clearButton,
             colors = TextFieldDefaults.textFieldColors(
                 disabledTextColor = Color.Transparent,
                 containerColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent,
-                errorIndicatorColor = Color.Transparent,
+                errorIndicatorColor = Color.Transparent
             )
         )
     }
@@ -188,16 +208,15 @@ fun PhoneNumberField( viewModel: AuthViewModel) {
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
-fun TermsCheckBox( viewModel: AuthViewModel) {
-
+fun TermsCheckBox(viewModel: AuthViewModel) {
     Row(
         modifier = Modifier
             .padding(0.dp)
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.Start,
-        verticalAlignment = Alignment.CenterVertically,
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        CompositionLocalProvider(LocalMinimumTouchTargetEnforcement  provides false){
+        CompositionLocalProvider(LocalMinimumTouchTargetEnforcement provides false) {
             Checkbox(
                 checked = viewModel.tAndCAccepted,
                 onCheckedChange = {
@@ -206,35 +225,35 @@ fun TermsCheckBox( viewModel: AuthViewModel) {
             )
         }
         Spacer(modifier = Modifier.width(8.dp))
-        FlowRow (
+        FlowRow(
             horizontalArrangement = Arrangement.Start,
-            verticalAlignment = Alignment.CenterVertically,
-        ){
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Text(
                 text = stringResource(id = R.string.by_registering_agreed_to),
-                style = MaterialTheme.typography.bodySmall,
+                style = MaterialTheme.typography.bodySmall
             )
-            Text(text = stringResource(id = R.string.terms_onditions),
+            Text(
+                text = stringResource(id = R.string.terms_onditions),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.primary,
-                fontWeight = FontWeight.Medium,
+                fontWeight = FontWeight.Medium
             )
             Text(
                 text = stringResource(id = R.string.as_well_as),
-                style = MaterialTheme.typography.bodySmall,
+                style = MaterialTheme.typography.bodySmall
             )
             Text(
                 text = stringResource(id = R.string.privacy_policy),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.primary,
-                fontWeight = FontWeight.Medium,
+                fontWeight = FontWeight.Medium
             )
             Text(
                 text = stringResource(id = R.string.defined_by_snapcart),
-                style = MaterialTheme.typography.bodySmall,
+                style = MaterialTheme.typography.bodySmall
             )
         }
-
     }
 }
 
@@ -247,7 +266,7 @@ fun MainSubTitle() {
                     fontFamily = Roboto,
                     fontSize = 14.sp,
                     color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.Medium,
+                    fontWeight = FontWeight.Medium
                 )
             ) {
                 append(stringResource(id = R.string.login))
@@ -257,7 +276,7 @@ fun MainSubTitle() {
                     fontFamily = Roboto,
                     fontSize = 14.sp,
                     color = Color(0xFF9B9B9B),
-                    fontWeight = FontWeight.Normal,
+                    fontWeight = FontWeight.Normal
                 )
             ) {
                 append(stringResource(id = R.string.or))
@@ -267,7 +286,7 @@ fun MainSubTitle() {
                     fontFamily = Roboto,
                     fontSize = 14.sp,
                     color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.Medium,
+                    fontWeight = FontWeight.Medium
                 )
             ) {
                 append(stringResource(id = R.string.register))
@@ -277,7 +296,7 @@ fun MainSubTitle() {
                     fontFamily = Roboto,
                     fontSize = 14.sp,
                     color = Color(0xFF9B9B9B),
-                    fontWeight = FontWeight.Normal,
+                    fontWeight = FontWeight.Normal
                 )
             ) {
                 append(stringResource(id = R.string.simply_by_using_your_phone_number))
@@ -285,4 +304,3 @@ fun MainSubTitle() {
         }
     )
 }
-

@@ -13,5 +13,5 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providePhoneNumberUtil() : PhoneNumberUtil = PhoneNumberUtil.getInstance()
+    fun providePhoneNumberUtil(): PhoneNumberUtil = PhoneNumberUtil.getInstance()
 }

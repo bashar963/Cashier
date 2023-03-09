@@ -1,6 +1,5 @@
 package app.snapcart.cashier.utils
 
-
 import android.telephony.PhoneNumberUtils
 import android.text.Selection
 import androidx.compose.ui.text.AnnotatedString
@@ -22,15 +21,18 @@ class PhoneNumberVisualTransformation(
     override fun filter(text: AnnotatedString): TransformedText {
         val transformation = reformat(text, Selection.getSelectionEnd(text))
 
-        return TransformedText(AnnotatedString(transformation.formatted ?: ""), object :
-            OffsetMapping {
-            override fun originalToTransformed(offset: Int): Int {
-                return transformation.originalToTransformed[offset]
+        return TransformedText(
+            AnnotatedString(transformation.formatted ?: ""),
+            object :
+                OffsetMapping {
+                override fun originalToTransformed(offset: Int): Int {
+                    return transformation.originalToTransformed[offset]
+                }
+                override fun transformedToOriginal(offset: Int): Int {
+                    return transformation.transformedToOriginal[offset]
+                }
             }
-            override fun transformedToOriginal(offset: Int): Int {
-                return transformation.transformedToOriginal[offset]
-            }
-        })
+        )
     }
 
     private fun reformat(s: CharSequence, cursor: Int): Transformation {

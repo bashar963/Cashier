@@ -26,29 +26,27 @@ class AuthActivity : ComponentActivity() {
                 NavHost(
                     navController = navController,
                     startDestination = AuthScreen.MainScreen.route
-                )
-                {
-                    composable(route = AuthScreen.MainScreen.route){
+                ) {
+                    composable(route = AuthScreen.MainScreen.route) {
                         LoginFragment(
                             this@AuthActivity,
-                            onBackClicked = { finish() },
-                        ){
+                            onBackClicked = { finish() }
+                        ) {
                             navController.navigate(route = AuthScreen.OTPScreen.route)
                             // just demo this function should be run privately
                             viewModel.startTimer(30)
                         }
                     }
-                    composable(route = AuthScreen.OTPScreen.route){
+                    composable(route = AuthScreen.OTPScreen.route) {
                         OTPFragment(
                             this@AuthActivity,
                             onPhoneEdit = { navController.popBackStack() },
                             onResend = {},
-                            onSubmit = {},
-                            )
+                            onSubmit = {}
+                        )
                     }
                 }
             }
         }
     }
-
 }

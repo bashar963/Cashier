@@ -17,53 +17,29 @@ val Roboto = FontFamily(
 
 // Set of Material typography styles to start with
 val Typography = Typography(
-
-        titleLarge = TextStyle(
-                fontFamily = Roboto,
-                fontWeight = FontWeight.Bold,
-                fontSize = 24.sp,
-        ),
-        titleMedium = TextStyle(
-                fontFamily = Roboto,
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-        ),
-        bodyMedium = TextStyle(
-                fontFamily = Roboto,
-                fontWeight = FontWeight.Normal,
-                fontSize = 14.sp,
-        ),
-        bodySmall = TextStyle(
-                fontFamily = Roboto,
-                fontWeight = FontWeight.Normal,
-                fontSize = 12.sp,
-        ),
-        labelSmall = TextStyle(
-                fontFamily = Roboto,
-                fontWeight = FontWeight.Normal,
-                fontSize = 12.sp,
-        ),
-        /* Other default text styles to override
-    bodyLarge = TextStyle(
-                fontFamily = Roboto,
-                fontWeight = FontWeight.Normal,
-                fontSize = 16.sp,
-                lineHeight = 24.sp,
-                letterSpacing = 0.5.sp
-        )
     titleLarge = TextStyle(
-        fontFamily = FontFamily.Default,
+        fontFamily = Roboto,
+        fontWeight = FontWeight.Bold,
+        fontSize = 24.sp
+    ),
+    titleMedium = TextStyle(
+        fontFamily = Roboto,
+        fontWeight = FontWeight.Bold,
+        fontSize = 18.sp
+    ),
+    bodyMedium = TextStyle(
+        fontFamily = Roboto,
         fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
+        fontSize = 14.sp
+    ),
+    bodySmall = TextStyle(
+        fontFamily = Roboto,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp
     ),
     labelSmall = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
+        fontFamily = Roboto,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp
     )
-    */
 )

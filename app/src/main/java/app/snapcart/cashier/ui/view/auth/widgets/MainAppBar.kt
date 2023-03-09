@@ -12,20 +12,20 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun MainAppBar(
-    onBackClicked : ()-> Unit,
+    onBackClicked: () -> Unit
 ) {
     TopAppBar(
         backgroundColor = MaterialTheme.colorScheme.primary,
         contentColor = MaterialTheme.colorScheme.onPrimary,
-        elevation = 0.dp,
+        elevation = 0.dp
     ) {
         IconButton(
-            onClick = onBackClicked,
+            onClick = onBackClicked
         ) {
             Icon(
                 imageVector = Icons.Rounded.KeyboardArrowLeft,
-                contentDescription ="Back button",
-                tint = MaterialTheme.colorScheme.onPrimary,
+                contentDescription = "Back button",
+                tint = MaterialTheme.colorScheme.onPrimary
             )
         }
         Text(

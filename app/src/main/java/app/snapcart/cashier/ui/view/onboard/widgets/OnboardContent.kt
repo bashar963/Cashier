@@ -23,12 +23,10 @@ import androidx.compose.ui.unit.dp
 import app.snapcart.cashier.R
 import app.snapcart.cashier.ui.widgets.CashierButton
 
-
 @Composable
 fun OnboardContent(
-    onGetStarted: ()-> Unit
-){
-
+    onGetStarted: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()

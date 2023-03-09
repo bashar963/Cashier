@@ -17,25 +17,22 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
-class AuthViewModel @Inject constructor(private val phoneNumberUtil:PhoneNumberUtil): ViewModel()  {
+class AuthViewModel @Inject constructor(private val phoneNumberUtil: PhoneNumberUtil) : ViewModel() {
 
     var phoneNumber by mutableStateOf("")
-         private set
+        private set
     var isValidPhoneNumber by mutableStateOf<Boolean?>(null)
         private set
     var tAndCAccepted by mutableStateOf(false)
-         private set
+        private set
     var timerFinished by mutableStateOf(false)
         private set
-
 
     private val _countdownTime = MutableStateFlow("")
     val countdownTime = _countdownTime.asStateFlow()
 
-
-     fun startTimer(seconds:Int) {
+    fun startTimer(seconds: Int) {
         viewModelScope.launch {
             timerFinished = false
             val timer = (seconds downTo 0)
@@ -43,34 +40,27 @@ class AuthViewModel @Inject constructor(private val phoneNumberUtil:PhoneNumberU
                 .asFlow()
                 .onEach { delay(1_000) }
 
-
             timer.collect {
                 timerFinished = it == 0
                 val formatted = "${(it / 60).toString().padStart(2, '0')}:${(it % 60).toString().padStart(2, '0')}"
                 _countdownTime.value = formatted
             }
         }
-
     }
 
-    fun setNumber(newPhoneNumber :String){
+    fun setNumber(newPhoneNumber: String) {
         phoneNumber = newPhoneNumber
-
-
-
         isValidPhoneNumber = try {
             val phone: PhoneNumber = phoneNumberUtil.parse(
-                "+62${newPhoneNumber}",
-                CountryCodeSource.UNSPECIFIED.name,
+                "+62$newPhoneNumber",
+                CountryCodeSource.UNSPECIFIED.name
             )
-            phoneNumberUtil.isValidNumberForRegion(phone,"ID")
-        } catch (_:Exception){
+            phoneNumberUtil.isValidNumberForRegion(phone, "ID")
+        } catch (_: Exception) {
             false
         }
-
     }
-    fun setTAndC(accepted:Boolean){
-        tAndCAccepted= accepted
+    fun setTAndC(accepted: Boolean) {
+        tAndCAccepted = accepted
     }
-
 }
