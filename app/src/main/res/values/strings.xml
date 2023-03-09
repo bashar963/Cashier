@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">Cashier</string>
     <string name="onboard_title">Integrated System</string>
@@ -8,7 +9,7 @@
     <string name="login_or_register">Login or Register</string>
     <string name="register">Register</string>
     <string name="simply_by_using_your_phone_number">&#160;simply by using your phone number</string>
-    <string name="by_registering_agreed_to">By registering, I’ve agreed to&#160;</string>
+    <string name="by_registering_agreed_to">By registering, I\'ve agreed to&#160;</string>
     <string name="terms_onditions">Terms &amp; Conditions</string>
     <string name="as_well_as">&#160;as well as&#160;</string>
     <string name="privacy_policy">Privacy Policy</string>

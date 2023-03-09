@@ -2,7 +2,6 @@ package app.snapcart.cashier.ui.theme
 
 import android.app.Activity
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.primarySurface
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
@@ -23,7 +22,7 @@ private val DarkColorScheme = darkColorScheme(
     onSecondary = OnSecondaryColor,
     onBackground = OnBackgroundColor,
     onSurface = OnSurfaceColor,
-    onTertiary = OnDisabledColor,
+    onTertiary = OnDisabledColor
 )
 
 private val LightColorScheme = lightColorScheme(

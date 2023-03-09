@@ -28,7 +28,6 @@ import java.util.*
 fun OnboardContent(
     onGetStarted: ()-> Unit
 ){
-
     Column(
         modifier = Modifier
             .fillMaxSize()

@@ -2,7 +2,16 @@ package app.snapcart.cashier.ui.widgets
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -20,7 +29,6 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-
 const val OTP_VIEW_TYPE_UNDERLINE = 1
 const val OTP_VIEW_TYPE_BORDER = 2
 
@@ -37,7 +45,7 @@ fun OtpView(
     enabled: Boolean = true,
     password: Boolean = false,
     passwordChar: String = "",
-    keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number,imeAction = ImeAction.Done),
+    keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     onOtpTextChange: (String) -> Unit
 ) {
@@ -68,14 +76,14 @@ fun OtpView(
                         type = type,
                         charBackground = charBackground,
                         password = password,
-                        passwordChar = passwordChar,
+                        passwordChar = passwordChar
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                 }
             }
-        })
+        }
+    )
 }
-
 
 @Composable
 private fun CharView(
@@ -99,13 +107,15 @@ private fun CharView(
             )
             .padding(bottom = 4.dp)
             .background(charBackground)
-    } else Modifier
-        .width(containerSize)
-        .background(charBackground)
+    } else {
+        Modifier
+            .width(containerSize)
+            .background(charBackground)
+    }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Center
     ) {
         val char = when {
             index >= text.length -> ""
@@ -118,7 +128,7 @@ private fun CharView(
             modifier = modifier.wrapContentHeight(),
             style = MaterialTheme.typography.titleMedium,
             fontSize = charSize,
-            textAlign = TextAlign.Center,
+            textAlign = TextAlign.Center
         )
         if (type == OTP_VIEW_TYPE_UNDERLINE) {
             Spacer(modifier = Modifier.height(2.dp))

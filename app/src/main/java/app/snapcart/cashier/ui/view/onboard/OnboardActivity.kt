@@ -21,8 +21,8 @@ class OnboardActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             CashierTheme {
-                OnboardContent{
-                    startActivity(Intent(this,AuthActivity::class.java))
+                OnboardContent {
+                    startActivity(Intent(this, AuthActivity::class.java))
                 }
             }
         }
@@ -36,6 +36,6 @@ class OnboardActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     CashierTheme {
-        OnboardContent{}
+        OnboardContent {}
     }
 }

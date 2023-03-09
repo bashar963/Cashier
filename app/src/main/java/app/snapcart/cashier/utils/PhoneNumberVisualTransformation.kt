@@ -1,6 +1,5 @@
 package app.snapcart.cashier.utils
 
-
 import android.telephony.PhoneNumberUtils
 import android.text.Selection
 import androidx.compose.ui.text.AnnotatedString
@@ -14,7 +13,7 @@ import java.util.*
     solution taken from https://medium.com/google-developer-experts/hands-on-jetpack-compose-visualtransformation-to-create-a-phone-number-formatter-99b0347fc4f6
  */
 class PhoneNumberVisualTransformation(
-    countryCode: String = Locale.getDefault().country
+    countryCode: String = "ID"
 ) : VisualTransformation {
 
     private val phoneNumberFormatter = PhoneNumberUtil.getInstance().getAsYouTypeFormatter(countryCode)
@@ -22,15 +21,18 @@ class PhoneNumberVisualTransformation(
     override fun filter(text: AnnotatedString): TransformedText {
         val transformation = reformat(text, Selection.getSelectionEnd(text))
 
-        return TransformedText(AnnotatedString(transformation.formatted ?: ""), object :
-            OffsetMapping {
-            override fun originalToTransformed(offset: Int): Int {
-                return transformation.originalToTransformed[offset]
+        return TransformedText(
+            AnnotatedString(transformation.formatted ?: ""),
+            object :
+                OffsetMapping {
+                override fun originalToTransformed(offset: Int): Int {
+                    return transformation.originalToTransformed[offset]
+                }
+                override fun transformedToOriginal(offset: Int): Int {
+                    return transformation.transformedToOriginal[offset]
+                }
             }
-            override fun transformedToOriginal(offset: Int): Int {
-                return transformation.transformedToOriginal[offset]
-            }
-        })
+        )
     }
 
     private fun reformat(s: CharSequence, cursor: Int): Transformation {

@@ -3,15 +3,37 @@ package app.snapcart.cashier.ui.view.auth.fragments
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalMinimumTouchTargetEnforcement
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,22 +63,21 @@ import app.snapcart.cashier.utils.PhoneNumberVisualTransformation
 import java.util.*
 
 @Composable
-fun MainFragment(
+fun LoginFragment(
     owner: ViewModelStoreOwner,
-    onBackClicked : ()-> Unit,
-    onSubmit : ()-> Unit
+    onBackClicked: () -> Unit,
+    onSubmit: () -> Unit
 ) {
     val focusManager = LocalFocusManager.current
     val interactionSource = remember { MutableInteractionSource() }
     Scaffold(
         topBar = {
             MainAppBar(
-            labelText=  stringResource(id = R.string.login_or_register),
-            onBackClicked = onBackClicked
+                labelText=  stringResource(id = R.string.login_or_register),
+                onBackClicked = onBackClicked
             )
         }
-    )
-    { innerPadding ->
+    ) { innerPadding ->
         Surface(
             modifier = Modifier
                 .fillMaxSize()
@@ -67,9 +88,8 @@ fun MainFragment(
                 ) {
                     focusManager.clearFocus(force = true)
                 }
-        )
-        {
-            MainContent(owner=owner,onSubmit = onSubmit)
+        ) {
+            MainContent(owner = owner, onSubmit = onSubmit)
         }
     }
 }
@@ -77,7 +97,7 @@ fun MainFragment(
 @Composable
 fun MainContent(
     owner: ViewModelStoreOwner,
-    onSubmit : ()-> Unit
+    onSubmit: () -> Unit
 ) {
     val viewModel: AuthViewModel = ViewModelProvider(owner)[AuthViewModel::class.java]
     Column(
@@ -85,7 +105,7 @@ fun MainContent(
             .padding(horizontal = 16.dp)
             .fillMaxSize(),
         verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.Start,
+        horizontalAlignment = Alignment.Start
     ) {
         Spacer(modifier = Modifier.height(24.dp))
         MainSubTitle()
@@ -118,8 +138,9 @@ fun PhoneNumberField( viewModel: AuthViewModel) {
             {
                 Icon(imageVector = Icons.Default.Clear, contentDescription = "clear")
             }
+        } else {
+            null
         }
-        } else null
 
     CashierTextField(
         leadingComposable = {
@@ -169,16 +190,15 @@ fun PhoneNumberField( viewModel: AuthViewModel) {
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
-fun TermsCheckBox( viewModel: AuthViewModel) {
-
+fun TermsCheckBox(viewModel: AuthViewModel) {
     Row(
         modifier = Modifier
             .padding(0.dp)
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.Start,
-        verticalAlignment = Alignment.CenterVertically,
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        CompositionLocalProvider(LocalMinimumTouchTargetEnforcement  provides false){
+        CompositionLocalProvider(LocalMinimumTouchTargetEnforcement provides false) {
             Checkbox(
                 checked = viewModel.tAndCAccepted,
                 onCheckedChange = {
@@ -187,35 +207,35 @@ fun TermsCheckBox( viewModel: AuthViewModel) {
             )
         }
         Spacer(modifier = Modifier.width(8.dp))
-        FlowRow (
+        FlowRow(
             horizontalArrangement = Arrangement.Start,
-            verticalAlignment = Alignment.CenterVertically,
-        ){
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Text(
                 text = stringResource(id = R.string.by_registering_agreed_to),
-                style = MaterialTheme.typography.bodySmall,
+                style = MaterialTheme.typography.bodySmall
             )
-            Text(text = stringResource(id = R.string.terms_onditions),
+            Text(
+                text = stringResource(id = R.string.terms_onditions),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.primary,
-                fontWeight = FontWeight.Medium,
+                fontWeight = FontWeight.Medium
             )
             Text(
                 text = stringResource(id = R.string.as_well_as),
-                style = MaterialTheme.typography.bodySmall,
+                style = MaterialTheme.typography.bodySmall
             )
             Text(
                 text = stringResource(id = R.string.privacy_policy),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.primary,
-                fontWeight = FontWeight.Medium,
+                fontWeight = FontWeight.Medium
             )
             Text(
                 text = stringResource(id = R.string.defined_by_snapcart),
-                style = MaterialTheme.typography.bodySmall,
+                style = MaterialTheme.typography.bodySmall
             )
         }
-
     }
 }
 
@@ -228,7 +248,7 @@ fun MainSubTitle() {
                     fontFamily = Roboto,
                     fontSize = 14.sp,
                     color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.Medium,
+                    fontWeight = FontWeight.Medium
                 )
             ) {
                 append(stringResource(id = R.string.login))
@@ -238,7 +258,7 @@ fun MainSubTitle() {
                     fontFamily = Roboto,
                     fontSize = 14.sp,
                     color = Color(0xFF9B9B9B),
-                    fontWeight = FontWeight.Normal,
+                    fontWeight = FontWeight.Normal
                 )
             ) {
                 append(stringResource(id = R.string.or))
@@ -248,7 +268,7 @@ fun MainSubTitle() {
                     fontFamily = Roboto,
                     fontSize = 14.sp,
                     color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.Medium,
+                    fontWeight = FontWeight.Medium
                 )
             ) {
                 append(stringResource(id = R.string.register))
@@ -258,7 +278,7 @@ fun MainSubTitle() {
                     fontFamily = Roboto,
                     fontSize = 14.sp,
                     color = Color(0xFF9B9B9B),
-                    fontWeight = FontWeight.Normal,
+                    fontWeight = FontWeight.Normal
                 )
             ) {
                 append(stringResource(id = R.string.simply_by_using_your_phone_number))
@@ -266,4 +286,3 @@ fun MainSubTitle() {
         }
     )
 }
-
