@@ -41,7 +41,7 @@ import app.snapcart.cashier.ui.widgets.CashierButton
 import app.snapcart.cashier.utils.PhoneNumberVisualTransformation
 
 @Composable
-fun MainFragment(
+fun LoginFragment(
     owner: ViewModelStoreOwner,
     onBackClicked : ()-> Unit,
     onSubmit : ()-> Unit
@@ -149,7 +149,7 @@ fun PhoneNumberField( viewModel: AuthViewModel) {
                     color = TextFieldPlaceHolderColor,
                 )
             },
-            visualTransformation = PhoneNumberVisualTransformation(countryCode = "ID"),
+            visualTransformation = PhoneNumberVisualTransformation(),
             singleLine = true,
             isError = viewModel.isValidPhoneNumber == false,
             keyboardOptions = KeyboardOptions(

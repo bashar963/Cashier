@@ -14,7 +14,7 @@ import java.util.*
     solution taken from https://medium.com/google-developer-experts/hands-on-jetpack-compose-visualtransformation-to-create-a-phone-number-formatter-99b0347fc4f6
  */
 class PhoneNumberVisualTransformation(
-    countryCode: String = Locale.getDefault().country
+    countryCode: String = "ID"
 ) : VisualTransformation {
 
     private val phoneNumberFormatter = PhoneNumberUtil.getInstance().getAsYouTypeFormatter(countryCode)

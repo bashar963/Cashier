@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class AuthViewModel @Inject constructor(): ViewModel()  {
+class AuthViewModel @Inject constructor(private val phoneNumberUtil:PhoneNumberUtil): ViewModel()  {
 
     var phoneNumber by mutableStateOf("")
          private set
@@ -30,7 +30,6 @@ class AuthViewModel @Inject constructor(): ViewModel()  {
     var timerFinished by mutableStateOf(false)
         private set
 
-    private val phoneNumberUtil: PhoneNumberUtil = PhoneNumberUtil.getInstance()
 
     private val _countdownTime = MutableStateFlow("")
     val countdownTime = _countdownTime.asStateFlow()

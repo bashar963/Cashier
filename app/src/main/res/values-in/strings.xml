@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="get_started">MEMULAI</string>
+    <string name="get_started">Memulai</string>
     <string name="onboard_title">Sistem Terintegrasi</string>
     <string name="onboard_sub_title">Cashier membantu Anda untuk meng-sortir produk dan akan otomatis membantu dalam rutinitas sehari-hari</string>
     <string name="login">Gabung</string>
     <string name="or">&#160;atau&#160;</string>
+    <string name="login_or_register">masuk atau mendaftar</string>
     <string name="register">Daftar</string>
     <string name="simply_by_using_your_phone_number">&#160;hanya dengan menggunakan nomor telepon Anda</string>
     <string name="by_registering_agreed_to">Dengan mendaftar, saya setuju&#160;</string>
@@ -12,11 +13,11 @@
     <string name="as_well_as">&#160;sebaik&#160;</string>
     <string name="privacy_policy">Kebijakan pribadi</string>
     <string name="defined_by_snapcart">&#160;ditentukan oleh Snapcart.</string>
-    <string name="continue_text">MELANJUTKAN</string>
-    <string name="enter_code">MEMASUKKAN KODE</string>
-    <string name="submit">KIRIM</string>
-    <string name="resend">RESEND</string>
-    <string name="resend_code_in">KIRIM ULANG</string>
+    <string name="continue_text">Melanjutkan</string>
+    <string name="enter_code">Memasukkan kode</string>
+    <string name="submit">Kirim</string>
+    <string name="resend">Kirim ulang</string>
+    <string name="resend_code_in">Kirim ulang kode masuk</string>
     <string name="an">&#160;</string>
     <string name="sms">SMS</string>
     <string name="with_the">&#160;dengan&#160;</string>
