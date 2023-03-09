@@ -1,12 +1,12 @@
 package app.snapcart.cashier.ui.view.register.fragments
 
-
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -37,17 +37,18 @@ import app.snapcart.cashier.ui.theme.BoxBackgroundColor
 import app.snapcart.cashier.ui.theme.TextFieldPlaceHolderColor
 import app.snapcart.cashier.ui.view.register.RegisterViewModel
 import app.snapcart.cashier.ui.widgets.CashierButton
-import app.snapcart.cashier.utils.CashierDropDownTextField
-import app.snapcart.cashier.utils.CashierTextField
+import app.snapcart.cashier.ui.widgets.CashierDropDownTextField
+import app.snapcart.cashier.ui.widgets.CashierTextField
 import app.snapcart.cashier.utils.ComposeFileProvider
-import app.snapcart.cashier.utils.MainAppBar
+import app.snapcart.cashier.ui.widgets.MainAppBar
 import coil.compose.AsyncImage
-
+import java.util.*
 
 @Composable
 fun StoreProfileFragment(
     owner: ViewModelStoreOwner,
     onBackClicked: ()->Unit,
+    onAddressClicked: ()->Unit,
     onFinish: ()->Unit,
 ) {
     val viewModel: RegisterViewModel = ViewModelProvider(owner)[RegisterViewModel::class.java]
@@ -57,6 +58,12 @@ fun StoreProfileFragment(
     var expandedProvince by remember { mutableStateOf(false) }
     var expandedCity by remember { mutableStateOf(false) }
 
+    val source = remember {
+        MutableInteractionSource()
+    }
+
+    if (source.collectIsPressedAsState().value)
+        onAddressClicked()
 
     Scaffold(
         topBar = {
@@ -66,14 +73,14 @@ fun StoreProfileFragment(
             )
         },
         bottomBar = {
-                    CashierButton(
-                        modifier = Modifier
-                            .padding(horizontal = 16.dp, vertical = 12.dp)
-                            .fillMaxWidth(),
-                        onClick = onFinish,
-                    ) {
-                        Text(text = stringResource(id = R.string.finish))
-                    }
+            CashierButton(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 12.dp)
+                    .fillMaxWidth(),
+                onClick = onFinish,
+            ) {
+                Text(text = stringResource(id = R.string.finish).uppercase(Locale.getDefault()))
+            }
         },
     ) { paddingValues ->
         Column(
@@ -104,11 +111,11 @@ fun StoreProfileFragment(
                     imeAction = ImeAction.Next,
                 ),
                 label = {
-                        Text(
-                            text = stringResource(id = R.string.full_name),
-                            fontSize = 13.sp,
-                            color = TextFieldPlaceHolderColor,
-                        )
+                    Text(
+                        text = stringResource(id = R.string.full_name),
+                        fontSize = 13.sp,
+                        color = TextFieldPlaceHolderColor,
+                    )
                 },
             )
             Spacer(modifier = Modifier.height(12.dp))
@@ -133,7 +140,9 @@ fun StoreProfileFragment(
             )
             Spacer(modifier = Modifier.height(12.dp))
             CashierTextField(
+                interactionSource = source,
                 value = viewModel.storeAddress,
+                readOnly = true,
                 onValueChange = {
                     viewModel.storeAddress = it
                 },
@@ -249,7 +258,6 @@ fun ImagePicker(
     imageUri: Uri?,
 ){
     val context = LocalContext.current
-
     val cameraLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.TakePicture(),
         onResult = onTakePictureResult,

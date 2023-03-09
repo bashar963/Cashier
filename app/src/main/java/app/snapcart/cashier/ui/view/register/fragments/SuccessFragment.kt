@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.snapcart.cashier.R
 import app.snapcart.cashier.ui.widgets.CashierButton
+import java.util.*
 
 @Composable
 fun SuccessFragment(onContinue: () -> Unit) {
@@ -50,7 +51,7 @@ fun SuccessFragment(onContinue: () -> Unit) {
             onClick = onContinue,
         ) {
             Text(
-                text = stringResource(id = R.string.fill_in_store_profile),
+                text = stringResource(id = R.string.fill_in_store_profile).uppercase(Locale.getDefault()),
                 textAlign = TextAlign.Center,
             )
         }

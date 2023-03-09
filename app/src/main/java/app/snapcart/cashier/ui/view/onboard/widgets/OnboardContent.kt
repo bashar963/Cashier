@@ -22,6 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import app.snapcart.cashier.R
 import app.snapcart.cashier.ui.widgets.CashierButton
+import java.util.*
 
 @Composable
 fun OnboardContent(
@@ -67,7 +68,7 @@ fun OnboardContent(
             )
         ) {
             Text(
-                text = stringResource(id = R.string.get_started),
+                text = stringResource(id = R.string.get_started).uppercase(Locale.getDefault()),
                 color = MaterialTheme.colorScheme.primary
             )
         }

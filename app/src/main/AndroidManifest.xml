@@ -24,6 +24,9 @@
             android:name=".ui.view.register.RegisterActivity"
             android:exported="false"/>
         <activity
+            android:name=".ui.view.home.HomeActivity"
+            android:exported="false"/>
+        <activity
             android:name=".ui.view.splash.EntryActivity"
             android:theme="@style/Theme.Cashier.Splash"
             android:exported="true">
@@ -43,6 +46,10 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyDZDP3fqqjYOpDrpdpddThgtDLxYxCdkbU"/>
     </application>
 
 </manifest>

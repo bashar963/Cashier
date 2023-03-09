@@ -35,9 +35,10 @@ import app.snapcart.cashier.ui.theme.Roboto
 import app.snapcart.cashier.ui.theme.TextFieldPlaceHolderColor
 import app.snapcart.cashier.ui.view.auth.AuthViewModel
 import app.snapcart.cashier.ui.widgets.CashierButton
-import app.snapcart.cashier.utils.CashierTextField
-import app.snapcart.cashier.utils.MainAppBar
+import app.snapcart.cashier.ui.widgets.CashierTextField
+import app.snapcart.cashier.ui.widgets.MainAppBar
 import app.snapcart.cashier.utils.PhoneNumberVisualTransformation
+import java.util.*
 
 @Composable
 fun MainFragment(
@@ -98,7 +99,7 @@ fun MainContent(
             onClick = onSubmit,
             enabled = viewModel.tAndCAccepted && viewModel.isValidPhoneNumber == true,
             ) {
-            Text(text = stringResource(id = R.string.continue_text))
+            Text(text = stringResource(id = R.string.continue_text).uppercase(Locale.getDefault()))
         }
         Spacer(modifier = Modifier.height(24.dp))
     }

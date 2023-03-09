@@ -1,4 +1,4 @@
-package app.snapcart.cashier.utils
+package app.snapcart.cashier.ui.widgets
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -55,7 +55,7 @@ fun CashierTextField(
     )
     ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .clip(RoundedCornerShape(12.dp))
             .background(TextFieldBackgroundColor),
         horizontalArrangement = Arrangement.Start,
@@ -65,7 +65,7 @@ fun CashierTextField(
             leadingComposable()
         }
         TextField(
-            modifier = modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             value = value,
             onValueChange = onValueChange,
             label = label,

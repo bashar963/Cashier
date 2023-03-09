@@ -1,9 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">Cashier</string>
-    <string name="title_activity_splash" translatable="false">SplashActivity</string>
-    <string name="title_activity_entry" translatable="false">EntryActivity</string>
     <string name="onboard_title">Integrated System</string>
-    <string name="get_started">GET STARTED</string>
+    <string name="get_started">Get started</string>
     <string name="onboard_sub_title">Cashier helps you to sort products and will automatically help in your daily routine</string>
     <string name="login">Login</string>
     <string name="or">&#160;or&#160;</string>
@@ -15,10 +13,10 @@
     <string name="as_well_as">&#160;as well as&#160;</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="defined_by_snapcart">&#160;defined by Snapcart.</string>
-    <string name="continue_text">CONTINUE</string>
-    <string name="enter_code">ENTER CODE</string>
-    <string name="submit">SUBMIT</string>
-    <string name="resend">RESEND</string>
+    <string name="continue_text">Continue</string>
+    <string name="enter_code">Enter code</string>
+    <string name="submit">Submit</string>
+    <string name="resend">Resend</string>
     <string name="resend_code_in">Resend code in</string>
     <string name="an">An&#160;</string>
     <string name="sms">SMS</string>
@@ -29,9 +27,9 @@
     <string name="invalid_phone_number">Invalid phone number</string>
     <string name="registration_successful">Registration Successful</string>
     <string name="registration_successful_subtitle">Your profile has been registered.\nJust complete one more step!</string>
-    <string name="fill_in_store_profile">FILL IN STORE PROFILE</string>
+    <string name="fill_in_store_profile">Fill in store profile</string>
     <string name="store_profile">Store Profile</string>
-    <string name="finish">FINISH</string>
+    <string name="finish">Finish</string>
     <string name="full_name">Full Name</string>
     <string name="store_name">Store Name</string>
     <string name="store_address">Store Address</string>
@@ -41,4 +39,7 @@
     <string name="store_take_image_note">Taking pictures of your store would help us identify it better.</string>
     <string name="outside">Outside</string>
     <string name="inside">Inside</string>
+    <string name="confirm_address">Confirm Address</string>
+    <string name="confirm">Confirm</string>
+    <string name="find_address">Find Address</string>
 </resources>

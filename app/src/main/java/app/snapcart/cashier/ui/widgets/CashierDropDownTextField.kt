@@ -1,4 +1,4 @@
-package app.snapcart.cashier.utils
+package app.snapcart.cashier.ui.widgets
 
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*

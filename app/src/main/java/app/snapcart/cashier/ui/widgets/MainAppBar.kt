@@ -1,5 +1,6 @@
-package app.snapcart.cashier.utils
+package app.snapcart.cashier.ui.widgets
 
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.IconButton
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
@@ -37,6 +38,7 @@ fun MainAppBar(
                 onClick = onBackClicked,
             ) {
                 Icon(
+                    modifier= Modifier.size(28.dp),
                     imageVector = backButtonIcon,
                     contentDescription ="Back button",
                     tint = backButtonColor,

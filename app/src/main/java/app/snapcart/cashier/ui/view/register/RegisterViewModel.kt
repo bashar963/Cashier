@@ -11,6 +11,10 @@ import javax.inject.Inject
 @HiltViewModel
 class RegisterViewModel @Inject constructor(): ViewModel() {
 
+    private val addressesMockOptions = listOf("Option 1 Option 1 Option 1 Option 1 Option 1 Option 1 Option 1 Option 1", "Option 2", "Option 3", "Option 4", "Option 5")
+    val fetchedAddressesMockOptions = mutableListOf<String>()
+
+    // Store data vars
     var fullName by mutableStateOf("")
     var storeName by mutableStateOf("")
     var storeAddress by mutableStateOf("")
@@ -22,4 +26,20 @@ class RegisterViewModel @Inject constructor(): ViewModel() {
     var hasImageInside by mutableStateOf(false)
     var imageUriInside by mutableStateOf<Uri?>(null)
 
+    // find address vars
+    var searchText by mutableStateOf("")
+        private set
+
+    fun searchQuery(query:String){
+        searchText = query
+        fetchedAddressesMockOptions.clear()
+        val fetched = addressesMockOptions.filter  {
+            it.contains(query)
+        }
+        fetchedAddressesMockOptions.addAll(fetched)
+    }
+
+    fun submitAddress() {
+        storeAddress = searchText
+    }
 }

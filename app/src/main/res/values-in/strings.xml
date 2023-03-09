@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="get_started">MEMULAI</string>
+    <string name="get_started">Memulai</string>
     <string name="onboard_title">Sistem Terintegrasi</string>
     <string name="onboard_sub_title">Cashier membantu Anda untuk meng-sortir produk dan akan otomatis membantu dalam rutinitas sehari-hari</string>
     <string name="login">Gabung</string>
@@ -13,11 +13,11 @@
     <string name="as_well_as">&#160;sebaik&#160;</string>
     <string name="privacy_policy">Kebijakan pribadi</string>
     <string name="defined_by_snapcart">&#160;ditentukan oleh Snapcart.</string>
-    <string name="continue_text">MELANJUTKAN</string>
-    <string name="enter_code">MEMASUKKAN KODE</string>
-    <string name="submit">KIRIM</string>
-    <string name="resend">RESEND</string>
-    <string name="resend_code_in">KIRIM ULANG</string>
+    <string name="continue_text">Melanjutkan</string>
+    <string name="enter_code">Memasukkan kode</string>
+    <string name="submit">Kirim</string>
+    <string name="resend">Kirim ulang</string>
+    <string name="resend_code_in">Kirim ulang kode masuk</string>
     <string name="an">&#160;</string>
     <string name="sms">SMS</string>
     <string name="with_the">&#160;dengan&#160;</string>
@@ -27,5 +27,19 @@
     <string name="invalid_phone_number">Nomor telepon tidak valid</string>
     <string name="registration_successful">Registrasi berhasil</string>
     <string name="registration_successful_subtitle">Profil Anda telah didaftarkan.\nSelesaikan satu langkah lagi!</string>
-    <string name="fill_in_store_profile">ISI PROFIL TOKO</string>
+    <string name="fill_in_store_profile">Isi profil toko</string>
+    <string name="store_profile">Profil Toko</string>
+    <string name="finish">Menyelesaikan</string>
+    <string name="full_name">Nama lengkap</string>
+    <string name="store_name">Nama Toko</string>
+    <string name="store_address">Alamat Toko</string>
+    <string name="add_note_to_courier">Tambahkan catatan ke kurir</string>
+    <string name="province">Propinsi</string>
+    <string name="city">Kota</string>
+    <string name="store_take_image_note">Memotret toko Anda akan membantu kami mengidentifikasinya dengan lebih baik.</string>
+    <string name="outside">Di luar</string>
+    <string name="inside">Di dalam</string>
+    <string name="confirm_address">Konfirmasi alamat</string>
+    <string name="confirm">Mengonfirmasi</string>
+    <string name="find_address">Cari Alamat</string>
 </resources>

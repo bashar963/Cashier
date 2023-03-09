@@ -149,6 +149,10 @@ dependencies {
     // compose image loader
     implementation "io.coil-kt:coil-compose:$coil_compose_version"
 
+    // Google map
+    implementation "com.google.maps.android:maps-compose:$maps_version"
+    implementation "com.google.android.gms:play-services-maps:$maps_version"
+
 }
 
 kapt {

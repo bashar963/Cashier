@@ -35,6 +35,7 @@ import app.snapcart.cashier.ui.theme.Roboto
 import app.snapcart.cashier.ui.view.auth.AuthViewModel
 import app.snapcart.cashier.ui.widgets.CashierButton
 import app.snapcart.cashier.ui.widgets.OtpView
+import java.util.*
 
 @Composable
 fun OTPFragment(
@@ -95,7 +96,7 @@ fun OTPFragment(
         }
         Spacer(modifier = Modifier.height(32.dp))
         Text(
-            text = stringResource(id = R.string.enter_code),
+            text = stringResource(id = R.string.enter_code).uppercase(Locale.getDefault()),
             style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onPrimary)
         )
         Spacer(modifier = Modifier.height(32.dp))
@@ -131,7 +132,7 @@ fun OTPFragment(
             ),
         ) {
             Text(
-                text = stringResource(id = R.string.submit),
+                text = stringResource(id = R.string.submit).uppercase(Locale.getDefault()),
                 color = MaterialTheme.colorScheme.primary,
             )
         }
@@ -143,7 +144,7 @@ fun OTPFragment(
                     .clickable {
                         onResend.invoke()
                     },
-                text = stringResource(id = R.string.resend),
+                text = stringResource(id = R.string.resend).uppercase(Locale.getDefault()),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onPrimary,
