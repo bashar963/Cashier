@@ -24,7 +24,9 @@ import app.snapcart.cashier.R
 import app.snapcart.cashier.ui.widgets.CashierButton
 
 @Composable
-fun OnboardContent() {
+fun OnboardContent(
+    onGetStarted: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -54,7 +56,7 @@ fun OnboardContent() {
         )
         Spacer(modifier = Modifier.weight(1.0f))
         CashierButton(
-            onClick = { },
+            onClick = onGetStarted,
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.background,
