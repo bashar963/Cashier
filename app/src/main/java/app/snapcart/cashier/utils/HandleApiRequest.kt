@@ -3,7 +3,6 @@ package app.snapcart.cashier.utils
 import retrofit2.HttpException
 import retrofit2.Response
 
-
 suspend fun <T : Any> handleApiRequest(
     request: suspend () -> Response<T>
 ): ApiResult<T> {

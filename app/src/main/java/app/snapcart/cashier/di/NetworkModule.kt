@@ -1,5 +1,6 @@
 package app.snapcart.cashier.di
 
+import app.snapcart.cashier.BuildConfig
 import app.snapcart.cashier.data.data_store.AuthRemoteDataSource
 import app.snapcart.cashier.data.remote.AuthService
 import app.snapcart.cashier.data.repo.auth.AuthRepository
@@ -29,10 +30,15 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor
+    fun provideOkHttpClient(
+        loggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient {
         return OkHttpClient.Builder()
-            .addInterceptor(loggingInterceptor)
+            .apply {
+                if (BuildConfig.HTTP_LOGGING_ENABLED) {
+                    addInterceptor(loggingInterceptor)
+                }
+            }
             // Add more interceptor here
             .build()
     }
@@ -42,23 +48,24 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(gson: Gson,okHttpClient: OkHttpClient) : Retrofit = Retrofit.Builder()
-        .baseUrl("https://google.com")// TODO need base URL
+    fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+        .baseUrl(BuildConfig.API_URL)
         .addConverterFactory(GsonConverterFactory.create(gson))
         .client(okHttpClient)
         .build()
 
     @Singleton
     @Provides
-    fun provideAuthService(retrofit : Retrofit): AuthService  = retrofit.create(AuthService::class.java)
-
-
-    @Singleton
-    @Provides
-    fun provideAuthRemoteDataSource(authService : AuthService): AuthRemoteDataSource = AuthRemoteDataSource(authService)
+    fun provideAuthService(retrofit: Retrofit): AuthService =
+        retrofit.create(AuthService::class.java)
 
     @Singleton
     @Provides
-    fun provideAuthRepository(authRemoteDataSource : AuthRemoteDataSource): AuthRepository = AuthRepository(authRemoteDataSource)
+    fun provideAuthRemoteDataSource(authService: AuthService): AuthRemoteDataSource =
+        AuthRemoteDataSource(authService)
 
+    @Singleton
+    @Provides
+    fun provideAuthRepository(authRemoteDataSource: AuthRemoteDataSource): AuthRepository =
+        AuthRepository(authRemoteDataSource)
 }
