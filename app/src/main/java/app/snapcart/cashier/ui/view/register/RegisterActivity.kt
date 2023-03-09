@@ -41,8 +41,9 @@ class RegisterActivity : ComponentActivity() {
                             onBackClicked = { navController.popBackStack() },
                             onAddressClicked = { navController.navigate(RegisterScreen.StoreAddressScreen.route) }
                         ) {
-                            startActivity(Intent(this@RegisterActivity, HomeActivity::class.java))
-                            finish()
+                            val intent = Intent(this@RegisterActivity, HomeActivity::class.java)
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            startActivity(intent)
                         }
                     }
                     composable(route = RegisterScreen.StoreAddressScreen.route) {
