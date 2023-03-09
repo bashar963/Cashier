@@ -43,12 +43,11 @@ class AuthActivity : ComponentActivity() {
                         OTPFragment(
                             this@AuthActivity,
                             onPhoneEdit = { navController.popBackStack() },
-                            onResend = { viewModel.onResend()},
-                            onSubmit = { code ->
-                                viewModel.onSubmit(code)
-                                startActivity(Intent(this@AuthActivity,RegisterActivity::class.java))
-                                       },
-                            )
+                            onResend = { },
+                            onSubmit = {
+                                startActivity(Intent(this@AuthActivity, RegisterActivity::class.java))
+                            }
+                        )
                     }
                 }
             }

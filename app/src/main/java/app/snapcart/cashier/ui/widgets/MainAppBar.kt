@@ -18,42 +18,39 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun MainAppBar(
     modifier: Modifier = Modifier,
-    labelText : String? =null,
-    label : @Composable (()->Unit)? =null,
+    labelText: String? = null,
+    label: @Composable (() -> Unit)? = null,
     backButtonIcon: ImageVector = Icons.Rounded.KeyboardArrowLeft,
     backButtonColor: Color = MaterialTheme.colorScheme.onPrimary,
     showBackButton: Boolean = true,
     elevation: Dp = 0.dp,
-    onBackClicked : ()-> Unit,
+    onBackClicked: () -> Unit
 ) {
-
     TopAppBar(
         modifier = modifier,
         backgroundColor = MaterialTheme.colorScheme.primary,
         contentColor = MaterialTheme.colorScheme.onPrimary,
-        elevation = elevation,
+        elevation = elevation
     ) {
-        if(showBackButton){
+        if (showBackButton) {
             IconButton(
-                onClick = onBackClicked,
+                onClick = onBackClicked
             ) {
                 Icon(
-                    modifier= Modifier.size(28.dp),
+                    modifier = Modifier.size(28.dp),
                     imageVector = backButtonIcon,
-                    contentDescription ="Back button",
-                    tint = backButtonColor,
+                    contentDescription = "Back button",
+                    tint = backButtonColor
                 )
             }
         }
-        if(label != null){
+        if (label != null) {
             label()
-        }
-        else if (labelText != null){
+        } else if (labelText != null) {
             Text(
                 text = "$labelText",
                 style = MaterialTheme.typography.titleMedium.copy(color = MaterialTheme.colorScheme.onPrimary)
             )
         }
-
     }
 }

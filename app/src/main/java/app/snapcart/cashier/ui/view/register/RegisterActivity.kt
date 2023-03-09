@@ -18,48 +18,52 @@ import app.snapcart.cashier.utils.RegisterScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RegisterActivity: ComponentActivity() {
+class RegisterActivity : ComponentActivity() {
 
     private val viewModel: RegisterViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
-            CashierTheme{
+            CashierTheme {
                 NavHost(
                     navController = navController,
-                    startDestination = RegisterScreen.SuccessScreen.route,
-                ){
-                    composable(route = RegisterScreen.SuccessScreen.route){
-                        SuccessFragment{
+                    startDestination = RegisterScreen.SuccessScreen.route
+                ) {
+                    composable(route = RegisterScreen.SuccessScreen.route) {
+                        SuccessFragment {
                             navController.navigate(RegisterScreen.StoreProfileScreen.route)
                         }
                     }
-                    composable(route = RegisterScreen.StoreProfileScreen.route){
+                    composable(route = RegisterScreen.StoreProfileScreen.route) {
                         StoreProfileFragment(
                             owner = this@RegisterActivity,
                             onBackClicked = { navController.popBackStack() },
-                            onAddressClicked = { navController.navigate(RegisterScreen.StoreAddressScreen.route)},
-                            ){
-                            startActivity(Intent(this@RegisterActivity,HomeActivity::class.java))
+                            onAddressClicked = { navController.navigate(RegisterScreen.StoreAddressScreen.route) }
+                        ) {
+                            startActivity(Intent(this@RegisterActivity, HomeActivity::class.java))
                             finish()
                         }
                     }
-                    composable(route = RegisterScreen.StoreAddressScreen.route){
+                    composable(route = RegisterScreen.StoreAddressScreen.route) {
                         StoreAddressFragment(
                             owner = this@RegisterActivity,
-                            onBackClicked = { navController.popBackStack() },
-                        ){
+                            onBackClicked = { navController.popBackStack() }
+                        ) {
                             navController.navigate(RegisterScreen.StoreMapScreen.route)
                         }
                     }
-                    composable(route = RegisterScreen.StoreMapScreen.route){
+                    composable(route = RegisterScreen.StoreMapScreen.route) {
                         StoreMapFragment(
                             owner = this@RegisterActivity,
-                            onBackClicked = { navController.popBackStack() },
-                        ){
+                            onBackClicked = { navController.popBackStack() }
+                        ) {
                             viewModel.submitAddress()
-                            navController.popBackStack(route = RegisterScreen.StoreProfileScreen.route, inclusive = false, saveState = false)
+                            navController.popBackStack(
+                                route = RegisterScreen.StoreProfileScreen.route,
+                                inclusive = false,
+                                saveState = false
+                            )
                         }
                     }
                 }

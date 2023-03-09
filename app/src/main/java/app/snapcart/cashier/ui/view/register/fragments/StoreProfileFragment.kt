@@ -7,7 +7,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -16,7 +23,11 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,33 +53,24 @@ import app.snapcart.cashier.ui.widgets.CashierTextField
 import app.snapcart.cashier.utils.ComposeFileProvider
 import app.snapcart.cashier.ui.widgets.MainAppBar
 import coil.compose.AsyncImage
-import java.util.*
+import java.util.Locale
 
 @Composable
 fun StoreProfileFragment(
     owner: ViewModelStoreOwner,
-    onBackClicked: ()->Unit,
-    onAddressClicked: ()->Unit,
-    onFinish: ()->Unit,
+    onBackClicked: () -> Unit,
+    onAddressClicked: () -> Unit,
+    onFinish: () -> Unit
 ) {
     val viewModel: RegisterViewModel = ViewModelProvider(owner)[RegisterViewModel::class.java]
     val focusManager = LocalFocusManager.current
     val interactionSource = remember { MutableInteractionSource() }
-    val options = listOf("Option 1", "Option 2", "Option 3", "Option 4", "Option 5")
-    var expandedProvince by remember { mutableStateOf(false) }
-    var expandedCity by remember { mutableStateOf(false) }
-
-    val source = remember {
-        MutableInteractionSource()
-    }
-
-    if (source.collectIsPressedAsState().value)
-        onAddressClicked()
-
+    val source = remember { MutableInteractionSource() }
+    if (source.collectIsPressedAsState().value) { onAddressClicked() }
     Scaffold(
         topBar = {
             MainAppBar(
-                labelText=  stringResource(id = R.string.store_profile),
+                labelText = stringResource(id = R.string.store_profile),
                 onBackClicked = onBackClicked
             )
         },
@@ -77,11 +79,11 @@ fun StoreProfileFragment(
                 modifier = Modifier
                     .padding(horizontal = 16.dp, vertical = 12.dp)
                     .fillMaxWidth(),
-                onClick = onFinish,
+                onClick = onFinish
             ) {
                 Text(text = stringResource(id = R.string.finish).uppercase(Locale.getDefault()))
             }
-        },
+        }
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -89,129 +91,17 @@ fun StoreProfileFragment(
                 .clickable(
                     interactionSource = interactionSource,
                     indication = null
-                ) {
-                    focusManager.clearFocus(force = true)
-                }
+                ) { focusManager.clearFocus(force = true) }
                 .verticalScroll(rememberScrollState())
                 .padding(paddingValues)
                 .padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.Start,
+            horizontalAlignment = Alignment.Start
         ) {
             Spacer(modifier = Modifier.height(16.dp))
-            CashierTextField(
-                value = viewModel.fullName,
-                onValueChange = {
-                    viewModel.fullName = it
-                },
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(
-                    capitalization = KeyboardCapitalization.Words,
-                    keyboardType = KeyboardType.Text,
-                    imeAction = ImeAction.Next,
-                ),
-                label = {
-                    Text(
-                        text = stringResource(id = R.string.full_name),
-                        fontSize = 13.sp,
-                        color = TextFieldPlaceHolderColor,
-                    )
-                },
-            )
+            StoreDetails(viewModel = viewModel, source = source)
             Spacer(modifier = Modifier.height(12.dp))
-            CashierTextField(
-                value = viewModel.storeName,
-                onValueChange = {
-                    viewModel.storeName = it
-                },
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(
-                    capitalization = KeyboardCapitalization.Words,
-                    keyboardType = KeyboardType.Text,
-                    imeAction = ImeAction.Next,
-                ),
-                label = {
-                    Text(
-                        text = stringResource(id = R.string.store_name),
-                        fontSize = 13.sp,
-                        color = TextFieldPlaceHolderColor,
-                    )
-                },
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-            CashierTextField(
-                interactionSource = source,
-                value = viewModel.storeAddress,
-                readOnly = true,
-                onValueChange = {
-                    viewModel.storeAddress = it
-                },
-                singleLine = false,
-                keyboardOptions = KeyboardOptions(
-                    capitalization = KeyboardCapitalization.Words,
-                    keyboardType = KeyboardType.Text,
-                    imeAction = ImeAction.Next,
-                ),
-                label = {
-                    Text(
-                        text = stringResource(id = R.string.store_address),
-                        fontSize = 13.sp,
-                        color = TextFieldPlaceHolderColor,
-                    )
-                },
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-            CashierTextField(
-                value = viewModel.noteToCourier,
-                onValueChange = {
-                    viewModel.noteToCourier = it
-                },
-                singleLine = false,
-                leadingIcon = {
-                    Icon(
-                        painterResource(id = R.drawable.ic_note_add),
-                        tint = TextFieldPlaceHolderColor,
-                        contentDescription = "",)
-                },
-                keyboardOptions = KeyboardOptions(
-                    capitalization = KeyboardCapitalization.Words,
-                    keyboardType = KeyboardType.Text,
-                    imeAction = ImeAction.Next,
-                ),
-                label = {
-                    Text(
-                        text = stringResource(id = R.string.add_note_to_courier),
-                        fontSize = 13.sp,
-                        color = TextFieldPlaceHolderColor,
-                    )
-                },
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-            CashierDropDownTextField(
-                value = viewModel.province,
-                labelText = stringResource(id = R.string.province),
-                onValueSelected = {
-                    viewModel.province =it
-                    expandedProvince =false
-                },
-                expanded = expandedProvince,
-                onExpandedChange = { expandedProvince = !expandedProvince },
-                onDismissRequest = { expandedProvince = false },
-                options = options,
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-            CashierDropDownTextField(
-                value = viewModel.city,
-                labelText = stringResource(id = R.string.city),
-                onValueSelected = {
-                    viewModel.city =it
-                    expandedCity =false
-                },
-                expanded = expandedCity,
-                onExpandedChange = { expandedCity = !expandedCity },
-                onDismissRequest = { expandedCity = false },
-                options = options,
-            )
+            AddressSelections(viewModel = viewModel)
             Spacer(modifier = Modifier.height(24.dp))
             Divider()
             Spacer(modifier = Modifier.height(24.dp))
@@ -219,52 +109,224 @@ fun StoreProfileFragment(
                 modifier = Modifier.fillMaxWidth(),
                 text = stringResource(id = R.string.store_take_image_note),
                 fontSize = 12.sp,
-                textAlign = TextAlign.Center,
+                textAlign = TextAlign.Center
             )
             Spacer(modifier = Modifier.height(24.dp))
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = stringResource(id = R.string.outside),
-                textAlign = TextAlign.Center,
-            )
-            ImagePicker(
-                hasImage = viewModel.hasImageOutside,
-                imageUri = viewModel.imageUriOutside,
-                onCreateImageFile = { viewModel.imageUriOutside = it },
-                onTakePictureResult = { viewModel.hasImageOutside =it },
-            )
+            OutsideView(viewModel = viewModel)
             Spacer(modifier = Modifier.height(24.dp))
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = stringResource(id = R.string.inside),
-                textAlign = TextAlign.Center,
-            )
-            ImagePicker(
-                hasImage = viewModel.hasImageInside,
-                imageUri = viewModel.imageUriInside,
-                onCreateImageFile = { viewModel.imageUriInside = it },
-                onTakePictureResult = { viewModel.hasImageInside =it },
-            )
+            InsideView(viewModel = viewModel)
         }
     }
 }
 
 @Composable
+fun InsideView(
+    viewModel: RegisterViewModel
+) {
+    Text(
+        modifier = Modifier.fillMaxWidth(),
+        text = stringResource(id = R.string.inside),
+        textAlign = TextAlign.Center
+    )
+    ImagePicker(
+        hasImage = viewModel.hasImageInside,
+        imageUri = viewModel.imageUriInside,
+        onCreateImageFile = { viewModel.imageUriInside = it },
+        onTakePictureResult = { viewModel.hasImageInside = it }
+    )
+}
+
+@Composable
+fun OutsideView(
+    viewModel: RegisterViewModel
+) {
+    Text(
+        modifier = Modifier.fillMaxWidth(),
+        text = stringResource(id = R.string.outside),
+        textAlign = TextAlign.Center
+    )
+    ImagePicker(
+        hasImage = viewModel.hasImageOutside,
+        imageUri = viewModel.imageUriOutside,
+        onCreateImageFile = { viewModel.imageUriOutside = it },
+        onTakePictureResult = { viewModel.hasImageOutside = it }
+    )
+}
+
+@Composable
+fun AddressSelections(
+    viewModel: RegisterViewModel
+) {
+    val options = listOf("Option 1", "Option 2", "Option 3", "Option 4", "Option 5")
+    var expandedProvince by remember { mutableStateOf(false) }
+    var expandedCity by remember { mutableStateOf(false) }
+    CashierDropDownTextField(
+        value = viewModel.province,
+        labelText = stringResource(id = R.string.province),
+        onValueSelected = {
+            viewModel.province = it
+            expandedProvince = false
+        },
+        expanded = expandedProvince,
+        onExpandedChange = { expandedProvince = !expandedProvince },
+        onDismissRequest = { expandedProvince = false },
+        options = options
+    )
+    Spacer(modifier = Modifier.height(12.dp))
+    CashierDropDownTextField(
+        value = viewModel.city,
+        labelText = stringResource(id = R.string.city),
+        onValueSelected = {
+            viewModel.city = it
+            expandedCity = false
+        },
+        expanded = expandedCity,
+        onExpandedChange = { expandedCity = !expandedCity },
+        onDismissRequest = { expandedCity = false },
+        options = options
+    )
+}
+
+@Composable
+fun StoreDetails(
+    viewModel: RegisterViewModel,
+    source: MutableInteractionSource
+) {
+    FullNameView(viewModel = viewModel)
+    Spacer(modifier = Modifier.height(12.dp))
+    StoreNameView(viewModel = viewModel)
+    Spacer(modifier = Modifier.height(12.dp))
+    StoreAddressView(viewModel = viewModel, source = source)
+    Spacer(modifier = Modifier.height(12.dp))
+    NoteView(viewModel = viewModel)
+}
+
+@Composable
+fun FullNameView(
+    viewModel: RegisterViewModel
+) {
+    CashierTextField(
+        value = viewModel.fullName,
+        onValueChange = {
+            viewModel.fullName = it
+        },
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(
+            capitalization = KeyboardCapitalization.Words,
+            keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Next
+        ),
+        label = {
+            Text(
+                text = stringResource(id = R.string.full_name),
+                fontSize = 13.sp,
+                color = TextFieldPlaceHolderColor
+            )
+        }
+    )
+}
+
+@Composable
+fun StoreNameView(
+    viewModel: RegisterViewModel
+) {
+    CashierTextField(
+        value = viewModel.storeName,
+        onValueChange = {
+            viewModel.storeName = it
+        },
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(
+            capitalization = KeyboardCapitalization.Words,
+            keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Next
+        ),
+        label = {
+            Text(
+                text = stringResource(id = R.string.store_name),
+                fontSize = 13.sp,
+                color = TextFieldPlaceHolderColor
+            )
+        }
+    )
+}
+
+@Composable
+fun StoreAddressView(
+    viewModel: RegisterViewModel,
+    source: MutableInteractionSource
+) {
+    CashierTextField(
+        interactionSource = source,
+        value = viewModel.storeAddress,
+        readOnly = true,
+        onValueChange = {
+            viewModel.storeAddress = it
+        },
+        singleLine = false,
+        keyboardOptions = KeyboardOptions(
+            capitalization = KeyboardCapitalization.Words,
+            keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Next
+        ),
+        label = {
+            Text(
+                text = stringResource(id = R.string.store_address),
+                fontSize = 13.sp,
+                color = TextFieldPlaceHolderColor
+            )
+        }
+    )
+}
+
+@Composable
+fun NoteView(
+    viewModel: RegisterViewModel
+) {
+    CashierTextField(
+        value = viewModel.noteToCourier,
+        onValueChange = {
+            viewModel.noteToCourier = it
+        },
+        singleLine = false,
+        leadingIcon = {
+            Icon(
+                painterResource(id = R.drawable.ic_note_add),
+                tint = TextFieldPlaceHolderColor,
+                contentDescription = ""
+            )
+        },
+        keyboardOptions = KeyboardOptions(
+            capitalization = KeyboardCapitalization.Words,
+            keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Next
+        ),
+        label = {
+            Text(
+                text = stringResource(id = R.string.add_note_to_courier),
+                fontSize = 13.sp,
+                color = TextFieldPlaceHolderColor
+            )
+        }
+    )
+}
+
+@Composable
 fun ImagePicker(
     modifier: Modifier = Modifier,
-    hasImage: Boolean ,
+    hasImage: Boolean,
     onTakePictureResult: (Boolean) -> Unit,
     onCreateImageFile: (Uri?) -> Unit,
-    imageUri: Uri?,
-){
+    imageUri: Uri?
+) {
     val context = LocalContext.current
     val cameraLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.TakePicture(),
-        onResult = onTakePictureResult,
+        onResult = onTakePictureResult
     )
 
     Box(
-        modifier = modifier,
+        modifier = modifier
     ) {
         if (hasImage && imageUri != null) {
             AsyncImage(
@@ -279,10 +341,9 @@ fun ImagePicker(
                         onCreateImageFile.invoke(uri)
                         cameraLauncher.launch(uri)
                     },
-                contentDescription = "Selected image",
+                contentDescription = "Selected image"
             )
-        }
-        else{
+        } else {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -296,28 +357,15 @@ fun ImagePicker(
                         cameraLauncher.launch(uri)
                     },
                 verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Icon(
                     painterResource(id = R.drawable.ic_camera),
-                    modifier= Modifier.fillMaxSize(.6f),
+                    modifier = Modifier.fillMaxSize(.6f),
                     tint = TextFieldPlaceHolderColor,
-                    contentDescription = "Open camera",)
+                    contentDescription = "Open camera"
+                )
             }
         }
-
     }
 }
-
-//@Preview(
-//    showBackground = true,
-//    device = Devices.NEXUS_5,
-//)
-//@Composable
-//fun StoreProfileFragmentPreview() {
-//    CashierTheme {
-//        StoreProfileFragment({}){
-//
-//        }
-//    }
-//}

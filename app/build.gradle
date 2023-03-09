@@ -151,7 +151,7 @@ dependencies {
 
     // Google map
     implementation "com.google.maps.android:maps-compose:$maps_version"
-    implementation "com.google.android.gms:play-services-maps:$maps_version"
+    implementation "com.google.android.gms:play-services-maps:$play_services_maps_version"
 
 }
 

@@ -29,8 +29,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalMinimumTouchTargetEnforcement
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
@@ -73,7 +71,7 @@ fun LoginFragment(
     Scaffold(
         topBar = {
             MainAppBar(
-                labelText=  stringResource(id = R.string.login_or_register),
+                labelText = stringResource(id = R.string.login_or_register),
                 onBackClicked = onBackClicked
             )
         }
@@ -117,8 +115,8 @@ fun MainContent(
         CashierButton(
             modifier = Modifier.fillMaxWidth(),
             onClick = onSubmit,
-            enabled = viewModel.tAndCAccepted && viewModel.isValidPhoneNumber == true,
-            ) {
+            enabled = viewModel.tAndCAccepted && viewModel.isValidPhoneNumber == true
+        ) {
             Text(text = stringResource(id = R.string.continue_text).uppercase(Locale.getDefault()))
         }
         Spacer(modifier = Modifier.height(24.dp))
@@ -126,17 +124,16 @@ fun MainContent(
 }
 
 @Composable
-fun PhoneNumberField( viewModel: AuthViewModel) {
-
+fun PhoneNumberField(viewModel: AuthViewModel) {
     val focusManager = LocalFocusManager.current
-    val clearButton: @Composable (()->Unit)? =
-        if(viewModel.phoneNumber.isNotEmpty())
-        { {
-            IconButton(
-                onClick = { viewModel.setNumber("")  }
-            )
+    val clearButton: @Composable (() -> Unit)? =
+        if (viewModel.phoneNumber.isNotEmpty()) {
             {
-                Icon(imageVector = Icons.Default.Clear, contentDescription = "clear")
+                IconButton(
+                    onClick = { viewModel.setNumber("") }
+                ) {
+                    Icon(imageVector = Icons.Default.Clear, contentDescription = "clear")
+                }
             }
         } else {
             null
@@ -146,9 +143,8 @@ fun PhoneNumberField( viewModel: AuthViewModel) {
         leadingComposable = {
             Spacer(modifier = Modifier.width(8.dp))
             Image(
-                painterResource (R.drawable.indonesia_flag_icon),
-                modifier =
-                Modifier
+                painterResource(R.drawable.indonesia_flag_icon),
+                modifier = Modifier
                     .size(24.dp)
                     .clip(RoundedCornerShape(6.dp)),
                 contentDescription = "indonesia_flag",
@@ -157,13 +153,13 @@ fun PhoneNumberField( viewModel: AuthViewModel) {
             Spacer(modifier = Modifier.width(8.dp))
             Text(
                 text = "+62",
-                color = TextFieldPlaceHolderColor,
+                color = TextFieldPlaceHolderColor
             )
         },
         placeholder = {
             Text(
                 text = "0XXX-XXXX-XXXX",
-                color = TextFieldPlaceHolderColor,
+                color = TextFieldPlaceHolderColor
             )
         },
         visualTransformation = PhoneNumberVisualTransformation(countryCode = "ID"),
@@ -171,20 +167,16 @@ fun PhoneNumberField( viewModel: AuthViewModel) {
         isError = viewModel.isValidPhoneNumber == false,
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Phone,
-            imeAction = ImeAction.Done,
+            imeAction = ImeAction.Done
         ),
         keyboardActions = KeyboardActions(
-            onDone = {
-                focusManager.clearFocus(true)
-            }
+            onDone = { focusManager.clearFocus(true) }
         ),
         value = viewModel.phoneNumber,
-        onValueChange = {
-            viewModel.setNumber(it)
-        },
+        onValueChange = { viewModel.setNumber(it) },
         trailingIcon = clearButton,
         showError = viewModel.isValidPhoneNumber == false,
-        errorMessage = stringResource(id = R.string.invalid_phone_number),
+        errorMessage = stringResource(id = R.string.invalid_phone_number)
     )
 }
 

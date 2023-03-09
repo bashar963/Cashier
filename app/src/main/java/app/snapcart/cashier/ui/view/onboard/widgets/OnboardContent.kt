@@ -26,8 +26,8 @@ import java.util.*
 
 @Composable
 fun OnboardContent(
-    onGetStarted: ()-> Unit
-){
+    onGetStarted: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()

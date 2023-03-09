@@ -1,6 +1,5 @@
 package app.snapcart.cashier.ui.view.register.fragments
 
-
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -42,15 +41,11 @@ import com.google.maps.android.compose.rememberCameraPositionState
 @Composable
 fun StoreMapFragment(
     owner: ViewModelStoreOwner,
-    onBackClicked: ()->Unit,
-    onConfirm: ()->Unit,
+    onBackClicked: () -> Unit,
+    onConfirm: () -> Unit
 ) {
     val viewModel: RegisterViewModel = ViewModelProvider(owner)[RegisterViewModel::class.java]
 
-    val jakarta  = LatLng(-6.2297465, 106.829518)
-    val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(jakarta, 18f)
-    }
     Scaffold(
         topBar = {
             MainAppBar(
@@ -63,21 +58,20 @@ fun StoreMapFragment(
                 modifier = Modifier
                     .padding(horizontal = 16.dp, vertical = 12.dp)
                     .fillMaxWidth(),
-                onClick = onConfirm,
+                onClick = onConfirm
             ) {
-               Text(text = stringResource(id = R.string.confirm))
+                Text(text = stringResource(id = R.string.confirm))
             }
-        },
-    ){ paddingValues ->
+        }
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(horizontal = 16.dp)
-            ,
+                .padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.Start,
-        ){
+            horizontalAlignment = Alignment.Start
+        ) {
             Spacer(modifier = Modifier.height(16.dp))
             CashierTextField(
                 value = viewModel.searchText,
@@ -87,41 +81,52 @@ fun StoreMapFragment(
                     Spacer(modifier = Modifier.width(16.dp))
                     Icon(
                         imageVector = Icons.Default.Search,
-                        contentDescription = "Search",
+                        contentDescription = "Search"
                     )
-                },
+                }
             )
             Spacer(modifier = Modifier.height(32.dp))
-            GoogleMap(
-                modifier = Modifier
-                    .fillMaxHeight(0.8f)
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(16.dp))
-                    .border(
-                        2.dp,
-                        color = MaterialTheme.colorScheme.primary,
-                        shape = RoundedCornerShape(16.dp)
-                    ),
-                cameraPositionState = cameraPositionState,
-                uiSettings = MapUiSettings(
-                    compassEnabled = false,
-                    indoorLevelPickerEnabled = false,
-                    mapToolbarEnabled = false,
-                    myLocationButtonEnabled = false,
-                    rotationGesturesEnabled = false,
-                    scrollGesturesEnabled= false,
-                    scrollGesturesEnabledDuringRotateOrZoom = false,
-                    tiltGesturesEnabled = false,
-                    zoomControlsEnabled = false,
-                    zoomGesturesEnabled= false,
-                )
-            ) {
-                Marker(
-                    state = MarkerState(position = jakarta),
-                    title = "Jakarta",
-                    snippet = viewModel.searchText
-                )
-            }
+            MapView(searchText = viewModel.searchText)
         }
+    }
+}
+
+@Composable
+fun MapView(
+    searchText: String
+) {
+    val jakarta = LatLng(-6.2297465, 106.829518)
+    val cameraPositionState = rememberCameraPositionState {
+        position = CameraPosition.fromLatLngZoom(jakarta, 18f)
+    }
+    GoogleMap(
+        modifier = Modifier
+            .fillMaxHeight(0.8f)
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(16.dp))
+            .border(
+                2.dp,
+                color = MaterialTheme.colorScheme.primary,
+                shape = RoundedCornerShape(16.dp)
+            ),
+        cameraPositionState = cameraPositionState,
+        uiSettings = MapUiSettings(
+            compassEnabled = false,
+            indoorLevelPickerEnabled = false,
+            mapToolbarEnabled = false,
+            myLocationButtonEnabled = false,
+            rotationGesturesEnabled = false,
+            scrollGesturesEnabled = false,
+            scrollGesturesEnabledDuringRotateOrZoom = false,
+            tiltGesturesEnabled = false,
+            zoomControlsEnabled = false,
+            zoomGesturesEnabled = false
+        )
+    ) {
+        Marker(
+            state = MarkerState(position = jakarta),
+            title = "Jakarta",
+            snippet = searchText
+        )
     }
 }

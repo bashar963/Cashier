@@ -9,22 +9,21 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ComposeFileProvider {
-    companion object{
-        fun createImageFile(context: Context): Uri {
-            // Create an image file name
-            val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(Date())
-            val storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-            val file =  File.createTempFile(
-                "JPEG_${timeStamp}_", //prefix
-                ".jpg", //suffix
-                storageDir //directory
-            )
-            return  FileProvider.getUriForFile(
-                context,
-                "${BuildConfig.APPLICATION_ID}.application_authority",
-                file
-            )
-        }
+object ComposeFileProvider {
+
+    fun createImageFile(context: Context): Uri {
+        // Create an image file name
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(Date())
+        val storageDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val file = File.createTempFile(
+            "JPEG_${timeStamp}_", // prefix
+            ".jpg", // suffix
+            storageDir // directory
+        )
+        return FileProvider.getUriForFile(
+            context,
+            "${BuildConfig.APPLICATION_ID}.application_authority",
+            file
+        )
     }
 }

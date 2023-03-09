@@ -39,12 +39,11 @@ import app.snapcart.cashier.ui.view.register.RegisterViewModel
 import app.snapcart.cashier.ui.widgets.CashierTextField
 import app.snapcart.cashier.ui.widgets.MainAppBar
 
-
 @Composable
 fun StoreAddressFragment(
     owner: ViewModelStoreOwner,
-    onBackClicked: ()->Unit,
-    onAddressSelected: (String)->Unit,
+    onBackClicked: () -> Unit,
+    onAddressSelected: (String) -> Unit
 ) {
     val viewModel: RegisterViewModel = ViewModelProvider(owner)[RegisterViewModel::class.java]
     val focusManager = LocalFocusManager.current
@@ -55,8 +54,8 @@ fun StoreAddressFragment(
                 labelText = stringResource(id = R.string.find_address),
                 onBackClicked = onBackClicked
             )
-        },
-    ){ paddingValues ->
+        }
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -66,11 +65,10 @@ fun StoreAddressFragment(
                 ) {
                     focusManager.clearFocus(force = true)
                 }
-                .padding(paddingValues)
-                ,
+                .padding(paddingValues),
             verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.Start,
-        ){
+            horizontalAlignment = Alignment.Start
+        ) {
             Spacer(modifier = Modifier.height(16.dp))
             CashierTextField(
                 modifier = Modifier.padding(horizontal = 16.dp),
@@ -82,13 +80,13 @@ fun StoreAddressFragment(
                 leadingComposable = {
                     Spacer(modifier = Modifier.width(16.dp))
                     Icon(imageVector = Icons.Default.Search, contentDescription = "Search")
-                },
+                }
             )
             Spacer(modifier = Modifier.height(16.dp))
             Divider(thickness = 4.dp)
-            LazyColumn{
-                items(viewModel.fetchedAddressesMockOptions.size){
-                    AddressItem(address = viewModel.fetchedAddressesMockOptions[it],onAddressSelected = {address ->
+            LazyColumn {
+                items(viewModel.fetchedAddressesMockOptions.size) {
+                    AddressItem(address = viewModel.fetchedAddressesMockOptions[it], onAddressSelected = { address ->
                         viewModel.searchQuery(address)
                         onAddressSelected.invoke(address)
                     })
@@ -101,7 +99,7 @@ fun StoreAddressFragment(
 @Composable
 fun AddressItem(
     address: String,
-    onAddressSelected: (String)->Unit,
+    onAddressSelected: (String) -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -110,11 +108,10 @@ fun AddressItem(
             }
             .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Start,
-        ) {
+        horizontalArrangement = Arrangement.Start
+    ) {
         Box(
             modifier = Modifier
-
                 .clip(CircleShape)
                 .background(MaterialTheme.colorScheme.primary)
         ) {
@@ -124,7 +121,7 @@ fun AddressItem(
                 tint = MaterialTheme.colorScheme.onPrimary,
                 modifier = Modifier
                     .padding(6.dp)
-                    .size(20.dp),
+                    .size(20.dp)
             )
         }
         Spacer(modifier = Modifier.width(16.dp))
@@ -132,7 +129,7 @@ fun AddressItem(
             Spacer(modifier = Modifier.height(12.dp))
             Text(
                 text = address,
-                fontSize = 15.sp,
+                fontSize = 15.sp
             )
             Spacer(modifier = Modifier.height(12.dp))
             Divider()

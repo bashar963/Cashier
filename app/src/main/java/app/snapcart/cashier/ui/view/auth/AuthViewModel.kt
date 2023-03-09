@@ -64,13 +64,4 @@ class AuthViewModel @Inject constructor(private val phoneNumberUtil: PhoneNumber
     fun setTAndC(accepted: Boolean) {
         tAndCAccepted = accepted
     }
-
-    fun onResend() {
-
-    }
-
-    fun onSubmit(code: String) {
-
-    }
-
 }

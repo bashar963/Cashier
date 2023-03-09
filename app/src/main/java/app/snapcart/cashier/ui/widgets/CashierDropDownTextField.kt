@@ -1,7 +1,11 @@
 package app.snapcart.cashier.ui.widgets
 
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ExposedDropdownMenuBox
+import androidx.compose.material.ExposedDropdownMenuDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -11,17 +15,17 @@ import app.snapcart.cashier.ui.theme.TextFieldPlaceHolderColor
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CashierDropDownTextField(
-    value:String,
-    labelText:String,
-    onValueSelected:(String) -> Unit,
-    expanded:Boolean,
-    onExpandedChange: (Boolean) -> Unit ,
-    onDismissRequest: () -> Unit ,
-    options: List<String> ,
+    value: String,
+    labelText: String,
+    onValueSelected: (String) -> Unit,
+    expanded: Boolean,
+    onExpandedChange: (Boolean) -> Unit,
+    onDismissRequest: () -> Unit,
+    options: List<String>
 ) {
     ExposedDropdownMenuBox(
         expanded = expanded,
-        onExpandedChange = onExpandedChange,
+        onExpandedChange = onExpandedChange
     ) {
         CashierTextField(
             value = value,
@@ -36,26 +40,25 @@ fun CashierDropDownTextField(
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Words,
                 keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Next,
+                imeAction = ImeAction.Next
             ),
             label = {
                 Text(
                     text = labelText,
-                    color = TextFieldPlaceHolderColor,
+                    color = TextFieldPlaceHolderColor
                 )
-            },
+            }
         )
         ExposedDropdownMenu(
             expanded = expanded,
-            onDismissRequest = onDismissRequest,
+            onDismissRequest = onDismissRequest
         ) {
             options.forEach { selectionOption ->
                 DropdownMenuItem(
                     onClick = {
                         onValueSelected.invoke(selectionOption)
-                    },
-                )
-                {Text(text = selectionOption)}
+                    }
+                ) { Text(text = selectionOption) }
             }
         }
     }

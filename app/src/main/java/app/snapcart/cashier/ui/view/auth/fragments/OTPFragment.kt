@@ -53,7 +53,7 @@ fun OTPFragment(
     owner: ViewModelStoreOwner,
     onPhoneEdit: () -> Unit,
     onResend: () -> Unit,
-    onSubmit: (code:String) -> Unit
+    onSubmit: (code: String) -> Unit
 ) {
     val viewModel: AuthViewModel = ViewModelProvider(owner)[AuthViewModel::class.java]
     val timer = viewModel.countdownTime.collectAsState()
