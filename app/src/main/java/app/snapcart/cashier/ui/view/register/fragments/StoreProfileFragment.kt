@@ -6,7 +6,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -65,8 +64,6 @@ fun StoreProfileFragment(
     val viewModel: RegisterViewModel = ViewModelProvider(owner)[RegisterViewModel::class.java]
     val focusManager = LocalFocusManager.current
     val interactionSource = remember { MutableInteractionSource() }
-    val source = remember { MutableInteractionSource() }
-    if (source.collectIsPressedAsState().value) { onAddressClicked() }
     Scaffold(
         topBar = {
             MainAppBar(
@@ -99,7 +96,7 @@ fun StoreProfileFragment(
             horizontalAlignment = Alignment.Start
         ) {
             Spacer(modifier = Modifier.height(16.dp))
-            StoreDetails(viewModel = viewModel, source = source)
+            StoreDetails(viewModel = viewModel, onAddressClicked = onAddressClicked)
             Spacer(modifier = Modifier.height(12.dp))
             AddressSelections(viewModel = viewModel)
             Spacer(modifier = Modifier.height(24.dp))
@@ -190,13 +187,13 @@ fun AddressSelections(
 @Composable
 fun StoreDetails(
     viewModel: RegisterViewModel,
-    source: MutableInteractionSource
+    onAddressClicked: () -> Unit
 ) {
     FullNameView(viewModel = viewModel)
     Spacer(modifier = Modifier.height(12.dp))
     StoreNameView(viewModel = viewModel)
     Spacer(modifier = Modifier.height(12.dp))
-    StoreAddressView(viewModel = viewModel, source = source)
+    StoreAddressView(viewModel = viewModel, onAddressClicked = onAddressClicked)
     Spacer(modifier = Modifier.height(12.dp))
     NoteView(viewModel = viewModel)
 }
@@ -254,12 +251,15 @@ fun StoreNameView(
 @Composable
 fun StoreAddressView(
     viewModel: RegisterViewModel,
-    source: MutableInteractionSource
+    onAddressClicked: () -> Unit
 ) {
     CashierTextField(
-        interactionSource = source,
+        modifier = Modifier.clickable {
+            onAddressClicked.invoke()
+        },
         value = viewModel.storeAddress,
         readOnly = true,
+        enabled = false,
         onValueChange = {
             viewModel.storeAddress = it
         },

@@ -35,6 +35,10 @@ android {
         for (p in configs) {
             buildConfigField "String", "${p.key}", "\"${p.value}\""
         }
+        def googleApiKey = configs["GOOGLE_API_KEY"]
+        def fileProviderName = configs["FILE_PROVIDER_NAME"]
+        resValue "string", "GOOGLE_API_KEY", googleApiKey
+        resValue "string", "FILE_PROVIDER_NAME", fileProviderName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

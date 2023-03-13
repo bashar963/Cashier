@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">Cashier</string>
+    <string name="google_api_key" translatable="false">AIzaSyDZDP3fqqjYOpDrpdpddThgtDLxYxCdkbU</string>
+    <string name="file_provider_name" translatable="false">application_authority</string>
     <string name="onboard_title">Integrated System</string>
     <string name="get_started">Get started</string>
     <string name="onboard_sub_title">Cashier helps you to sort products and will automatically help in your daily routine</string>
