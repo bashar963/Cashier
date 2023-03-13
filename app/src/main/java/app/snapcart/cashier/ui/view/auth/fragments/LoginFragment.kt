@@ -1,7 +1,6 @@
 package app.snapcart.cashier.ui.view.auth.fragments
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -30,8 +29,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalMinimumTouchTargetEnforcement
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
@@ -55,12 +52,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import app.snapcart.cashier.R
 import app.snapcart.cashier.ui.theme.Roboto
-import app.snapcart.cashier.ui.theme.TextFieldBackgroundColor
 import app.snapcart.cashier.ui.theme.TextFieldPlaceHolderColor
 import app.snapcart.cashier.ui.view.auth.AuthViewModel
-import app.snapcart.cashier.ui.view.auth.widgets.MainAppBar
 import app.snapcart.cashier.ui.widgets.CashierButton
+import app.snapcart.cashier.ui.widgets.CashierTextField
+import app.snapcart.cashier.ui.widgets.MainAppBar
+import app.snapcart.cashier.utils.Constants
 import app.snapcart.cashier.utils.PhoneNumberVisualTransformation
+import java.util.*
 
 @Composable
 fun LoginFragment(
@@ -71,7 +70,12 @@ fun LoginFragment(
     val focusManager = LocalFocusManager.current
     val interactionSource = remember { MutableInteractionSource() }
     Scaffold(
-        topBar = { MainAppBar(onBackClicked = onBackClicked) }
+        topBar = {
+            MainAppBar(
+                labelText = stringResource(id = R.string.login_or_register),
+                onBackClicked = onBackClicked
+            )
+        }
     ) { innerPadding ->
         Surface(
             modifier = Modifier
@@ -114,13 +118,12 @@ fun MainContent(
             onClick = onSubmit,
             enabled = viewModel.tAndCAccepted && viewModel.isValidPhoneNumber == true
         ) {
-            Text(text = stringResource(id = R.string.continue_text))
+            Text(text = stringResource(id = R.string.continue_text).uppercase(Locale.getDefault()))
         }
         Spacer(modifier = Modifier.height(24.dp))
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PhoneNumberField(viewModel: AuthViewModel) {
     val focusManager = LocalFocusManager.current
@@ -137,73 +140,45 @@ fun PhoneNumberField(viewModel: AuthViewModel) {
             null
         }
 
-    Row(
-        modifier =
-        Modifier
-            .clip(RoundedCornerShape(12.dp))
-            .background(TextFieldBackgroundColor),
-        horizontalArrangement = Arrangement.Start,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Spacer(modifier = Modifier.width(8.dp))
-        Image(
-            painterResource(R.drawable.indonesia_flag_icon),
-            modifier =
-            Modifier
-                .size(24.dp)
-                .clip(RoundedCornerShape(6.dp)),
-            contentDescription = "indonesia_flag",
-            contentScale = ContentScale.Crop
-        )
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(
-            text = "+62",
-            color = TextFieldPlaceHolderColor
-        )
-
-        TextField(
-            modifier = Modifier.fillMaxWidth(),
-            placeholder = {
-                Text(
-                    text = "0XXX-XXXX-XXXX",
-                    color = TextFieldPlaceHolderColor
-                )
-            },
-            visualTransformation = PhoneNumberVisualTransformation(),
-            singleLine = true,
-            isError = viewModel.isValidPhoneNumber == false,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Phone,
-                imeAction = ImeAction.Done
-            ),
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    focusManager.clearFocus(true)
-                }
-            ),
-            value = viewModel.phoneNumber,
-            onValueChange = {
-                viewModel.setNumber(it)
-            },
-            trailingIcon = clearButton,
-            colors = TextFieldDefaults.textFieldColors(
-                disabledTextColor = Color.Transparent,
-                containerColor = Color.Transparent,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent,
-                errorIndicatorColor = Color.Transparent
+    CashierTextField(
+        leadingComposable = {
+            Spacer(modifier = Modifier.width(8.dp))
+            Image(
+                painterResource(R.drawable.indonesia_flag_icon),
+                modifier = Modifier
+                    .size(24.dp)
+                    .clip(RoundedCornerShape(6.dp)),
+                contentDescription = "indonesia_flag",
+                contentScale = ContentScale.Crop
             )
-        )
-    }
-    if (viewModel.isValidPhoneNumber == false) {
-        Text(
-            modifier = Modifier.fillMaxWidth(),
-            text = stringResource(id = R.string.invalid_phone_number),
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.error
-        )
-    }
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(
+                text = Constants.ID_PHONE_CODE,
+                color = TextFieldPlaceHolderColor
+            )
+        },
+        placeholder = {
+            Text(
+                text = Constants.ID_PHONE_MASK,
+                color = TextFieldPlaceHolderColor
+            )
+        },
+        visualTransformation = PhoneNumberVisualTransformation(),
+        singleLine = true,
+        isError = viewModel.isValidPhoneNumber == false,
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Phone,
+            imeAction = ImeAction.Done
+        ),
+        keyboardActions = KeyboardActions(
+            onDone = { focusManager.clearFocus(true) }
+        ),
+        value = viewModel.phoneNumber,
+        onValueChange = { viewModel.setNumber(it) },
+        trailingIcon = clearButton,
+        showError = viewModel.isValidPhoneNumber == false,
+        errorMessage = stringResource(id = R.string.invalid_phone_number)
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)

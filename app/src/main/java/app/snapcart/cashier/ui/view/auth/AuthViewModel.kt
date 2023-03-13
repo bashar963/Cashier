@@ -60,6 +60,7 @@ class AuthViewModel @Inject constructor(private val phoneNumberUtil: PhoneNumber
             false
         }
     }
+
     fun setTAndC(accepted: Boolean) {
         tAndCAccepted = accepted
     }

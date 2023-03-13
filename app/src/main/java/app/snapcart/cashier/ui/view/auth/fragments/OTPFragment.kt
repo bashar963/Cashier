@@ -46,13 +46,14 @@ import app.snapcart.cashier.ui.theme.Roboto
 import app.snapcart.cashier.ui.view.auth.AuthViewModel
 import app.snapcart.cashier.ui.widgets.CashierButton
 import app.snapcart.cashier.ui.widgets.OtpView
+import java.util.*
 
 @Composable
 fun OTPFragment(
     owner: ViewModelStoreOwner,
     onPhoneEdit: () -> Unit,
     onResend: () -> Unit,
-    onSubmit: () -> Unit
+    onSubmit: (code: String) -> Unit
 ) {
     val viewModel: AuthViewModel = ViewModelProvider(owner)[AuthViewModel::class.java]
     val timer = viewModel.countdownTime.collectAsState()
@@ -82,14 +83,16 @@ fun OTPFragment(
         PhoneNumberView(phoneNumber = viewModel.phoneNumber, onPhoneEdit = onPhoneEdit)
         Spacer(modifier = Modifier.height(32.dp))
         Text(
-            text = stringResource(id = R.string.enter_code),
+            text = stringResource(id = R.string.enter_code).uppercase(Locale.getDefault()),
             style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onPrimary)
         )
         Spacer(modifier = Modifier.height(32.dp))
         OtpViewComposable(otpValue = otpValue, focusManager = focusManager, otpError = otpError)
         Spacer(modifier = Modifier.weight(1.0f))
         CashierButton(
-            onClick = onSubmit,
+            onClick = {
+                onSubmit.invoke(otpValue.value)
+            },
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.background,
@@ -99,7 +102,7 @@ fun OTPFragment(
             )
         ) {
             Text(
-                text = stringResource(id = R.string.submit),
+                text = stringResource(id = R.string.submit).uppercase(Locale.getDefault()),
                 color = MaterialTheme.colorScheme.primary
             )
         }
@@ -131,7 +134,7 @@ fun TimeView(
                 .clickable {
                     onResend.invoke()
                 },
-            text = stringResource(id = R.string.resend),
+            text = stringResource(id = R.string.resend).uppercase(Locale.getDefault()),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onPrimary

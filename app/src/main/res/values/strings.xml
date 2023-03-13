@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">Cashier</string>
+    <string name="google_api_key" translatable="false">AIzaSyDZDP3fqqjYOpDrpdpddThgtDLxYxCdkbU</string>
+    <string name="file_provider_name" translatable="false">application_authority</string>
     <string name="onboard_title">Integrated System</string>
     <string name="get_started">Get started</string>
     <string name="onboard_sub_title">Cashier helps you to sort products and will automatically help in your daily routine</string>
@@ -26,4 +28,21 @@
     <string name="has_been_sent_to_your_registered">&#160;has been sent to your registered&#160;</string>
     <string name="phone_number">phone number</string>
     <string name="invalid_phone_number">Invalid phone number</string>
+    <string name="registration_successful">Registration Successful</string>
+    <string name="registration_successful_subtitle">Your profile has been registered.\nJust complete one more step!</string>
+    <string name="fill_in_store_profile">Fill in store profile</string>
+    <string name="store_profile">Store Profile</string>
+    <string name="finish">Finish</string>
+    <string name="full_name">Full Name</string>
+    <string name="store_name">Store Name</string>
+    <string name="store_address">Store Address</string>
+    <string name="add_note_to_courier">Add note to the courier</string>
+    <string name="province">Province</string>
+    <string name="city">City</string>
+    <string name="store_take_image_note">Taking pictures of your store would help us identify it better.</string>
+    <string name="outside">Outside</string>
+    <string name="inside">Inside</string>
+    <string name="confirm_address">Confirm Address</string>
+    <string name="confirm">Confirm</string>
+    <string name="find_address">Find Address</string>
 </resources>

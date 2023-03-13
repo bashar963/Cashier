@@ -35,6 +35,10 @@ android {
         for (p in configs) {
             buildConfigField "String", "${p.key}", "\"${p.value}\""
         }
+        def googleApiKey = configs["GOOGLE_API_KEY"]
+        def fileProviderName = configs["FILE_PROVIDER_NAME"]
+        resValue "string", "GOOGLE_API_KEY", googleApiKey
+        resValue "string", "FILE_PROVIDER_NAME", fileProviderName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -68,7 +72,7 @@ android {
         targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '11'
     }
     buildFeatures {
         compose true
@@ -144,7 +148,14 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso"
 
     // lib phone number
-    implementation 'com.googlecode.libphonenumber:libphonenumber:8.13.4'
+    implementation "com.googlecode.libphonenumber:libphonenumber:$libphonenumber_version"
+
+    // compose image loader
+    implementation "io.coil-kt:coil-compose:$coil_compose_version"
+
+    // Google map
+    implementation "com.google.maps.android:maps-compose:$maps_version"
+    implementation "com.google.android.gms:play-services-maps:$play_services_maps_version"
 
 }
 

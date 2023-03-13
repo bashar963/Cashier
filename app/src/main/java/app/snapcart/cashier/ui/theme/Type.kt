@@ -17,15 +17,17 @@ val Roboto = FontFamily(
 
 // Set of Material typography styles to start with
 val Typography = Typography(
+
     titleLarge = TextStyle(
         fontFamily = Roboto,
         fontWeight = FontWeight.Bold,
-        fontSize = 24.sp
+        fontSize = 28.sp
     ),
+
     titleMedium = TextStyle(
         fontFamily = Roboto,
         fontWeight = FontWeight.Bold,
-        fontSize = 18.sp
+        fontSize = 20.sp
     ),
     bodyMedium = TextStyle(
         fontFamily = Roboto,

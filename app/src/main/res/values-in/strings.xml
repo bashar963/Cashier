@@ -25,4 +25,21 @@
     <string name="has_been_sent_to_your_registered">&#160;telah dikirim ke Anda terdaftar&#160;</string>
     <string name="phone_number">nomor telepon</string>
     <string name="invalid_phone_number">Nomor telepon tidak valid</string>
+    <string name="registration_successful">Registrasi berhasil</string>
+    <string name="registration_successful_subtitle">Profil Anda telah didaftarkan.\nSelesaikan satu langkah lagi!</string>
+    <string name="fill_in_store_profile">Isi profil toko</string>
+    <string name="store_profile">Profil Toko</string>
+    <string name="finish">Menyelesaikan</string>
+    <string name="full_name">Nama lengkap</string>
+    <string name="store_name">Nama Toko</string>
+    <string name="store_address">Alamat Toko</string>
+    <string name="add_note_to_courier">Tambahkan catatan ke kurir</string>
+    <string name="province">Propinsi</string>
+    <string name="city">Kota</string>
+    <string name="store_take_image_note">Memotret toko Anda akan membantu kami mengidentifikasinya dengan lebih baik.</string>
+    <string name="outside">Di luar</string>
+    <string name="inside">Di dalam</string>
+    <string name="confirm_address">Konfirmasi alamat</string>
+    <string name="confirm">Mengonfirmasi</string>
+    <string name="find_address">Cari Alamat</string>
 </resources>
