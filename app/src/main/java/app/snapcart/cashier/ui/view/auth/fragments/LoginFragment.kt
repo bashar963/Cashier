@@ -57,6 +57,7 @@ import app.snapcart.cashier.ui.view.auth.AuthViewModel
 import app.snapcart.cashier.ui.widgets.CashierButton
 import app.snapcart.cashier.ui.widgets.CashierTextField
 import app.snapcart.cashier.ui.widgets.MainAppBar
+import app.snapcart.cashier.utils.Constants
 import app.snapcart.cashier.utils.PhoneNumberVisualTransformation
 import java.util.*
 
@@ -152,17 +153,17 @@ fun PhoneNumberField(viewModel: AuthViewModel) {
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = "+62",
+                text = Constants.ID_PHONE_CODE,
                 color = TextFieldPlaceHolderColor
             )
         },
         placeholder = {
             Text(
-                text = "0XXX-XXXX-XXXX",
+                text = Constants.ID_PHONE_MASK,
                 color = TextFieldPlaceHolderColor
             )
         },
-        visualTransformation = PhoneNumberVisualTransformation(countryCode = "ID"),
+        visualTransformation = PhoneNumberVisualTransformation(),
         singleLine = true,
         isError = viewModel.isValidPhoneNumber == false,
         keyboardOptions = KeyboardOptions(
