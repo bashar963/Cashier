@@ -13,6 +13,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -26,6 +27,8 @@ object NetworkModule {
             BuildConfig.API_URL,
             BuildConfig.API_HOST.toInt()
         ).apply {
+            idleTimeout(30, TimeUnit.SECONDS)
+            usePlaintext()
             if (BuildConfig.HTTP_LOGGING_ENABLED) {
                 intercept(CashierResponseClientInterceptor())
             }

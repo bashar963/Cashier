@@ -29,13 +29,13 @@ class AuthActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-                when(viewModel.apiResponse.collectAsState().value){
-                    is ApiError -> {}
-                    is ApiException -> {}
-                    is ApiIdle -> {}
-                    is ApiLoading -> {}
-                    is ApiSuccess -> {}
-                }
+            when (viewModel.apiResponse.collectAsState().value) {
+                is ApiError -> {}
+                is ApiException -> {}
+                is ApiIdle -> {}
+                is ApiLoading -> {}
+                is ApiSuccess -> {}
+            }
             val navController = rememberNavController()
             CashierTheme {
                 NavHost(

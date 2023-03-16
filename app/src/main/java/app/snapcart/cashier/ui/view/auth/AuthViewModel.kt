@@ -23,7 +23,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val phoneNumberUtil: PhoneNumberUtil) : ViewModel() {
+    private val phoneNumberUtil: PhoneNumberUtil
+) : ViewModel() {
 
     var phoneNumber by mutableStateOf("")
         private set
@@ -37,10 +38,8 @@ class AuthViewModel @Inject constructor(
     private val _countdownTime = MutableStateFlow("")
     val countdownTime = _countdownTime.asStateFlow()
 
-
     private val _apiResponse = MutableStateFlow<ApiResult<String>>(ApiIdle())
     val apiResponse = _apiResponse.asStateFlow()
-
 
     fun startTimer(seconds: Int) {
         viewModelScope.launch {
@@ -76,11 +75,10 @@ class AuthViewModel @Inject constructor(
     }
 
     fun submitPhoneNumber() {
-       viewModelScope.launch {
-           authRepository.getOTP(phoneNumber).collect{ response ->
-               _apiResponse.value = response
-           }
-       }
-
+        viewModelScope.launch {
+            authRepository.getOTP(phoneNumber).collect { response ->
+                _apiResponse.value = response
+            }
+        }
     }
 }
