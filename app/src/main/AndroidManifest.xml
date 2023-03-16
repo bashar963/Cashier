@@ -15,21 +15,25 @@
         android:theme="@style/Theme.Cashier"
         tools:targetApi="31">
         <activity
+            android:name=".ui.view.settings.SettingsActivity"
+            android:exported="false"
+            android:theme="@style/Theme.Cashier" />
+        <activity
             android:name=".ui.view.onboard.OnboardActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".ui.view.auth.AuthActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".ui.view.register.RegisterActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".ui.view.home.HomeActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".ui.view.splash.EntryActivity"
-            android:theme="@style/Theme.Cashier.Splash"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.Cashier.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -42,4 +42,19 @@
     <string name="confirm_address">Konfirmasi alamat</string>
     <string name="confirm">Mengonfirmasi</string>
     <string name="find_address">Cari Alamat</string>
+    <string name="drawer_title_help_center">Pusat Bantuan</string>
+    <string name="drawer_title_settings">Pengaturan</string>
+    <string name="drawer_title_logout">Keluar</string>
+    <string name="bottom_nav_title_sales">Penjualan</string>
+    <string name="bottom_nav_title_purchases">Pembelian</string>
+    <string name="bottom_nav_title_products">Produk</string>
+    <string name="bottom_nav_title_reports">Laporan</string>
+    <string name="bottom_nav_title_bonus">Bonus</string>
+    <string name="language_dialog_select_language">Pilih bahasa</string>
+    <string name="language_dialog_indonesia">bahasa Indonesia</string>
+    <string name="language_dialog_english">Bahasa inggris</string>
+    <string name="settings_title_general">Umum</string>
+    <string name="settings_title_notifications">Notifikasi</string>
+    <string name="settings_title_language">Bahasa</string>
+    <string name="settings_title_about">Tentang</string>
 </resources>

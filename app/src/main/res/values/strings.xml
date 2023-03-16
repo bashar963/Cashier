@@ -45,4 +45,19 @@
     <string name="confirm_address">Confirm Address</string>
     <string name="confirm">Confirm</string>
     <string name="find_address">Find Address</string>
+    <string name="drawer_title_help_center">Help Center</string>
+    <string name="drawer_title_settings">Settings</string>
+    <string name="drawer_title_logout">Log out</string>
+    <string name="bottom_nav_title_sales">Sales</string>
+    <string name="bottom_nav_title_purchases">Purchases</string>
+    <string name="bottom_nav_title_products">Products</string>
+    <string name="bottom_nav_title_reports">Reports</string>
+    <string name="bottom_nav_title_bonus">Bonus</string>
+    <string name="language_dialog_select_language">Select Language</string>
+    <string name="language_dialog_indonesia">Indonesia</string>
+    <string name="language_dialog_english">English</string>
+    <string name="settings_title_general">General</string>
+    <string name="settings_title_notifications">Notifications</string>
+    <string name="settings_title_language">Language</string>
+    <string name="settings_title_about">About</string>
 </resources>
