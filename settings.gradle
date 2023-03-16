@@ -10,7 +10,15 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven {
+            url "https://maven.pkg.github.com/snapcart/protos"
+            credentials {
+                username GITHUB_ID
+                password GITHUB_PACKAGES_TOKEN
+            }
+        }
     }
 }
+
 rootProject.name = "Cashier"
 include ':app'

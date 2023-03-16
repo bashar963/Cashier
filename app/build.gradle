@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
+    id 'com.google.protobuf'
 }
 apply from: "../signing.gradle"
 apply from: "../static-analysis.gradle"
@@ -99,6 +100,25 @@ android {
     }
 }
 
+protobuf {
+    protoc { artifact = "com.google.protobuf:protoc:$protoc_version" }
+    plugins {
+        grpc { artifact = "io.grpc:protoc-gen-grpc-java:$gprc_version" }
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                java { option 'lite' }
+            }
+            task.plugins {
+                grpc {
+                    option 'lite'
+                }
+            }
+        }
+    }
+}
+
 dependencies {
 
     //core
@@ -119,6 +139,17 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
 
+    // SnapCart Protos
+    implementation "com.snapcart:protos:$snapcart_protos_version"
+
+    // grpc java
+    implementation "io.grpc:grpc-okhttp:$gprc_version"
+    implementation "io.grpc:grpc-protobuf-lite:$gprc_version"
+    implementation "io.grpc:grpc-stub:$gprc_version"
+    implementation "com.google.protobuf:protobuf-java:$protobuf_java_version"
+    implementation "org.apache.tomcat:annotations-api:$annotations_api_version"
+    implementation "io.grpc:grpc-kotlin-stub:$grpc_kotlin_stub_version"
+
     // Hilt(Dagger)
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
@@ -132,10 +163,10 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
 
     // Retrofit
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
-    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
+//    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+//    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+//    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
+//    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
 
     // coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
@@ -164,6 +195,9 @@ dependencies {
     // Google map
     implementation "com.google.maps.android:maps-compose:$maps_version"
     implementation "com.google.android.gms:play-services-maps:$play_services_maps_version"
+
+
+
 
 }
 

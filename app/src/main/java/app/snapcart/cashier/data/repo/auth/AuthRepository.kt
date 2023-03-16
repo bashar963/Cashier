@@ -14,16 +14,37 @@ import javax.inject.Inject
 class AuthRepository @Inject constructor(
     private val authRemoteDataSource: AuthRemoteDataSource
 ) {
-    fun login(): Flow<ApiResult<Any>> {
+    fun getOTP(phone: String): Flow<ApiResult<String>> {
         return flow {
             emit(ApiLoading())
-            val result = authRemoteDataSource.login()
+            val result = authRemoteDataSource.getOTP(phone = phone)
 
             // in case of error
             if (result is ApiError) {
-                result.message
+                // do something with it maybe
+                result.status
             }
             if (result is ApiException) {
+                // do something with it maybe
+                result.e
+            }
+
+            emit(result)
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun verifyOTP(otp: String): Flow<ApiResult<String>> {
+        return flow {
+            emit(ApiLoading())
+            val result = authRemoteDataSource.verifyOTP(otp = otp)
+
+            // in case of error
+            if (result is ApiError) {
+                // do something with it maybe
+                result.status
+            }
+            if (result is ApiException) {
+                // do something with it maybe
                 result.e
             }
 

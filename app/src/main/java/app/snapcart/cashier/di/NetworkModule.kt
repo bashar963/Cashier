@@ -2,18 +2,17 @@ package app.snapcart.cashier.di
 
 import app.snapcart.cashier.BuildConfig
 import app.snapcart.cashier.data.data_store.AuthRemoteDataSource
-import app.snapcart.cashier.data.remote.AuthService
+import app.snapcart.cashier.data.remote.auth.AuthService
+import app.snapcart.cashier.data.remote.auth.AuthServiceImpl
 import app.snapcart.cashier.data.repo.auth.AuthRepository
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+import app.snapcart.cashier.utils.CashierResponseClientInterceptor
+import com.snapcart.protos.api.common.v1.AuthServiceGrpcKt
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import io.grpc.ManagedChannel
+import io.grpc.ManagedChannelBuilder
 import javax.inject.Singleton
 
 @Module
@@ -22,42 +21,28 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideHTTPLoggingInterceptor(): HttpLoggingInterceptor {
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-        return interceptor
-    }
-
-    @Singleton
-    @Provides
-    fun provideOkHttpClient(
-        loggingInterceptor: HttpLoggingInterceptor
-    ): OkHttpClient {
-        return OkHttpClient.Builder()
-            .apply {
-                if (BuildConfig.HTTP_LOGGING_ENABLED) {
-                    addInterceptor(loggingInterceptor)
-                }
+    fun provideManagedChannel(): ManagedChannel {
+        return ManagedChannelBuilder.forAddress(
+            BuildConfig.API_URL,
+            BuildConfig.API_HOST.toInt()
+        ).apply {
+            if (BuildConfig.HTTP_LOGGING_ENABLED) {
+                intercept(CashierResponseClientInterceptor())
             }
-            // Add more interceptor here
+        }
             .build()
     }
 
+    @Singleton
     @Provides
-    fun provideGson(): Gson = GsonBuilder().create()
+    fun provideAuthGrpcService(channel: ManagedChannel): AuthServiceGrpcKt.AuthServiceCoroutineStub {
+        return AuthServiceGrpcKt.AuthServiceCoroutineStub(channel = channel)
+    }
 
     @Singleton
     @Provides
-    fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
-        .baseUrl(BuildConfig.API_URL)
-        .addConverterFactory(GsonConverterFactory.create(gson))
-        .client(okHttpClient)
-        .build()
-
-    @Singleton
-    @Provides
-    fun provideAuthService(retrofit: Retrofit): AuthService =
-        retrofit.create(AuthService::class.java)
+    fun provideAuthService(authServiceStub: AuthServiceGrpcKt.AuthServiceCoroutineStub): AuthService =
+        AuthServiceImpl(authServiceGrpc = authServiceStub)
 
     @Singleton
     @Provides

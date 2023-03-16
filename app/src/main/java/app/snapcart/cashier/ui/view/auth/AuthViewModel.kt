@@ -5,6 +5,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.snapcart.cashier.data.repo.auth.AuthRepository
+import app.snapcart.cashier.utils.ApiIdle
+import app.snapcart.cashier.utils.ApiResult
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber.CountryCodeSource
@@ -18,7 +21,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AuthViewModel @Inject constructor(private val phoneNumberUtil: PhoneNumberUtil) : ViewModel() {
+class AuthViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
+    private val phoneNumberUtil: PhoneNumberUtil) : ViewModel() {
 
     var phoneNumber by mutableStateOf("")
         private set
@@ -31,6 +36,11 @@ class AuthViewModel @Inject constructor(private val phoneNumberUtil: PhoneNumber
 
     private val _countdownTime = MutableStateFlow("")
     val countdownTime = _countdownTime.asStateFlow()
+
+
+    private val _apiResponse = MutableStateFlow<ApiResult<String>>(ApiIdle())
+    val apiResponse = _apiResponse.asStateFlow()
+
 
     fun startTimer(seconds: Int) {
         viewModelScope.launch {
@@ -63,5 +73,14 @@ class AuthViewModel @Inject constructor(private val phoneNumberUtil: PhoneNumber
 
     fun setTAndC(accepted: Boolean) {
         tAndCAccepted = accepted
+    }
+
+    fun submitPhoneNumber() {
+       viewModelScope.launch {
+           authRepository.getOTP(phoneNumber).collect{ response ->
+               _apiResponse.value = response
+           }
+       }
+
     }
 }
