@@ -17,6 +17,7 @@ dependencyResolutionManagement {
                 password GITHUB_PACKAGES_TOKEN
             }
         }
+        maven { url 'https://jitpack.io' }
     }
 }
 

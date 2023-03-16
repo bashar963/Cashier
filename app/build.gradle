@@ -86,11 +86,6 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
-    lint {
-        abortOnError false
-        disable 'RtlSymmetry', 'DefaultLocale', 'ContentDescription'
-        warningsAsErrors false
-    }
     applicationVariants.all { variant ->
         variant.outputs.all {
             def version = variant.versionName
@@ -196,8 +191,8 @@ dependencies {
     implementation "com.google.maps.android:maps-compose:$maps_version"
     implementation "com.google.android.gms:play-services-maps:$play_services_maps_version"
 
-
-
+    // Lingver
+    implementation "com.github.YarikSOffice:lingver:$lingver_version"
 
 }
 
