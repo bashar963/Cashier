@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
 import app.snapcart.cashier.R
+import app.snapcart.cashier.utils.Language
 import app.snapcart.cashier.utils.LocaleUtils
 
 @Composable
@@ -43,39 +44,24 @@ fun LanguageDialog(
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.Start
             ) {
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    RadioButton(
-                        selected = currentLocale.language == "in",
-                        onClick = {
-                            LocaleUtils.setLocale(context = context, "in")
-                            onDismissRequest.invoke()
-                        }
-                    )
-                    Text(
-                        text = stringResource(id = R.string.language_dialog_indonesia),
-                        color = MaterialTheme.colorScheme.onBackground,
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                }
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    RadioButton(
-                        selected = currentLocale.language == "en",
-                        onClick = {
-                            LocaleUtils.setLocale(context = context, "en")
-                            onDismissRequest.invoke()
-                        }
-                    )
-                    Text(
-                        text = stringResource(id = R.string.language_dialog_english),
-                        color = MaterialTheme.colorScheme.onBackground,
-                        style = MaterialTheme.typography.bodyMedium
-                    )
+                enumValues<Language>().forEach {
+                    Row(
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        RadioButton(
+                            selected = currentLocale.language == it.language,
+                            onClick = {
+                                LocaleUtils.setLocale(context = context, it.language)
+                                onDismissRequest.invoke()
+                            }
+                        )
+                        Text(
+                            text = stringResource(id = it.languageName),
+                            color = MaterialTheme.colorScheme.onBackground,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
                 }
             }
         }
