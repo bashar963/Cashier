@@ -3,7 +3,6 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
-    id 'com.google.protobuf'
 }
 apply from: "../signing.gradle"
 apply from: "../static-analysis.gradle"
@@ -95,26 +94,6 @@ android {
     }
 }
 
-protobuf {
-    generatedFilesBaseDir = "$projectDir/src"
-    protoc { artifact = "com.google.protobuf:protoc:$protoc_version" }
-    plugins {
-        grpc { artifact = "io.grpc:protoc-gen-grpc-java:$gprc_version" }
-    }
-    generateProtoTasks {
-        all().each { task ->
-            task.builtins {
-                java { option 'lite' }
-            }
-            task.plugins {
-                grpc {
-                    option 'lite'
-                }
-            }
-        }
-    }
-}
-
 dependencies {
 
     //core
@@ -138,7 +117,7 @@ dependencies {
 
     // grpc
     implementation "io.grpc:grpc-okhttp:$gprc_version"
-    implementation "io.grpc:grpc-protobuf:$gprc_version"
+    implementation "com.google.protobuf:protobuf-kotlin:$protobuf_java_version"
     implementation "io.grpc:grpc-kotlin-stub:$grpc_kotlin_stub_version"
 
     // Hilt(Dagger)

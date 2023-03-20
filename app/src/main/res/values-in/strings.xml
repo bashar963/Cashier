@@ -57,4 +57,10 @@
     <string name="settings_title_notifications">Notifikasi</string>
     <string name="settings_title_language">Bahasa</string>
     <string name="settings_title_about">Tentang</string>
+    <string name="store_data_full_name_error">Please enter a full name</string>
+    <string name="store_data_store_address_error">Please enter a valid store address</string>
+    <string name="store_data_store_name_error">Please enter a valid store name</string>
+    <string name="store_data_note_error">Please enter a note to courier</string>
+    <string name="store_data_province_error">Please enter province</string>
+    <string name="store_data_city_error">Please enter city</string>
 </resources>

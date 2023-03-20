@@ -1,6 +1,6 @@
 package app.snapcart.cashier.utils
 
-data class GrpcResponse(val body: String, val status: GrpcStatus)
+data class GrpcResponse<T>(val body: T, val status: GrpcStatus)
 
 sealed interface GrpcStatus
 object GrpcStatusSuccess : GrpcStatus

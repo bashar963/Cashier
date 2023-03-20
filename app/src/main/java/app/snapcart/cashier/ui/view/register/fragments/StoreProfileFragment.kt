@@ -14,18 +14,19 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,7 +48,6 @@ import app.snapcart.cashier.ui.theme.BoxBackgroundColor
 import app.snapcart.cashier.ui.theme.TextFieldPlaceHolderColor
 import app.snapcart.cashier.ui.view.register.RegisterViewModel
 import app.snapcart.cashier.ui.widgets.CashierButton
-import app.snapcart.cashier.ui.widgets.CashierDropDownTextField
 import app.snapcart.cashier.ui.widgets.CashierTextField
 import app.snapcart.cashier.utils.ComposeFileProvider
 import app.snapcart.cashier.ui.widgets.MainAppBar
@@ -73,22 +73,26 @@ fun StoreProfileFragment(
         },
         bottomBar = {
             CashierButton(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp, vertical = 12.dp)
-                    .fillMaxWidth(),
-                onClick = onFinish
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp).fillMaxWidth(),
+                enabled = viewModel.isEnabledRegisterButton,
+                onClick = if (viewModel.loading.collectAsState().value) { {} } else onFinish
             ) {
-                Text(text = stringResource(id = R.string.finish).uppercase(Locale.getDefault()))
+                if (viewModel.loading.collectAsState().value) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(24.dp),
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
+                } else {
+                    Text(text = stringResource(id = R.string.finish).uppercase(Locale.getDefault()))
+                }
             }
         }
     ) { paddingValues ->
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .clickable(
-                    interactionSource = interactionSource,
-                    indication = null
-                ) { focusManager.clearFocus(force = true) }
+            modifier = Modifier.fillMaxSize()
+                .clickable(interactionSource = interactionSource, indication = null) {
+                    focusManager.clearFocus(force = true)
+                }
                 .verticalScroll(rememberScrollState())
                 .padding(paddingValues)
                 .padding(horizontal = 16.dp),
@@ -128,7 +132,10 @@ fun InsideView(
     ImagePicker(
         hasImage = viewModel.hasImageInside,
         imageUri = viewModel.imageUriInside,
-        onCreateImageFile = { viewModel.imageUriInside = it },
+        onCreateImageFile = {
+            viewModel.imageUriInside = it
+            viewModel.shouldEnabledRegisterButton()
+        },
         onTakePictureResult = { viewModel.hasImageInside = it }
     )
 }
@@ -145,7 +152,10 @@ fun OutsideView(
     ImagePicker(
         hasImage = viewModel.hasImageOutside,
         imageUri = viewModel.imageUriOutside,
-        onCreateImageFile = { viewModel.imageUriOutside = it },
+        onCreateImageFile = {
+            viewModel.imageUriOutside = it
+            viewModel.shouldEnabledRegisterButton()
+        },
         onTakePictureResult = { viewModel.hasImageOutside = it }
     )
 }
@@ -154,33 +164,52 @@ fun OutsideView(
 fun AddressSelections(
     viewModel: RegisterViewModel
 ) {
-    val options = listOf("Option 1", "Option 2", "Option 3", "Option 4", "Option 5")
-    var expandedProvince by remember { mutableStateOf(false) }
-    var expandedCity by remember { mutableStateOf(false) }
-    CashierDropDownTextField(
+    CashierTextField(
         value = viewModel.province,
-        labelText = stringResource(id = R.string.province),
-        onValueSelected = {
+        onValueChange = {
             viewModel.province = it
-            expandedProvince = false
+            viewModel.validateProvince()
         },
-        expanded = expandedProvince,
-        onExpandedChange = { expandedProvince = !expandedProvince },
-        onDismissRequest = { expandedProvince = false },
-        options = options
+        showError = viewModel.provinceError != null,
+        errorMessage = if (viewModel.provinceError == null) null else stringResource(id = viewModel.provinceError!!),
+        isError = viewModel.provinceError != null,
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(
+            capitalization = KeyboardCapitalization.Words,
+            keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Next
+        ),
+        label = {
+            Text(
+                text = stringResource(id = R.string.province),
+                fontSize = 13.sp,
+                color = TextFieldPlaceHolderColor
+            )
+        }
     )
     Spacer(modifier = Modifier.height(12.dp))
-    CashierDropDownTextField(
+    CashierTextField(
         value = viewModel.city,
-        labelText = stringResource(id = R.string.city),
-        onValueSelected = {
+        onValueChange = {
             viewModel.city = it
-            expandedCity = false
+            viewModel.validateCity()
         },
-        expanded = expandedCity,
-        onExpandedChange = { expandedCity = !expandedCity },
-        onDismissRequest = { expandedCity = false },
-        options = options
+        showError = viewModel.cityError != null,
+        errorMessage = if (viewModel.cityError == null) null else stringResource(id = viewModel.cityError!!),
+        isError = viewModel.cityError != null,
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(
+            capitalization = KeyboardCapitalization.Words,
+            keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Done
+        ),
+        label = {
+            Text(
+                text = stringResource(id = R.string.city),
+                fontSize = 13.sp,
+                color = TextFieldPlaceHolderColor
+            )
+        }
     )
 }
 
@@ -206,7 +235,11 @@ fun FullNameView(
         value = viewModel.fullName,
         onValueChange = {
             viewModel.fullName = it
+            viewModel.validateFullName()
         },
+        showError = viewModel.fullNameError != null,
+        errorMessage = if (viewModel.fullNameError == null) null else stringResource(id = viewModel.fullNameError!!),
+        isError = viewModel.fullNameError != null,
         singleLine = true,
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.Words,
@@ -231,7 +264,11 @@ fun StoreNameView(
         value = viewModel.storeName,
         onValueChange = {
             viewModel.storeName = it
+            viewModel.validateStoreName()
         },
+        showError = viewModel.storeNameError != null,
+        errorMessage = if (viewModel.storeNameError == null) null else stringResource(id = viewModel.storeNameError!!),
+        isError = viewModel.storeNameError != null,
         singleLine = true,
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.Words,
@@ -262,7 +299,15 @@ fun StoreAddressView(
         enabled = false,
         onValueChange = {
             viewModel.storeAddress = it
+            viewModel.validateStoreAddress()
         },
+        showError = viewModel.storeAddressError != null,
+        errorMessage = if (viewModel.storeAddressError == null) {
+            null
+        } else {
+            stringResource(id = viewModel.storeAddressError!!)
+        },
+        isError = viewModel.storeAddressError != null,
         singleLine = false,
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.Words,
@@ -287,7 +332,11 @@ fun NoteView(
         value = viewModel.noteToCourier,
         onValueChange = {
             viewModel.noteToCourier = it
+            viewModel.validateNote()
         },
+        showError = viewModel.noteError != null,
+        errorMessage = if (viewModel.noteError == null) null else stringResource(id = viewModel.noteError!!),
+        isError = viewModel.noteError != null,
         singleLine = false,
         leadingIcon = {
             Icon(

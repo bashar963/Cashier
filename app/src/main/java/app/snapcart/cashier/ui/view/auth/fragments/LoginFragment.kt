@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -115,10 +116,17 @@ fun MainContent(
         Spacer(modifier = Modifier.height(16.dp))
         CashierButton(
             modifier = Modifier.fillMaxWidth(),
-            onClick = onSubmit,
+            onClick = if (viewModel.loginLoading) { {} } else onSubmit,
             enabled = viewModel.tAndCAccepted && viewModel.isValidPhoneNumber == true
         ) {
-            Text(text = stringResource(id = R.string.continue_text).uppercase(Locale.getDefault()))
+            if (viewModel.loginLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(24.dp),
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+            } else {
+                Text(text = stringResource(id = R.string.continue_text).uppercase(Locale.getDefault()))
+            }
         }
         Spacer(modifier = Modifier.height(24.dp))
     }

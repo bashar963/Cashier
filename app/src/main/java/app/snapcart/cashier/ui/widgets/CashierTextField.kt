@@ -53,7 +53,7 @@ fun CashierTextField(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     shape: Shape = TextFieldDefaults.filledShape,
     colors: TextFieldColors = TextFieldDefaults.textFieldColors(
-        disabledTextColor = Color.Transparent,
+        disabledTextColor = LocalTextStyle.current.color,
         containerColor = Color.Transparent,
         focusedIndicatorColor = Color.Transparent,
         unfocusedIndicatorColor = Color.Transparent,

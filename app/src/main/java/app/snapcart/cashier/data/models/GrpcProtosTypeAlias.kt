@@ -1,0 +1,9 @@
+package app.snapcart.cashier.data.models
+
+import com.snapcart.protos.api.cashier.v1.CashierApiStoreServiceGrpcKt
+import com.snapcart.protos.api.cashier.v1.CashierApiUserServiceGrpcKt
+import com.snapcart.protos.api.common.v1.AuthServiceGrpcKt
+
+typealias AuthServiceStub = AuthServiceGrpcKt.AuthServiceCoroutineStub
+typealias StoreServiceStub = CashierApiStoreServiceGrpcKt.CashierApiStoreServiceCoroutineStub
+typealias UserServiceStub = CashierApiUserServiceGrpcKt.CashierApiUserServiceCoroutineStub

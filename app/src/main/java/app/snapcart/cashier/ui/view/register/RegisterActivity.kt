@@ -5,6 +5,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -14,6 +16,7 @@ import app.snapcart.cashier.ui.view.register.fragments.StoreAddressFragment
 import app.snapcart.cashier.ui.view.register.fragments.StoreMapFragment
 import app.snapcart.cashier.ui.view.register.fragments.StoreProfileFragment
 import app.snapcart.cashier.ui.view.register.fragments.SuccessFragment
+import app.snapcart.cashier.utils.ApiSuccess
 import app.snapcart.cashier.utils.RegisterScreen
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,6 +28,15 @@ class RegisterActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
+
+            LaunchedEffect(key1 = viewModel.registerApiResponse.collectAsState().value) {
+                if (viewModel.registerApiResponse.value is ApiSuccess) {
+                    val intent = Intent(this@RegisterActivity, HomeActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                }
+            }
+
             CashierTheme {
                 NavHost(
                     navController = navController,
@@ -41,9 +53,7 @@ class RegisterActivity : ComponentActivity() {
                             onBackClicked = { navController.popBackStack() },
                             onAddressClicked = { navController.navigate(RegisterScreen.StoreAddressScreen.route) }
                         ) {
-                            val intent = Intent(this@RegisterActivity, HomeActivity::class.java)
-                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                            startActivity(intent)
+                            viewModel.register()
                         }
                     }
                     composable(route = RegisterScreen.StoreAddressScreen.route) {

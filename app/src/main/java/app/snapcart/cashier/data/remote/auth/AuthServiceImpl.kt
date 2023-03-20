@@ -1,22 +1,22 @@
 package app.snapcart.cashier.data.remote.auth
 
+import app.snapcart.cashier.data.models.AuthServiceStub
 import app.snapcart.cashier.utils.GrpcResponse
 import app.snapcart.cashier.utils.GrpcStatus
 import app.snapcart.cashier.utils.GrpcStatusError
 import app.snapcart.cashier.utils.GrpcStatusSuccess
 import com.snapcart.protos.api.common.v1.AuthServiceGetOTPRequest
 import com.snapcart.protos.api.common.v1.AuthServiceGetOTPResponse
-import com.snapcart.protos.api.common.v1.AuthServiceGrpcKt
 import com.snapcart.protos.api.common.v1.AuthServiceVerifyOTPRequest
 import com.snapcart.protos.api.common.v1.AuthServiceVerifyOTPResponse
 import io.grpc.Metadata
 import javax.inject.Inject
 
 class AuthServiceImpl @Inject constructor(
-    private val authServiceGrpc: AuthServiceGrpcKt.AuthServiceCoroutineStub
+    private val authServiceGrpc: AuthServiceStub
 ) : AuthService {
 
-    override suspend fun getOTP(phone: String): GrpcResponse {
+    override suspend fun getOTP(phone: String): GrpcResponse<String> {
         val request = AuthServiceGetOTPRequest.newBuilder().setPhone(phone).build()
         val response = authServiceGrpc.getOTP(request, Metadata())
 
@@ -35,7 +35,7 @@ class AuthServiceImpl @Inject constructor(
         return GrpcResponse(response.message, status)
     }
 
-    override suspend fun verifyOTP(otp: String): GrpcResponse {
+    override suspend fun verifyOTP(otp: String): GrpcResponse<String> {
         val request = AuthServiceVerifyOTPRequest.newBuilder().setOtp(otp).build()
 
         val response = authServiceGrpc.verifyOTP(request, Metadata())

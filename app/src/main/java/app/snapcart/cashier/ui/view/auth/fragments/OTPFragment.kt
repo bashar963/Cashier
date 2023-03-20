@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material3.ButtonDefaults
@@ -62,14 +63,9 @@ fun OTPFragment(
     val focusManager = LocalFocusManager.current
     val interactionSource = remember { MutableInteractionSource() }
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.primary)
+        modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.primary)
             .padding(horizontal = 24.dp)
-            .clickable(
-                interactionSource = interactionSource,
-                indication = null
-            ) {
+            .clickable(interactionSource = interactionSource, indication = null) {
                 focusManager.clearFocus(force = true)
             },
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -90,9 +86,8 @@ fun OTPFragment(
         OtpViewComposable(otpValue = otpValue, focusManager = focusManager, otpError = otpError)
         Spacer(modifier = Modifier.weight(1.0f))
         CashierButton(
-            onClick = {
-                onSubmit.invoke(otpValue.value)
-            },
+            onClick = { if (!viewModel.verifyOTPLoading) { onSubmit.invoke(otpValue.value) } },
+            enabled = otpValue.value.length == 4,
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.background,
@@ -101,10 +96,17 @@ fun OTPFragment(
                 disabledContentColor = MaterialTheme.colorScheme.onTertiary
             )
         ) {
-            Text(
-                text = stringResource(id = R.string.submit).uppercase(Locale.getDefault()),
-                color = MaterialTheme.colorScheme.primary
-            )
+            if (viewModel.verifyOTPLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(24.dp),
+                    color = MaterialTheme.colorScheme.primary
+                )
+            } else {
+                Text(
+                    text = stringResource(id = R.string.submit).uppercase(Locale.getDefault()),
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
         }
         Spacer(modifier = Modifier.height(8.dp))
         TimeView(timerFinished = viewModel.timerFinished, onResend = onResend, timer = timer.value)
