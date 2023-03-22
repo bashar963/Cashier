@@ -14,7 +14,6 @@ import app.snapcart.cashier.ui.theme.CashierTheme
 import app.snapcart.cashier.ui.view.auth.fragments.LoginFragment
 import app.snapcart.cashier.ui.view.auth.fragments.OTPFragment
 import app.snapcart.cashier.ui.view.register.RegisterActivity
-import app.snapcart.cashier.utils.ApiSuccess
 
 import app.snapcart.cashier.utils.AuthScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,14 +28,14 @@ class AuthActivity : ComponentActivity() {
             val navController = rememberNavController()
 
             LaunchedEffect(key1 = viewModel.loginApiResponse.collectAsState().value) {
-                if (viewModel.loginApiResponse.value is ApiSuccess) {
+                if (viewModel.loginApiResponse.value?.isSuccess == true) {
                     navController.navigate(route = AuthScreen.OTPScreen.route)
-                    // just demo this function should be run privately
-                    viewModel.startTimer(30)
+                    val seconds =  viewModel.loginApiResponse.value?.getOrNull()?.retryAtSeconds ?: 30L
+                    viewModel.startTimer(seconds)
                 }
             }
             LaunchedEffect(key1 = viewModel.verifyOTPApiResponse.collectAsState().value) {
-                if (viewModel.verifyOTPApiResponse.value is ApiSuccess) {
+                if (viewModel.verifyOTPApiResponse.value?.isSuccess == true) {
                     startActivity(Intent(this@AuthActivity, RegisterActivity::class.java))
                 }
             }

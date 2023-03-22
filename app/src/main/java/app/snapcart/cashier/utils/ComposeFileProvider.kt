@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.Environment
 import androidx.core.content.FileProvider
-import app.snapcart.cashier.BuildConfig
+import app.snapcart.cashier.R
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -22,7 +22,7 @@ object ComposeFileProvider {
         )
         return FileProvider.getUriForFile(
             context,
-            "${BuildConfig.APPLICATION_ID}.application_authority",
+            context.getString(R.string.file_provider_authority),
             file
         )
     }

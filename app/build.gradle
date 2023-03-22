@@ -52,6 +52,9 @@ android {
             applicationIdSuffix ".debug"
             buildConfigField "boolean", "HTTP_LOGGING_ENABLED", "true"
             signingConfig = signingConfigs.debug
+            def fileProvider = android.defaultConfig.applicationId + applicationIdSuffix + ".provider"
+            resValue "string", "file_provider_authority", fileProvider
+            manifestPlaceholders.fileProviderAuthority = fileProvider
         }
         release {
             buildConfigField "boolean", "HTTP_LOGGING_ENABLED", project.hasProperty("http_logging").toString()
@@ -59,12 +62,18 @@ android {
             shrinkResources true
             signingConfig = signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            def fileProvider = android.defaultConfig.applicationId + applicationIdSuffix + ".provider"
+            resValue "string", "file_provider_authority", fileProvider
+            manifestPlaceholders.fileProviderAuthority = fileProvider
         }
         staging {
             initWith release
             applicationIdSuffix ".staging"
             buildConfigField "boolean", "HTTP_LOGGING_ENABLED", "true"
             signingConfig = signingConfigs.debug
+            def fileProvider = android.defaultConfig.applicationId + applicationIdSuffix + ".provider"
+            resValue "string", "file_provider_authority", fileProvider
+            manifestPlaceholders.fileProviderAuthority = fileProvider
         }
     }
     compileOptions {
@@ -131,12 +140,6 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
-
-    // Retrofit
-//    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-//    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-//    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
-//    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
 
     // coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"

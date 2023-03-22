@@ -5,13 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import app.snapcart.cashier.data.models.OtpResponse
 import app.snapcart.cashier.data.repo.auth.AuthRepository
-import app.snapcart.cashier.utils.ApiError
-import app.snapcart.cashier.utils.ApiException
-import app.snapcart.cashier.utils.ApiIdle
-import app.snapcart.cashier.utils.ApiLoading
-import app.snapcart.cashier.utils.ApiResult
-import app.snapcart.cashier.utils.ApiSuccess
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber.CountryCodeSource
@@ -20,6 +15,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -46,13 +42,13 @@ class AuthViewModel @Inject constructor(
     private val _countdownTime = MutableStateFlow("")
     val countdownTime = _countdownTime.asStateFlow()
 
-    private val _loginApiResponse = MutableStateFlow<ApiResult<String>>(ApiIdle())
+    private val _loginApiResponse = MutableStateFlow<Result<OtpResponse>?>(null)
     val loginApiResponse = _loginApiResponse.asStateFlow()
 
-    private val _verifyOTPApiResponse = MutableStateFlow<ApiResult<String>>(ApiIdle())
+    private val _verifyOTPApiResponse = MutableStateFlow<Result<String>?>(null)
     val verifyOTPApiResponse = _verifyOTPApiResponse.asStateFlow()
 
-    fun startTimer(seconds: Int) {
+    fun startTimer(seconds: Long) {
         viewModelScope.launch {
             timerFinished = false
             val timer = (seconds downTo 0)
@@ -61,7 +57,7 @@ class AuthViewModel @Inject constructor(
                 .onEach { delay(1_000) }
 
             timer.collect {
-                timerFinished = it == 0
+                timerFinished = it == 0L
                 val formatted = "${(it / 60).toString().padStart(2, '0')}:${(it % 60).toString().padStart(2, '0')}"
                 _countdownTime.value = formatted
             }
@@ -87,34 +83,32 @@ class AuthViewModel @Inject constructor(
 
     fun submitPhoneNumber() {
         viewModelScope.launch {
-            authRepository.getOTP(phoneNumber).collect { response ->
-                loginLoading = response is ApiLoading
-                if (response is ApiError || response is ApiException) {
-                    // TODO Error cases
-                }
-                _loginApiResponse.value = response
-            }
+            loginLoading = true
+            _loginApiResponse.value = authRepository.getOTP(phoneNumber).last()
+            loginLoading = false
         }
     }
 
     fun submitOTP(otp: String) {
         viewModelScope.launch {
-            authRepository.verifyOTP(otp).collect { response ->
-                verifyOTPLoading = response is ApiLoading
-                if (response is ApiError || response is ApiException) {
-                    // TODO Error cases
-                }
-                _verifyOTPApiResponse.value = response
-            }
+            verifyOTPLoading = true
+            _verifyOTPApiResponse.value = authRepository.verifyOTP(otp).last()
+            verifyOTPLoading = false
         }
     }
 
     fun resend() {
         viewModelScope.launch {
+            verifyOTPLoading = true
             authRepository.getOTP(phoneNumber).collect { response ->
-                verifyOTPLoading = response is ApiLoading
-                if (response is ApiSuccess) {
-                    startTimer(seconds = 30)
+                verifyOTPLoading = false
+                if (response.isSuccess) {
+                    val seconds = response.getOrNull()?.retryAtSeconds ?: 30L
+                    startTimer(seconds = seconds)
+                }
+                else if (response.isFailure) {
+                    // TODO Error cases
+                    response.isFailure
                 }
             }
         }

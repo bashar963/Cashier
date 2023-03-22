@@ -170,9 +170,9 @@ fun AddressSelections(
             viewModel.province = it
             viewModel.validateProvince()
         },
-        showError = viewModel.provinceError != null,
-        errorMessage = if (viewModel.provinceError == null) null else stringResource(id = viewModel.provinceError!!),
-        isError = viewModel.provinceError != null,
+        showError = viewModel.provinceError.isNotEmpty(),
+        errorMessage = viewModel.provinceError,
+        isError = viewModel.provinceError.isNotEmpty(),
         singleLine = true,
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.Words,
@@ -194,9 +194,9 @@ fun AddressSelections(
             viewModel.city = it
             viewModel.validateCity()
         },
-        showError = viewModel.cityError != null,
-        errorMessage = if (viewModel.cityError == null) null else stringResource(id = viewModel.cityError!!),
-        isError = viewModel.cityError != null,
+        showError = viewModel.cityError.isNotEmpty(),
+        errorMessage = viewModel.cityError ,
+        isError = viewModel.cityError.isNotEmpty(),
         singleLine = true,
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.Words,
@@ -237,9 +237,9 @@ fun FullNameView(
             viewModel.fullName = it
             viewModel.validateFullName()
         },
-        showError = viewModel.fullNameError != null,
-        errorMessage = if (viewModel.fullNameError == null) null else stringResource(id = viewModel.fullNameError!!),
-        isError = viewModel.fullNameError != null,
+        showError = viewModel.fullNameError.isNotEmpty(),
+        errorMessage = viewModel.fullNameError,
+        isError = viewModel.fullNameError.isNotEmpty(),
         singleLine = true,
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.Words,
@@ -266,9 +266,9 @@ fun StoreNameView(
             viewModel.storeName = it
             viewModel.validateStoreName()
         },
-        showError = viewModel.storeNameError != null,
-        errorMessage = if (viewModel.storeNameError == null) null else stringResource(id = viewModel.storeNameError!!),
-        isError = viewModel.storeNameError != null,
+        showError = viewModel.storeNameError.isNotEmpty(),
+        errorMessage = viewModel.storeNameError,
+        isError = viewModel.storeNameError.isNotEmpty(),
         singleLine = true,
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.Words,
@@ -301,13 +301,9 @@ fun StoreAddressView(
             viewModel.storeAddress = it
             viewModel.validateStoreAddress()
         },
-        showError = viewModel.storeAddressError != null,
-        errorMessage = if (viewModel.storeAddressError == null) {
-            null
-        } else {
-            stringResource(id = viewModel.storeAddressError!!)
-        },
-        isError = viewModel.storeAddressError != null,
+        showError = viewModel.storeAddressError.isNotEmpty(),
+        errorMessage = viewModel.storeAddressError,
+        isError = viewModel.storeAddressError.isNotEmpty(),
         singleLine = false,
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.Words,
@@ -334,9 +330,9 @@ fun NoteView(
             viewModel.noteToCourier = it
             viewModel.validateNote()
         },
-        showError = viewModel.noteError != null,
-        errorMessage = if (viewModel.noteError == null) null else stringResource(id = viewModel.noteError!!),
-        isError = viewModel.noteError != null,
+        showError = viewModel.noteError.isNotEmpty(),
+        errorMessage = viewModel.noteError,
+        isError = viewModel.noteError.isNotEmpty(),
         singleLine = false,
         leadingIcon = {
             Icon(

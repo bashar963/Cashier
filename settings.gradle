@@ -11,10 +11,11 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven {
-            url "https://maven.pkg.github.com/snapcart/protos"
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/snapcart/protos")
             credentials {
-                username GITHUB_ID
-                password GITHUB_PACKAGES_TOKEN
+                username = settings.ext.find("gpr.user") ?: System.getenv("USERNAME")
+                password = settings.ext.find("gpr.token") ?: System.getenv("GITHUB_PACKAGES_TOKEN")
             }
         }
         maven { url 'https://jitpack.io' }

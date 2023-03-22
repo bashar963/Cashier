@@ -16,7 +16,6 @@ import app.snapcart.cashier.ui.view.register.fragments.StoreAddressFragment
 import app.snapcart.cashier.ui.view.register.fragments.StoreMapFragment
 import app.snapcart.cashier.ui.view.register.fragments.StoreProfileFragment
 import app.snapcart.cashier.ui.view.register.fragments.SuccessFragment
-import app.snapcart.cashier.utils.ApiSuccess
 import app.snapcart.cashier.utils.RegisterScreen
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,7 +29,7 @@ class RegisterActivity : ComponentActivity() {
             val navController = rememberNavController()
 
             LaunchedEffect(key1 = viewModel.registerApiResponse.collectAsState().value) {
-                if (viewModel.registerApiResponse.value is ApiSuccess) {
+                if (viewModel.registerApiResponse.value?.isSuccess==true) {
                     val intent = Intent(this@RegisterActivity, HomeActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)

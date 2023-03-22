@@ -1,17 +1,18 @@
 package app.snapcart.cashier.utils
 
 suspend fun <T : Any> handleApiRequest(
-    request: suspend () -> GrpcResponse<T>
-): ApiResult<T> {
+    request: suspend () -> Response<T>
+): Result<T> {
     return try {
         val response = request.invoke()
         val body = response.body
-        if (response.status == GrpcStatusSuccess) {
-            ApiSuccess(body)
-        } else {
-            ApiError(status = response.status, message = "")
+        if (response.status == StatusSuccess) {
+            Result.success(body)
+        } else  {
+            val error = response.status as StatusError<*>
+            Result.failure(ApiException( status = error.message))
         }
     } catch (e: Throwable) {
-        ApiException(e)
+        Result.failure(e)
     }
 }

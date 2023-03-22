@@ -49,6 +49,8 @@ import app.snapcart.cashier.ui.widgets.CashierButton
 import app.snapcart.cashier.ui.widgets.OtpView
 import java.util.*
 
+const val OTP_LENGTH = 4
+
 @Composable
 fun OTPFragment(
     owner: ViewModelStoreOwner,
@@ -87,7 +89,7 @@ fun OTPFragment(
         Spacer(modifier = Modifier.weight(1.0f))
         CashierButton(
             onClick = { if (!viewModel.verifyOTPLoading) { onSubmit.invoke(otpValue.value) } },
-            enabled = otpValue.value.length == 4,
+            enabled = otpValue.value.length == OTP_LENGTH,
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.background,

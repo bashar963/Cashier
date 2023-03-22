@@ -1,7 +1,6 @@
 package app.snapcart.cashier.ui.view.register
 
 import android.net.Uri
-import androidx.annotation.StringRes
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -11,11 +10,7 @@ import app.snapcart.cashier.R
 import app.snapcart.cashier.data.models.requests.CreateStoreRequest
 import app.snapcart.cashier.data.repo.store.StoreRepository
 import app.snapcart.cashier.data.repo.user.UserRepository
-import app.snapcart.cashier.utils.ApiError
-import app.snapcart.cashier.utils.ApiException
-import app.snapcart.cashier.utils.ApiIdle
-import app.snapcart.cashier.utils.ApiResult
-import app.snapcart.cashier.utils.ApiSuccess
+import app.snapcart.cashier.utils.CashierStringProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,7 +21,8 @@ import javax.inject.Inject
 class RegisterViewModel
 @Inject constructor(
     private val userRepository: UserRepository,
-    private val storeRepository: StoreRepository
+    private val storeRepository: StoreRepository,
+    private val cashierStringProvider: CashierStringProvider,
 ) :
     ViewModel() {
 
@@ -60,65 +56,65 @@ class RegisterViewModel
     private val _loading = MutableStateFlow(false)
     val loading = _loading.asStateFlow()
 
-    private val _registerApiResponse = MutableStateFlow<ApiResult<String>>(ApiIdle())
+    private val _registerApiResponse = MutableStateFlow<Result<String>?>(null)
     val registerApiResponse = _registerApiResponse.asStateFlow()
 
     // Store data validations
-    var fullNameError by mutableStateOf<@receiver:StringRes Int?>(null)
-    var storeNameError by mutableStateOf<@receiver:StringRes Int?>(null)
-    var storeAddressError by mutableStateOf<@receiver:StringRes Int?>(null)
-    var noteError by mutableStateOf<@receiver:StringRes Int?>(null)
-    var provinceError by mutableStateOf<@receiver:StringRes Int?>(null)
-    var cityError by mutableStateOf<@receiver:StringRes Int?>(null)
+    var fullNameError by mutableStateOf("")
+    var storeNameError by mutableStateOf("")
+    var storeAddressError by mutableStateOf("")
+    var noteError by mutableStateOf("")
+    var provinceError by mutableStateOf("")
+    var cityError by mutableStateOf("")
 
     fun validateFullName() {
         fullNameError = if (fullName.split(' ').size > 1 && fullName.split(' ')[1].isNotEmpty()) {
-            null
+            ""
         } else {
-            R.string.store_data_full_name_error
+            cashierStringProvider.getString(R.string.store_data_full_name_error)
         }
         shouldEnabledRegisterButton()
     }
     fun validateStoreName() {
         storeNameError = if (storeName.isNotEmpty()) {
-            null
+            ""
         } else {
-            R.string.store_data_store_name_error
+            cashierStringProvider.getString(R.string.store_data_store_name_error)
         }
         shouldEnabledRegisterButton()
     }
 
     fun validateStoreAddress() {
         storeAddressError = if (storeAddress.isNotEmpty()) {
-            null
+            ""
         } else {
-            R.string.store_data_store_address_error
+            cashierStringProvider.getString(R.string.store_data_store_address_error)
         }
         shouldEnabledRegisterButton()
     }
     fun validateNote() {
         noteError = if (noteToCourier.isNotEmpty()) {
-            null
+            ""
         } else {
-            R.string.store_data_note_error
+            cashierStringProvider.getString(R.string.store_data_note_error)
         }
         shouldEnabledRegisterButton()
     }
 
     fun validateProvince() {
         provinceError = if (province.isNotEmpty()) {
-            null
+            ""
         } else {
-            R.string.store_data_province_error
+            cashierStringProvider.getString(R.string.store_data_province_error)
         }
         shouldEnabledRegisterButton()
     }
 
     fun validateCity() {
         cityError = if (city.isNotEmpty()) {
-            null
+            ""
         } else {
-            R.string.store_data_city_error
+            cashierStringProvider.getString(R.string.store_data_city_error)
         }
         shouldEnabledRegisterButton()
     }
@@ -160,16 +156,18 @@ class RegisterViewModel
         _loading.value = true
         userRepository.createProfile(name = fullName)
             .collect { status ->
-                if (status is ApiError || status is ApiException) {
+                if (status.isFailure) {
                     // TODO Error cases
+                    status.isFailure
                 }
-                if (status is ApiSuccess) {
+                else if (status.isSuccess) {
                     storeRepository.createStore(storeRequest)
                         .collect { createStoreStatus ->
-                            if (createStoreStatus is ApiError || createStoreStatus is ApiException) {
+                            if (createStoreStatus.isFailure) {
                                 // TODO Error cases
+                                createStoreStatus.isFailure
                             }
-                            if (createStoreStatus is ApiSuccess) {
+                            if (createStoreStatus.isSuccess) {
                                 _loading.value = false
                             }
 
