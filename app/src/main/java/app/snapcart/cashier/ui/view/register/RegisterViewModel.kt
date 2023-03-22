@@ -22,7 +22,7 @@ class RegisterViewModel
 @Inject constructor(
     private val userRepository: UserRepository,
     private val storeRepository: StoreRepository,
-    private val cashierStringProvider: CashierStringProvider,
+    private val cashierStringProvider: CashierStringProvider
 ) :
     ViewModel() {
 
@@ -159,8 +159,7 @@ class RegisterViewModel
                 if (status.isFailure) {
                     // TODO Error cases
                     status.isFailure
-                }
-                else if (status.isSuccess) {
+                } else if (status.isSuccess) {
                     storeRepository.createStore(storeRequest)
                         .collect { createStoreStatus ->
                             if (createStoreStatus.isFailure) {

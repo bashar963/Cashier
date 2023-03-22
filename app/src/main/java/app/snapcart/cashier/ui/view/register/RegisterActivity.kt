@@ -29,7 +29,7 @@ class RegisterActivity : ComponentActivity() {
             val navController = rememberNavController()
 
             LaunchedEffect(key1 = viewModel.registerApiResponse.collectAsState().value) {
-                if (viewModel.registerApiResponse.value?.isSuccess==true) {
+                if (viewModel.registerApiResponse.value?.isSuccess == true) {
                     val intent = Intent(this@RegisterActivity, HomeActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     startActivity(intent)

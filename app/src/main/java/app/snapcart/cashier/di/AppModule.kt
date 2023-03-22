@@ -20,6 +20,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideCashierStringProvider(@ApplicationContext context: Context): CashierStringProvider = CashierStringProvider(context)
-
+    fun provideCashierStringProvider(
+        @ApplicationContext context: Context
+    ): CashierStringProvider = CashierStringProvider(context)
 }

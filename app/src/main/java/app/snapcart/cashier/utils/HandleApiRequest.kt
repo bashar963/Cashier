@@ -8,9 +8,9 @@ suspend fun <T : Any> handleApiRequest(
         val body = response.body
         if (response.status == StatusSuccess) {
             Result.success(body)
-        } else  {
+        } else {
             val error = response.status as StatusError<*>
-            Result.failure(ApiException( status = error.message))
+            Result.failure(ApiException(status = error.message))
         }
     } catch (e: Throwable) {
         Result.failure(e)

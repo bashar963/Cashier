@@ -34,7 +34,7 @@ class AuthServiceImpl @Inject constructor(
             else -> StatusError(message = AuthServiceGetOTPResponse.Status.UNRECOGNIZED)
         }
 
-        return Response(OtpResponse(response.message, response.retryAt.seconds) , status)
+        return Response(OtpResponse(response.message, response.retryAt.seconds), status)
     }
 
     override suspend fun verifyOTP(otp: String): Response<String> {

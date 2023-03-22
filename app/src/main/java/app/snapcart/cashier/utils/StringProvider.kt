@@ -7,7 +7,6 @@ import javax.inject.Inject
 interface StringProvider {
 
     fun getString(@StringRes stringId: Int): String
-
 }
 
 class CashierStringProvider @Inject constructor(

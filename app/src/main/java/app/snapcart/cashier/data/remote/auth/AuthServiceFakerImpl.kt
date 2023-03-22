@@ -9,7 +9,7 @@ class AuthServiceFakerImpl : AuthService {
     override suspend fun getOTP(phone: String): Response<OtpResponse> {
         println("logging phone $phone")
         delay(2000)
-        return Response(OtpResponse("ok",30L), StatusSuccess)
+        return Response(OtpResponse("ok", 30L), StatusSuccess)
     }
 
     override suspend fun verifyOTP(otp: String): Response<String> {

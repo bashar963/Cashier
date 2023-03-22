@@ -105,8 +105,7 @@ class AuthViewModel @Inject constructor(
                 if (response.isSuccess) {
                     val seconds = response.getOrNull()?.retryAtSeconds ?: 30L
                     startTimer(seconds = seconds)
-                }
-                else if (response.isFailure) {
+                } else if (response.isFailure) {
                     // TODO Error cases
                     response.isFailure
                 }

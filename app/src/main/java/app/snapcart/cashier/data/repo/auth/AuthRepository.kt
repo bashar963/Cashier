@@ -18,7 +18,6 @@ class AuthRepository @Inject constructor(
             if (result.isFailure) {
                 // do something with it maybe
                 result.apply {
-
                 }
             }
 
@@ -28,14 +27,12 @@ class AuthRepository @Inject constructor(
 
     fun verifyOTP(otp: String): Flow<Result<String>> {
         return flow {
-
             val result = authRemoteDataSource.verifyOTP(otp = otp)
 
             // in case of error
             if (result.isFailure) {
                 // do something with it maybe
                 result.apply {
-
                 }
             }
 

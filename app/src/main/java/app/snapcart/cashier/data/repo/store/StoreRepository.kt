@@ -14,7 +14,6 @@ class StoreRepository
 
     fun createStore(request: CreateStoreRequest): Flow<Result<String>> {
         return flow {
-
             val result = storeRemoteDataSource.createStore(request = request)
 
             // in case of error
@@ -29,7 +28,6 @@ class StoreRepository
 
     fun getOwnedStore(): Flow<Result<Store>> {
         return flow {
-
             val result = storeRemoteDataSource.getOwnedStore()
 
             // in case of error

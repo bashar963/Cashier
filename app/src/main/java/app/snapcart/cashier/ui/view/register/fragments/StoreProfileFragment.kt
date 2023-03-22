@@ -195,7 +195,7 @@ fun AddressSelections(
             viewModel.validateCity()
         },
         showError = viewModel.cityError.isNotEmpty(),
-        errorMessage = viewModel.cityError ,
+        errorMessage = viewModel.cityError,
         isError = viewModel.cityError.isNotEmpty(),
         singleLine = true,
         keyboardOptions = KeyboardOptions(

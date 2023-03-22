@@ -30,7 +30,7 @@ class AuthActivity : ComponentActivity() {
             LaunchedEffect(key1 = viewModel.loginApiResponse.collectAsState().value) {
                 if (viewModel.loginApiResponse.value?.isSuccess == true) {
                     navController.navigate(route = AuthScreen.OTPScreen.route)
-                    val seconds =  viewModel.loginApiResponse.value?.getOrNull()?.retryAtSeconds ?: 30L
+                    val seconds = viewModel.loginApiResponse.value?.getOrNull()?.retryAtSeconds ?: 30L
                     viewModel.startTimer(seconds)
                 }
             }
