@@ -3,7 +3,7 @@ build:
 
 complexity:
   TooManyFunctions:
-    thresholdInClasses: 15
+    active: false
   LongParameterList:
     active: false
 

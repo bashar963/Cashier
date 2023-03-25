@@ -198,7 +198,7 @@ fun OtpViewComposable(
     if (!otpError.value.isNullOrEmpty()) {
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            text = otpError.value!!,
+            text = otpError.value.orEmpty(),
             style = MaterialTheme.typography.bodySmall.copy(
                 color = MaterialTheme.colorScheme.onPrimary.copy(alpha = .9f)
             )

@@ -1,0 +1,97 @@
+{
+  "project_info": {
+    "project_number": "567532359744",
+    "project_id": "endgame-cashier-prod-7v9n",
+    "storage_bucket": "endgame-cashier-prod-7v9n.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:567532359744:android:c053d6aa914ce97e7c4fa5",
+        "android_client_info": {
+          "package_name": "app.snapcart.cashier"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "567532359744-qvo061rhebktj5h5b3dm935djmpt9212.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNHIBP4Q_mm3cSwp1nKHG-II5rd1-JJuQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "567532359744-qvo061rhebktj5h5b3dm935djmpt9212.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:567532359744:android:09a8804c32fca4327c4fa5",
+        "android_client_info": {
+          "package_name": "app.snapcart.cashier.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "567532359744-qvo061rhebktj5h5b3dm935djmpt9212.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNHIBP4Q_mm3cSwp1nKHG-II5rd1-JJuQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "567532359744-qvo061rhebktj5h5b3dm935djmpt9212.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:567532359744:android:a249985469e82b8d7c4fa5",
+        "android_client_info": {
+          "package_name": "app.snapcart.cashier.staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "567532359744-qvo061rhebktj5h5b3dm935djmpt9212.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNHIBP4Q_mm3cSwp1nKHG-II5rd1-JJuQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "567532359744-qvo061rhebktj5h5b3dm935djmpt9212.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

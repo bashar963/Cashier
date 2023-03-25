@@ -21,7 +21,7 @@ class PhoneNumberVisualTransformation(
         val transformation = reformat(text, Selection.getSelectionEnd(text))
 
         return TransformedText(
-            AnnotatedString(transformation.formatted ?: ""),
+            AnnotatedString(transformation.formatted.orEmpty()),
             object :
                 OffsetMapping {
                 override fun originalToTransformed(offset: Int): Int {
