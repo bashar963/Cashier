@@ -1,11 +1,9 @@
 package app.snapcart.cashier.data.remote.user
 
-import app.snapcart.cashier.data.models.Language
-import app.snapcart.cashier.data.models.User
+import app.snapcart.cashier.data.models.user.Language
+import app.snapcart.cashier.data.models.user.User
 import app.snapcart.cashier.data.models.UserServiceStub
-import app.snapcart.cashier.data.models.UserSetting
-import app.snapcart.cashier.utils.Response
-import app.snapcart.cashier.utils.StatusSuccess
+import app.snapcart.cashier.data.models.user.UserSetting
 import com.google.protobuf.Empty
 import com.snapcart.protos.api.cashier.v1.CashierApiServiceCreateProfileRequest
 import com.snapcart.protos.api.cashier.v1.CashierApiServiceLanguage
@@ -17,14 +15,14 @@ class UserServiceImpl
     private val userServiceGrpc: UserServiceStub
 ) : UserService {
 
-    override suspend fun getProfile(): Response<User> {
+    override suspend fun getProfile(): Result<User> {
         val response = userServiceGrpc.getProfile(Empty.getDefaultInstance(), Metadata())
         val user = User(id = response.id, name = response.name)
 
-        return Response(user, StatusSuccess)
+        return Result.success(user)
     }
 
-    override suspend fun getProfileSettings(): Response<UserSetting> {
+    override suspend fun getProfileSettings(): Result<UserSetting> {
         val response = userServiceGrpc.getProfileSettings(Empty.getDefaultInstance(), Metadata())
         val language = when (response.language) {
             CashierApiServiceLanguage.LANGUAGE_UNSPECIFIED -> Language.INDONESIAN
@@ -34,14 +32,14 @@ class UserServiceImpl
             else -> Language.INDONESIAN
         }
         val userSetting = UserSetting(response.notificationsEnabled, language)
-        return Response(userSetting, StatusSuccess)
+        return Result.success(userSetting)
     }
 
-    override suspend fun createProfile(name: String): Response<User> {
+    override suspend fun createProfile(name: String): Result<User> {
         val request = CashierApiServiceCreateProfileRequest.newBuilder().setName(name).build()
         val response = userServiceGrpc.createProfile(request, Metadata())
         val user = User(id = response.id, name = response.name)
 
-        return Response(user, StatusSuccess)
+        return Result.success(user)
     }
 }

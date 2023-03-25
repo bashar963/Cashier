@@ -80,40 +80,64 @@ fun OTPFragment(
         Spacer(modifier = Modifier.height(16.dp))
         PhoneNumberView(phoneNumber = viewModel.phoneNumber, onPhoneEdit = onPhoneEdit)
         Spacer(modifier = Modifier.height(32.dp))
-        Text(
-            text = stringResource(id = R.string.enter_code).uppercase(Locale.getDefault()),
-            style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onPrimary)
-        )
+        EnterCodeTitle()
         Spacer(modifier = Modifier.height(32.dp))
-        OtpViewComposable(otpValue = otpValue, focusManager = focusManager, otpError = otpError)
+        OtpViewComposable(
+            otpValue = otpValue,
+            otpLength = viewModel.otpLength,
+            focusManager = focusManager,
+            otpError = otpError
+        )
         Spacer(modifier = Modifier.weight(1.0f))
-        CashierButton(
-            onClick = { if (!viewModel.verifyOTPLoading) { onSubmit.invoke(otpValue.value) } },
-            enabled = otpValue.value.length == OTP_LENGTH,
-            modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.background,
-                contentColor = MaterialTheme.colorScheme.onBackground,
-                disabledContainerColor = MaterialTheme.colorScheme.tertiary,
-                disabledContentColor = MaterialTheme.colorScheme.onTertiary
-            )
-        ) {
-            if (viewModel.verifyOTPLoading) {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(24.dp),
-                    color = MaterialTheme.colorScheme.primary
-                )
-            } else {
-                Text(
-                    text = stringResource(id = R.string.submit).uppercase(Locale.getDefault()),
-                    color = MaterialTheme.colorScheme.primary
-                )
-            }
+        SubmitButton(
+            verifyOTPLoading = viewModel.verifyOTPLoading,
+            otpValue = otpValue
+        ) { otp ->
+            onSubmit.invoke(otp)
         }
         Spacer(modifier = Modifier.height(8.dp))
         TimeView(timerFinished = viewModel.timerFinished, onResend = onResend, timer = timer.value)
         Spacer(modifier = Modifier.height(32.dp))
     }
+}
+
+@Composable
+fun SubmitButton(
+    verifyOTPLoading: Boolean,
+    otpValue: MutableState<String>,
+    onSubmit: (String) -> Unit
+) {
+    CashierButton(
+        onClick = { if (!verifyOTPLoading) { onSubmit.invoke(otpValue.value) } },
+        enabled = otpValue.value.length == OTP_LENGTH,
+        modifier = Modifier.fillMaxWidth(),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.background,
+            contentColor = MaterialTheme.colorScheme.onBackground,
+            disabledContainerColor = MaterialTheme.colorScheme.tertiary,
+            disabledContentColor = MaterialTheme.colorScheme.onTertiary
+        )
+    ) {
+        if (verifyOTPLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier.size(24.dp),
+                color = MaterialTheme.colorScheme.primary
+            )
+        } else {
+            Text(
+                text = stringResource(id = R.string.submit).uppercase(Locale.getDefault()),
+                color = MaterialTheme.colorScheme.primary
+            )
+        }
+    }
+}
+
+@Composable
+fun EnterCodeTitle() {
+    Text(
+        text = stringResource(id = R.string.enter_code).uppercase(Locale.getDefault()),
+        style = MaterialTheme.typography.bodyMedium.copy(color = MaterialTheme.colorScheme.onPrimary)
+    )
 }
 
 @Composable
@@ -156,15 +180,16 @@ fun TimeView(
 @Composable
 fun OtpViewComposable(
     otpValue: MutableState<String>,
+    otpLength: Int,
     focusManager: FocusManager,
     otpError: MutableState<String?>
 ) {
     OtpView(
         otpText = otpValue.value,
+        otpCount = otpLength,
         onOtpTextChange = {
             otpValue.value = it
         },
-        containerSize = 54.dp,
         keyboardActions = KeyboardActions(onDone = {
             focusManager.clearFocus(force = true)
         }),

@@ -2,7 +2,7 @@ package app.snapcart.cashier.data.local
 
 import androidx.room.Dao
 import androidx.room.Query
-import app.snapcart.cashier.data.models.User
+import app.snapcart.cashier.data.models.user.User
 
 @Dao
 interface UserDao {

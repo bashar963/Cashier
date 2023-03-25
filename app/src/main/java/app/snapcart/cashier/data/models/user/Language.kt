@@ -1,4 +1,4 @@
-package app.snapcart.cashier.data.models
+package app.snapcart.cashier.data.models.user
 
 import androidx.annotation.StringRes
 import app.snapcart.cashier.R

@@ -28,14 +28,13 @@ class AuthActivity : ComponentActivity() {
             val navController = rememberNavController()
 
             LaunchedEffect(key1 = viewModel.loginApiResponse.collectAsState().value) {
-                if (viewModel.loginApiResponse.value?.isSuccess == true) {
+                viewModel.loginApiResponse.value?.onSuccess {
                     navController.navigate(route = AuthScreen.OTPScreen.route)
-                    val seconds = viewModel.loginApiResponse.value?.getOrNull()?.retryAtSeconds ?: 30L
-                    viewModel.startTimer(seconds)
                 }
             }
+
             LaunchedEffect(key1 = viewModel.verifyOTPApiResponse.collectAsState().value) {
-                if (viewModel.verifyOTPApiResponse.value?.isSuccess == true) {
+                viewModel.verifyOTPApiResponse.value?.onSuccess {
                     startActivity(Intent(this@AuthActivity, RegisterActivity::class.java))
                 }
             }

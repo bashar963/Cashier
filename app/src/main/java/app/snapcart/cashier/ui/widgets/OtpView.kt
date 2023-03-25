@@ -39,7 +39,7 @@ fun OtpView(
     charColor: Color = Color.Black,
     charBackground: Color = Color.Transparent,
     charSize: TextUnit = 16.sp,
-    containerSize: Dp = charSize.value.dp * 2,
+    containerSize: Dp = charSize.value.dp * 2.5f,
     otpCount: Int = 4,
     type: Int = OTP_VIEW_TYPE_UNDERLINE,
     enabled: Boolean = true,

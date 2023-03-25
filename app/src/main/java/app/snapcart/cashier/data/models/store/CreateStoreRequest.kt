@@ -1,6 +1,6 @@
-package app.snapcart.cashier.data.models
+package app.snapcart.cashier.data.models.store
 
-data class Store(
+data class CreateStoreRequest(
     val ownerName: String,
     val storeName: String,
     val address: String,

@@ -1,4 +1,4 @@
-package app.snapcart.cashier.data.models
+package app.snapcart.cashier.data.models.user
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

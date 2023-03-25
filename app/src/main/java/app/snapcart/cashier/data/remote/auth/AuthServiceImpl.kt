@@ -1,11 +1,11 @@
 package app.snapcart.cashier.data.remote.auth
 
 import app.snapcart.cashier.data.models.AuthServiceStub
-import app.snapcart.cashier.data.models.OtpResponse
-import app.snapcart.cashier.utils.Response
-import app.snapcart.cashier.utils.Status
-import app.snapcart.cashier.utils.StatusError
-import app.snapcart.cashier.utils.StatusSuccess
+import app.snapcart.cashier.data.models.GeneralApiException
+import app.snapcart.cashier.data.models.auth.IncorrectOTPExceptions
+import app.snapcart.cashier.data.models.auth.LoginDeniedExceptions
+import app.snapcart.cashier.data.models.auth.OtpResponse
+import app.snapcart.cashier.data.models.auth.VerifyOtpResponse
 import com.snapcart.protos.api.common.v1.AuthServiceGetOTPRequest
 import com.snapcart.protos.api.common.v1.AuthServiceGetOTPResponse
 import com.snapcart.protos.api.common.v1.AuthServiceVerifyOTPRequest
@@ -17,43 +17,36 @@ class AuthServiceImpl @Inject constructor(
     private val authServiceGrpc: AuthServiceStub
 ) : AuthService {
 
-    override suspend fun getOTP(phone: String): Response<OtpResponse> {
+    override suspend fun getOTP(phone: String): Result<OtpResponse> {
         val request = AuthServiceGetOTPRequest.newBuilder().setPhone(phone).build()
         val response = authServiceGrpc.getOTP(request, Metadata())
-
-        val status: Status = when (response.status) {
-            AuthServiceGetOTPResponse.Status.STATUS_UNSPECIFIED ->
-                StatusError(message = AuthServiceGetOTPResponse.Status.STATUS_UNSPECIFIED)
-            AuthServiceGetOTPResponse.Status.STATUS_SUCCESS -> StatusSuccess
-            AuthServiceGetOTPResponse.Status.STATUS_FAILED ->
-                StatusError(message = AuthServiceGetOTPResponse.Status.STATUS_FAILED)
-            AuthServiceGetOTPResponse.Status.STATUS_WAIT ->
-                StatusError(message = AuthServiceGetOTPResponse.Status.STATUS_WAIT)
-            AuthServiceGetOTPResponse.Status.UNRECOGNIZED ->
-                StatusError(message = AuthServiceGetOTPResponse.Status.UNRECOGNIZED)
-            else -> StatusError(message = AuthServiceGetOTPResponse.Status.UNRECOGNIZED)
+        if (response.status != AuthServiceGetOTPResponse.Status.STATUS_SUCCESS) {
+            return Result.failure(GeneralApiException())
         }
-
-        return Response(OtpResponse(response.message, response.retryAt.seconds), status)
+        return Result.success(OtpResponse(response.message, response.retryAt.seconds, response.otpLength))
     }
 
-    override suspend fun verifyOTP(otp: String): Response<String> {
+    override suspend fun verifyOTP(otp: String): Result<VerifyOtpResponse> {
         val request = AuthServiceVerifyOTPRequest.newBuilder().setOtp(otp).build()
-
         val response = authServiceGrpc.verifyOTP(request, Metadata())
 
-        val status: Status = when (response.status) {
-            AuthServiceVerifyOTPResponse.Status.STATUS_UNSPECIFIED ->
-                StatusError(message = AuthServiceVerifyOTPResponse.Status.STATUS_UNSPECIFIED)
-            AuthServiceVerifyOTPResponse.Status.STATUS_LOGIN_ALLOWED -> StatusSuccess
-            AuthServiceVerifyOTPResponse.Status.STATUS_LOGIN_DENIED ->
-                StatusError(message = AuthServiceVerifyOTPResponse.Status.STATUS_LOGIN_DENIED)
-            AuthServiceVerifyOTPResponse.Status.STATUS_INCORRECT_OTP ->
-                StatusError(message = AuthServiceVerifyOTPResponse.Status.STATUS_INCORRECT_OTP)
-            AuthServiceVerifyOTPResponse.Status.UNRECOGNIZED ->
-                StatusError(message = AuthServiceVerifyOTPResponse.Status.UNRECOGNIZED)
-            else -> StatusError(message = AuthServiceVerifyOTPResponse.Status.UNRECOGNIZED)
+        if (response.status != AuthServiceVerifyOTPResponse.Status.STATUS_LOGIN_ALLOWED) {
+            return when (response.status) {
+                AuthServiceVerifyOTPResponse.Status.STATUS_LOGIN_DENIED ->
+                    Result.failure(LoginDeniedExceptions())
+                AuthServiceVerifyOTPResponse.Status.STATUS_INCORRECT_OTP ->
+                    Result.failure(IncorrectOTPExceptions())
+                else -> Result.failure(GeneralApiException())
+            }
         }
-        return Response(response.message, status)
+
+        return Result.success(
+            VerifyOtpResponse(
+                response.message,
+                response.accessToken,
+                response.refreshToken,
+                response.userId
+            )
+        )
     }
 }

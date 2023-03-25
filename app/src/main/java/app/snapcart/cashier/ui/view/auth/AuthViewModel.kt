@@ -5,7 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.snapcart.cashier.data.models.OtpResponse
+import app.snapcart.cashier.data.models.auth.OtpResponse
+import app.snapcart.cashier.data.models.auth.VerifyOtpResponse
 import app.snapcart.cashier.data.repo.auth.AuthRepository
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber
@@ -38,6 +39,8 @@ class AuthViewModel @Inject constructor(
         private set
     var verifyOTPLoading by mutableStateOf(false)
         private set
+    var otpLength by mutableStateOf(4)
+        private set
 
     private val _countdownTime = MutableStateFlow("")
     val countdownTime = _countdownTime.asStateFlow()
@@ -45,10 +48,10 @@ class AuthViewModel @Inject constructor(
     private val _loginApiResponse = MutableStateFlow<Result<OtpResponse>?>(null)
     val loginApiResponse = _loginApiResponse.asStateFlow()
 
-    private val _verifyOTPApiResponse = MutableStateFlow<Result<String>?>(null)
+    private val _verifyOTPApiResponse = MutableStateFlow<Result<VerifyOtpResponse>?>(null)
     val verifyOTPApiResponse = _verifyOTPApiResponse.asStateFlow()
 
-    fun startTimer(seconds: Long) {
+    private fun startTimer(seconds: Long) {
         viewModelScope.launch {
             timerFinished = false
             val timer = (seconds downTo 0)
@@ -84,7 +87,15 @@ class AuthViewModel @Inject constructor(
     fun submitPhoneNumber() {
         viewModelScope.launch {
             loginLoading = true
-            _loginApiResponse.value = authRepository.getOTP(phoneNumber).last()
+            val response = authRepository.getOtp(phoneNumber)
+            response.onSuccess { data ->
+                val seconds = data.retryAtSeconds
+                startTimer(seconds)
+                otpLength = data.otpLength
+                _loginApiResponse.value = response
+            }.onFailure {
+                // TODO
+            }
             loginLoading = false
         }
     }
@@ -100,15 +111,14 @@ class AuthViewModel @Inject constructor(
     fun resend() {
         viewModelScope.launch {
             verifyOTPLoading = true
-            authRepository.getOTP(phoneNumber).collect { response ->
-                verifyOTPLoading = false
-                if (response.isSuccess) {
-                    val seconds = response.getOrNull()?.retryAtSeconds ?: 30L
-                    startTimer(seconds = seconds)
-                } else if (response.isFailure) {
-                    // TODO Error cases
-                    response.isFailure
-                }
+            val response = authRepository.getOtp(phoneNumber)
+            verifyOTPLoading = false
+            response.onSuccess { data ->
+                val seconds = data.retryAtSeconds
+                otpLength = data.otpLength
+                startTimer(seconds = seconds)
+            }.onFailure {
+                // TODO something
             }
         }
     }

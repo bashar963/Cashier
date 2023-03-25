@@ -1,7 +1,8 @@
 package app.snapcart.cashier.data.repo.auth
 
-import app.snapcart.cashier.data.data_store.AuthRemoteDataSource
-import app.snapcart.cashier.data.models.OtpResponse
+import app.snapcart.cashier.data.models.auth.OtpResponse
+import app.snapcart.cashier.data.models.auth.VerifyOtpResponse
+import app.snapcart.cashier.data.remote.auth.AuthService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -9,28 +10,18 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class AuthRepository @Inject constructor(
-    private val authRemoteDataSource: AuthRemoteDataSource
+    private val authService: AuthService
 ) {
-    fun getOTP(phone: String): Flow<Result<OtpResponse>> {
-        return flow {
-            val result = authRemoteDataSource.getOTP(phone = phone)
-            // in case of error
-            if (result.isFailure) {
-                // do something with it maybe
-                result.apply {
-                }
-            }
-
-            emit(result)
-        }.flowOn(Dispatchers.IO)
+    suspend fun getOtp(phone: String): Result<OtpResponse> {
+        return authService.getOTP(phone = phone)
     }
 
-    fun verifyOTP(otp: String): Flow<Result<String>> {
+    fun verifyOTP(otp: String): Flow<Result<VerifyOtpResponse>> {
         return flow {
-            val result = authRemoteDataSource.verifyOTP(otp = otp)
+            val result = authService.verifyOTP(otp = otp)
 
-            // in case of error
-            if (result.isFailure) {
+            // in case of success cache access token
+            if (result.isSuccess) {
                 // do something with it maybe
                 result.apply {
                 }

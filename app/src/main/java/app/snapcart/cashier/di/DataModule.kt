@@ -1,8 +1,5 @@
 package app.snapcart.cashier.di
 
-import app.snapcart.cashier.data.data_store.AuthRemoteDataSource
-import app.snapcart.cashier.data.data_store.StoreRemoteDataSource
-import app.snapcart.cashier.data.data_store.UserRemoteDataSource
 import app.snapcart.cashier.data.remote.auth.AuthService
 import app.snapcart.cashier.data.remote.store.StoreService
 import app.snapcart.cashier.data.remote.user.UserService
@@ -21,31 +18,16 @@ object DataModule {
 
     @Singleton
     @Provides
-    fun provideAuthRemoteDataSource(authService: AuthService): AuthRemoteDataSource =
-        AuthRemoteDataSource(authService)
+    fun provideAuthRepository(authService: AuthService): AuthRepository =
+        AuthRepository(authService)
 
     @Singleton
     @Provides
-    fun provideUserRemoteDataSource(userService: UserService): UserRemoteDataSource =
-        UserRemoteDataSource(userService)
+    fun provideUserRepository(userService: UserService): UserRepository =
+        UserRepository(userService)
 
     @Singleton
     @Provides
-    fun provideStoreRemoteDataSource(storeService: StoreService): StoreRemoteDataSource =
-        StoreRemoteDataSource(storeService)
-
-    @Singleton
-    @Provides
-    fun provideAuthRepository(authRemoteDataSource: AuthRemoteDataSource): AuthRepository =
-        AuthRepository(authRemoteDataSource)
-
-    @Singleton
-    @Provides
-    fun provideUserRepository(userRemoteDataSource: UserRemoteDataSource): UserRepository =
-        UserRepository(userRemoteDataSource)
-
-    @Singleton
-    @Provides
-    fun provideStoreRepository(storeRemoteDataSource: StoreRemoteDataSource): StoreRepository =
-        StoreRepository(storeRemoteDataSource)
+    fun provideStoreRepository(storeService: StoreService): StoreRepository =
+        StoreRepository(storeService)
 }

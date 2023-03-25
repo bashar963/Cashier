@@ -1,24 +1,21 @@
 package app.snapcart.cashier.data.remote.store
 
-import app.snapcart.cashier.data.models.Store
-import app.snapcart.cashier.data.models.requests.CreateStoreRequest
-import app.snapcart.cashier.utils.Response
-import app.snapcart.cashier.utils.StatusSuccess
+import app.snapcart.cashier.data.models.store.Store
+import app.snapcart.cashier.data.models.store.CreateStoreRequest
 import kotlinx.coroutines.delay
 
 class StoreServiceFakerImpl :
     StoreService {
 
-    override suspend fun createStore(request: CreateStoreRequest): Response<String> {
+    override suspend fun createStore(request: CreateStoreRequest): Result<String> {
         delay(2000)
-        return Response(body = "1", StatusSuccess)
+        return Result.success("1")
     }
 
-    override suspend fun getOwnedStore(): Response<Store> {
+    override suspend fun getOwnedStore(): Result<Store> {
         delay(2000)
-        return Response(
-            body = Store("", "", "", 1.0, 1.0, "", ""),
-            status = StatusSuccess
+        return Result.success(
+            Store("", "", "", 1.0, 1.0, "", "")
         )
     }
 }

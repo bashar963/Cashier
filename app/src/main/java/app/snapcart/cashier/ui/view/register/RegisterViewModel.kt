@@ -7,13 +7,14 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.snapcart.cashier.R
-import app.snapcart.cashier.data.models.requests.CreateStoreRequest
+import app.snapcart.cashier.data.models.store.CreateStoreRequest
 import app.snapcart.cashier.data.repo.store.StoreRepository
 import app.snapcart.cashier.data.repo.user.UserRepository
 import app.snapcart.cashier.utils.CashierStringProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -155,24 +156,12 @@ class RegisterViewModel
         )
         _loading.value = true
         userRepository.createProfile(name = fullName)
-            .collect { status ->
-                if (status.isFailure) {
-                    // TODO Error cases
-                    status.isFailure
-                } else if (status.isSuccess) {
-                    storeRepository.createStore(storeRequest)
-                        .collect { createStoreStatus ->
-                            if (createStoreStatus.isFailure) {
-                                // TODO Error cases
-                                createStoreStatus.isFailure
-                            }
-                            if (createStoreStatus.isSuccess) {
-                                _loading.value = false
-                            }
-
-                            _registerApiResponse.value = createStoreStatus
-                        }
-                }
+            .last().onSuccess {
+                storeRepository.createStore(storeRequest)
+                    .onSuccess { data ->
+                        _registerApiResponse.value = Result.success(data)
+                    }
             }
+        _loading.value = false
     }
 }
