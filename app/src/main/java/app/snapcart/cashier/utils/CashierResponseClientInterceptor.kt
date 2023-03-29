@@ -1,6 +1,6 @@
 package app.snapcart.cashier.utils
 
-import android.util.Log
+import app.snapcart.cashier.utils.logging.L
 import io.grpc.CallOptions
 import io.grpc.Channel
 import io.grpc.ClientCall
@@ -25,7 +25,7 @@ class CashierResponseClientInterceptor : ClientInterceptor {
                         responseListener
                     ) {
                         override fun onMessage(message: RespT) {
-                            Log.d("CashierResponseClientInterceptor", "Received response from Server: $message")
+                            L.d("Received response from Server: $message")
                             super.onMessage(message)
                         }
                     },

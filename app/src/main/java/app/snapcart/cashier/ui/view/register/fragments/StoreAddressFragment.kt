@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import app.snapcart.cashier.R
+import app.snapcart.cashier.data.models.places.Address
 import app.snapcart.cashier.ui.view.register.RegisterViewModel
 import app.snapcart.cashier.ui.widgets.CashierTextField
 import app.snapcart.cashier.ui.widgets.MainAppBar
@@ -43,7 +44,7 @@ import app.snapcart.cashier.ui.widgets.MainAppBar
 fun StoreAddressFragment(
     owner: ViewModelStoreOwner,
     onBackClicked: () -> Unit,
-    onAddressSelected: (String) -> Unit
+    onAddressSelected: (Address) -> Unit
 ) {
     val viewModel: RegisterViewModel = ViewModelProvider(owner)[RegisterViewModel::class.java]
     val focusManager = LocalFocusManager.current
@@ -85,9 +86,8 @@ fun StoreAddressFragment(
             Spacer(modifier = Modifier.height(16.dp))
             Divider(thickness = 4.dp)
             LazyColumn {
-                items(viewModel.fetchedAddressesMockOptions.size) {
-                    AddressItem(address = viewModel.fetchedAddressesMockOptions[it], onAddressSelected = { address ->
-                        viewModel.searchQuery(address)
+                items(viewModel.fetchedAddresses.size) {
+                    AddressItem(address = viewModel.fetchedAddresses[it], onAddressSelected = { address ->
                         onAddressSelected.invoke(address)
                     })
                 }
@@ -98,8 +98,8 @@ fun StoreAddressFragment(
 
 @Composable
 fun AddressItem(
-    address: String,
-    onAddressSelected: (String) -> Unit
+    address: Address,
+    onAddressSelected: (Address) -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -128,7 +128,7 @@ fun AddressItem(
         Column {
             Spacer(modifier = Modifier.height(12.dp))
             Text(
-                text = address,
+                text = address.fullAddress,
                 fontSize = 15.sp
             )
             Spacer(modifier = Modifier.height(12.dp))

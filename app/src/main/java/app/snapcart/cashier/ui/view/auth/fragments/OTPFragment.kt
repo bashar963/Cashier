@@ -49,7 +49,6 @@ import app.snapcart.cashier.ui.widgets.CashierButton
 import app.snapcart.cashier.ui.widgets.OtpView
 import java.util.*
 
-const val OTP_LENGTH = 4
 
 @Composable
 fun OTPFragment(
@@ -90,6 +89,7 @@ fun OTPFragment(
         )
         Spacer(modifier = Modifier.weight(1.0f))
         SubmitButton(
+            otpLength= viewModel.otpLength,
             verifyOTPLoading = viewModel.verifyOTPLoading,
             otpValue = otpValue
         ) { otp ->
@@ -104,12 +104,13 @@ fun OTPFragment(
 @Composable
 fun SubmitButton(
     verifyOTPLoading: Boolean,
+    otpLength: Int,
     otpValue: MutableState<String>,
     onSubmit: (String) -> Unit
 ) {
     CashierButton(
         onClick = { if (!verifyOTPLoading) { onSubmit.invoke(otpValue.value) } },
-        enabled = otpValue.value.length == OTP_LENGTH,
+        enabled = otpValue.value.length == otpLength,
         modifier = Modifier.fillMaxWidth(),
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.background,

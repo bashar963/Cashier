@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import app.snapcart.cashier.R
+import app.snapcart.cashier.data.models.places.Address
 import app.snapcart.cashier.ui.view.register.RegisterViewModel
 import app.snapcart.cashier.ui.widgets.CashierButton
 import app.snapcart.cashier.ui.widgets.CashierTextField
@@ -86,16 +87,20 @@ fun StoreMapFragment(
                 }
             )
             Spacer(modifier = Modifier.height(32.dp))
-            MapView(searchText = viewModel.searchText)
+            MapView(
+                address = viewModel.selectedAddress!!,
+                searchText = viewModel.searchText
+            )
         }
     }
 }
 
 @Composable
 fun MapView(
+    address: Address,
     searchText: String
 ) {
-    val jakarta = LatLng(-6.2297465, 106.829518)
+    val jakarta = LatLng(address.lat, address.lng)
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(jakarta, 18f)
     }
@@ -125,7 +130,7 @@ fun MapView(
     ) {
         Marker(
             state = MarkerState(position = jakarta),
-            title = "Jakarta",
+            title = "",
             snippet = searchText
         )
     }

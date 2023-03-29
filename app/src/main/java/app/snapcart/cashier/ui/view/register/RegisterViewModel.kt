@@ -7,15 +7,21 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.snapcart.cashier.R
+import app.snapcart.cashier.data.models.places.Address
 import app.snapcart.cashier.data.models.store.CreateStoreRequest
+import app.snapcart.cashier.data.repo.places.PlacesRepository
 import app.snapcart.cashier.data.repo.store.StoreRepository
 import app.snapcart.cashier.data.repo.user.UserRepository
 import app.snapcart.cashier.utils.CashierStringProvider
+import app.snapcart.cashier.utils.Debouncer
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.net.URLEncoder
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,18 +29,16 @@ class RegisterViewModel
 @Inject constructor(
     private val userRepository: UserRepository,
     private val storeRepository: StoreRepository,
+    private val pacesRepository: PlacesRepository,
     private val cashierStringProvider: CashierStringProvider
 ) :
     ViewModel() {
 
-    private val addressesMockOptions = listOf(
-        "Option 1",
-        "Option 2",
-        "Option 3",
-        "Option 4",
-        "Option 5"
-    )
-    val fetchedAddressesMockOptions = mutableListOf<String>()
+    private val  debouncer = Debouncer(viewModelScope.coroutineContext)
+
+    val fetchedAddresses = mutableListOf<Address>()
+    var selectedAddress by mutableStateOf<Address?>(null)
+        private set
 
     // Store data vars
     var fullName by mutableStateOf("")
@@ -131,17 +135,31 @@ class RegisterViewModel
             imageUriOutside != null
     }
 
+
     fun searchQuery(query: String) {
         searchText = query
-        fetchedAddressesMockOptions.clear()
-        val fetched = addressesMockOptions.filter {
-            it.contains(query)
+        if(query.length <= 1){
+            return
         }
-        fetchedAddressesMockOptions.addAll(fetched)
+        debouncer.debounce{
+            fetchedAddresses.clear()
+            pacesRepository.fetchAddresses(withContext(Dispatchers.IO) {
+                URLEncoder.encode(query, "UTF-8")
+            })
+                .collect{ data->
+                    data.onSuccess { addresses ->
+                        fetchedAddresses.addAll(addresses)
+                    }
+                }
+        }
     }
 
     fun submitAddress() {
         storeAddress = searchText
+    }
+
+    fun onAddressSelected(address: Address) {
+        selectedAddress = address
     }
 
     fun register() = viewModelScope.launch {
@@ -164,4 +182,6 @@ class RegisterViewModel
             }
         _loading.value = false
     }
+
+
 }

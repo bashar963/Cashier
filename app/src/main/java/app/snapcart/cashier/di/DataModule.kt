@@ -1,9 +1,12 @@
 package app.snapcart.cashier.di
 
 import app.snapcart.cashier.data.remote.auth.AuthService
+import app.snapcart.cashier.data.remote.places.PlacesService
+import app.snapcart.cashier.data.remote.places.PlacesServiceHelper
 import app.snapcart.cashier.data.remote.store.StoreService
 import app.snapcart.cashier.data.remote.user.UserService
 import app.snapcart.cashier.data.repo.auth.AuthRepository
+import app.snapcart.cashier.data.repo.places.PlacesRepository
 import app.snapcart.cashier.data.repo.store.StoreRepository
 import app.snapcart.cashier.data.repo.user.UserRepository
 import dagger.Module
@@ -30,4 +33,9 @@ object DataModule {
     @Provides
     fun provideStoreRepository(storeService: StoreService): StoreRepository =
         StoreRepository(storeService)
+
+    @Singleton
+    @Provides
+    fun providePlacesRepository(placesServiceHelper: PlacesServiceHelper): PlacesRepository =
+        PlacesRepository(placesServiceHelper)
 }

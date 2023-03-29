@@ -59,7 +59,8 @@ class RegisterActivity : ComponentActivity() {
                         StoreAddressFragment(
                             owner = this@RegisterActivity,
                             onBackClicked = { navController.popBackStack() }
-                        ) {
+                        ) { address->
+                            viewModel.onAddressSelected(address)
                             navController.navigate(RegisterScreen.StoreMapScreen.route)
                         }
                     }
