@@ -1,21 +1,15 @@
 package app.snapcart.cashier.di
 
 import app.snapcart.cashier.BuildConfig
-import app.snapcart.cashier.data.models.AuthServiceStub
-import app.snapcart.cashier.data.models.StoreServiceStub
-import app.snapcart.cashier.data.models.UserServiceStub
 import app.snapcart.cashier.data.remote.places.PlacesServiceImpl
 import app.snapcart.cashier.data.remote.auth.AuthService
 import app.snapcart.cashier.data.remote.auth.AuthServiceFakerImpl
-import app.snapcart.cashier.data.remote.auth.AuthServiceImpl
 import app.snapcart.cashier.data.remote.places.PlacesService
 import app.snapcart.cashier.data.remote.places.PlacesServiceHelper
 import app.snapcart.cashier.data.remote.store.StoreService
 import app.snapcart.cashier.data.remote.store.StoreServiceFakerImpl
-import app.snapcart.cashier.data.remote.store.StoreServiceImpl
 import app.snapcart.cashier.data.remote.user.UserService
 import app.snapcart.cashier.data.remote.user.UserServiceFakerImpl
-import app.snapcart.cashier.data.remote.user.UserServiceImpl
 import app.snapcart.cashier.utils.CashierResponseClientInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -83,8 +77,6 @@ object NetworkModule {
         return ManagedChannelBuilder.forAddress(
             BuildConfig.API_URL,
             BuildConfig.API_HOST.toInt(),
-       //     "10.0.2.2",
-          //  50051
         ).apply {
             idleTimeout(30, TimeUnit.SECONDS)
             usePlaintext()
@@ -97,48 +89,18 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideAuthGrpcService(channel: ManagedChannel): AuthServiceStub {
-        return AuthServiceStub(channel = channel)
-    }
+    fun provideAuthService(): AuthService =
+        AuthServiceFakerImpl()
 
     @Singleton
     @Provides
-    fun provideStoreGrpcService(channel: ManagedChannel): StoreServiceStub {
-        return StoreServiceStub(channel)
-    }
+    fun provideUserService(): UserService =
+        UserServiceFakerImpl()
 
     @Singleton
     @Provides
-    fun provideUserGrpcService(channel: ManagedChannel): UserServiceStub {
-        return UserServiceStub(channel = channel)
-    }
-
-    @Singleton
-    @Provides
-    fun provideAuthService(authServiceStub: AuthServiceStub): AuthService =
-        if (BuildConfig.USE_FAKER.toBoolean()) {
-            AuthServiceFakerImpl()
-        } else {
-            AuthServiceImpl(authServiceGrpc = authServiceStub)
-        }
-
-    @Singleton
-    @Provides
-    fun provideUserService(userServiceStub: UserServiceStub): UserService =
-        if (BuildConfig.USE_FAKER.toBoolean()) {
-            UserServiceFakerImpl()
-        } else {
-            UserServiceImpl(userServiceGrpc = userServiceStub)
-        }
-
-    @Singleton
-    @Provides
-    fun provideStoreService(storeServiceStub: StoreServiceStub): StoreService =
-        if (BuildConfig.USE_FAKER.toBoolean()) {
-            StoreServiceFakerImpl()
-        } else {
-            StoreServiceImpl(storeServiceGrpc = storeServiceStub)
-        }
+    fun provideStoreService(): StoreService =
+        StoreServiceFakerImpl()
 
 
     @Singleton
