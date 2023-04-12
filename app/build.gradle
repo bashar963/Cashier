@@ -130,11 +130,10 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
 
-    // SnapCart Protos
-    implementation "com.snapcart:protos:$snapcart_protos_version"
-
     // grpc
     implementation "io.grpc:grpc-okhttp:$gprc_version"
+    implementation "io.grpc:grpc-stub:$gprc_version"
+    implementation "io.grpc:grpc-protobuf:$gprc_version"
     implementation "com.google.protobuf:protobuf-kotlin:$protobuf_java_version"
     implementation "io.grpc:grpc-kotlin-stub:$grpc_kotlin_stub_version"
 

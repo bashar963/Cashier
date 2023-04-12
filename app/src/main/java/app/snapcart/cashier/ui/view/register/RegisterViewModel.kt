@@ -138,11 +138,11 @@ class RegisterViewModel
 
     fun searchQuery(query: String) {
         searchText = query
-        if(query.length <= 1){
-            return
-        }
         debouncer.debounce{
             fetchedAddresses.clear()
+            if(query.length <= 1){
+                return@debounce
+            }
             pacesRepository.fetchAddresses(withContext(Dispatchers.IO) {
                 URLEncoder.encode(query, "UTF-8")
             })
